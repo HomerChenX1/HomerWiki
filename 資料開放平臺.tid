@@ -1,0 +1,23 @@
+created: 20190613012856180
+modified: 20190614080211784
+tags: 
+title: 資料開放平臺
+type: text/vnd.tiddlywiki
+
+!! 中央氣象局會員
+homer@ideeestudio.com : pj42tychen!z  <br>
+取得授權碼:  CWB-B184EC68-63C5-44B8-AE77-30D78C5A96D5  do not know why fail : wait one day and OK <br>
+someone's key :  CWB-3FB0188A-5506-41BE-B42A-3785B42C3823
+
+try as following: <br>
+`https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-3FB0188A-5506-41BE-B42A-3785B42C3823`
+
+!! 行政院環境保護署。環境資源資料開放平臺
+homer@ideeestudio.com : pj42tychen! <br>
+2G7i535zBUuF49wcbSMAeQ
+
+CA 證書有問題
+
+`https://opendata.epa.gov.tw/webapi/api/rest/datastore/{resourceID}/?format=json&limit=20&token={token}`
+
+`https://opendata.epa.gov.tw/api/v1/AQI?$skip=0&$top=1000&$format=json`

@@ -1,0 +1,224 @@
+created: 20190605015946869
+modified: 20190621113100754
+tags: AndroidUI
+title: AndroidFragment
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* Fragment 是依賴於 Activity 的，不能獨立存在的。
+* 一個 Activity 裡可以有多個 Fragment 。
+* 一個 Fragment 可以被多個 Activity 重用。
+* Fragment 有自己的生命週期，並能接收輸入事件。
+* 我們能在 Activity 運行時動態地添加或刪除 Fragment 。
+* 模塊化（模塊化）：我們不必把所有代碼全部寫在活動中，而是把代碼寫在各自的片段中。
+* 可重用（重用）：多個活動可以重用一個片段。
+* 可適配（適應性）：根據硬件的屏幕尺寸，屏幕方向，能夠方便地實現不同的佈局，這樣用戶體驗更好。
+* Activity必須繼承自`FragmentActivity `(v4);
+* Activity必須繼承自`AppCompatActivity`(v7);
+* FragmentManager：管理和維護碎片他是抽象類，具體的實現類是`FragmentManagerImpl`。
+* FragmentTransaction：對片段的添加，刪除等操作都需要通過事務方式進行他是抽象類，具體的實現類是`BackStackRecord`。
+* 嵌套片段（Fragment內部嵌套Fragment的能力）是Android 4.2提出的，支持片段庫可以兼容到1.6
+** 通過 `getChildFragmentManager()` 能夠獲得子Fragment的FragmentManager
+** 在子片段中可以通過 `getParentFragment()` 獲得父片段。
+* 把片段添加到活動中在活動中添加片段的方式有兩種
+** 靜態添加：在XML通過中`<fragment>`的方式添加，缺點是一旦添加就不能在運行時刪除。 Fragment 並不是一個 View，而是和 Activity 同一層次的
+** 動態添加：運行時添加，這種方式比較靈活，因此建議使用這種方式。
+* `BackStack`，類似於 Activity 的任務棧，如果添加了該語句，就把該 Transaction 加入`BackStack`，當用戶點擊返回按鈕，會回退該事務（回退指的是如果 Transaction 是 `add(frag1)`，那麼回退操作就是 `remove(frag1)`）;如果沒添加該語句，用戶點擊返回按鈕會直接銷毀Activity。
+* 不要把 Fragment Transaction 放在 async callback 中
+* 逼不得已時使用`commitAllowingStateLoss()`
+* Lifecycles : Activity 送 message 給 `FragmentManager`, `FragmentManager `再分送給 added and not removed Fragments. 假設有 3 fragments, every fragments occupy some CPU time.
+** onAttach()
+** onCreate()
+** onCreateView() :  沒有 super() 存在
+** onActivityCreated() : at the end of Activity.onCreate()
+** onStart()
+*** onRestoreInstanceState()
+** onResume()
+** onPause()
+*** onSaveInstanceState() : commit() must called before this state
+** onStop()
+** onDestroyView()
+** onDestroy()
+** onDetach()
+* add(): onAttach()->…->onResume()
+** fragment.isAdded() 
+* remove(): onPause()->…->onDetach()
+* replace()
+* show() hide()
+** fragment. isHidden()
+** 動態切換顯示活動中的多個片段時，可以通過replace()實現，也可以hide()和show()方法實現。事實上，我們更傾向於使用後者，因為replace()方法不會保留片段的狀態，也就是說諸如`EditText`內容輸入等用戶操作在remove()時會消失。當然，如果你不想保留用戶操作的話，可以選擇前者，視情況而定。
+*** replace() -> replaced fragment is removed , no CPU time needed.
+*** hide() -> fragment is existed, need CPU time
+* attach(): onCreateView()->onStart()->onResume()
+* detach(): onPause()->onStop()->onDestroyView()
+* getSupportFragmentManager().findFragmentByTag("f1")
+* addToBackStack(), popBackStack()
+** popBackStack(String name, int flag)
+* Fragment 通信 : use EventBus or Handler is better than callback
+** Fragment 向 Activity 傳遞數據 :  `mOnFragmentInteractionListener.onItemClick()`
+**  Activity 向Fragment 傳遞數據 : `fragment.method()`
+** Fragment 之間通信 :  通過 Activity 作為中介，不要的 Fragment 之間直接通信。
+
+!! 參考資料 :
+* [[https://xiazdong.github.io/2017/06/15/android-fragment/]]
+* [[http://toughcoder.net/blog/2015/04/30/android-fragment-the-bad-parts/]]
+* [[https://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html]]
+* [[http://yifeng.studio/2016/12/15/android-fragment-attentions/]]
+* [[https://medium.com/@waynechen323/android-%E5%9F%BA%E7%A4%8E%E7%9A%84-fragment-%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F-730858c12a43]]
+
+!!! ''Layout Code''
+```xml
+<FrameLayout
+        android:id="@+id/flTestFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true" >
+</FrameLayout>
+```
+!!! ''Activity Java Code'' 
+* android.support.v4 用 `FragmentActivity`
+* android.support.v7 用 `AppCompatActivity`
+
+```java
+public class TestFragmentActivity extends AppCompatActivity {
+    private void initFragments() {
+        ArrayList<FragmentBasic> frags = new ArrayList<>();
+        // start fragments and add them to FragmentManager
+        frags.add(LoginFragment.newInstance());
+        frags.add(ParentMainFragment.newInstance());
+        frags.add(SchoolMainFragment.newInstance());
+
+        FragmentManager fm = getSupportFragmentManager();
+        for (FragmentBasic frag: frags)
+            frag.addFragment(fm, R.id.flTestFragment);
+        fm.beginTransaction().show(frags.get(0)).commit();
+    }
+  
+}
+
+```
+
+!!! ''FragmentBasic.java''
+```java
+public class FragmentBasic extends Fragment {
+    protected String TAG = getClass().getSimpleName();
+    private Bundle savedBundle;  // google suggest to use sharedPreferences not bundle
+    protected boolean isVisible = false;  // for BackStack, only press BackPressed if visible
+    protected View rootView;
+
+    public void setTAG(String id) { TAG = id; }
+
+    public String getTAG() { return TAG; }
+
+    // default constructor is necessary
+    public FragmentBasic() { }
+
+    // Notice: will not pass here when returned from BackStack
+    // Do not override to prevent NullException
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initBundle(savedInstanceState);
+        initData(savedBundle);  // Override this function
+        Log.d(TAG, "onCreate");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (this.savedBundle == null)
+            outState.putBundle("savedBundle", this.savedBundle);
+        super.onSaveInstanceState(outState);
+    }
+
+    // Notice: pass here first when returned from BackStack, must be oveerided
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // rootView = inflater.inflate(R.layout.fragment_1, container, false);
+        // return rootView;
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+        isVisible = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+        isVisible = false;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "onDetach");
+    }
+
+    // add fragment with UI and hide it. Prevent overlay side effect of FrameLayout
+    public void addFragment(FragmentManager fm, int resId){
+        // available only the commit is success
+        Fragment fragment = fm.findFragmentByTag(TAG);
+        if (fragment == null) {
+            Log.d(TAG, "fragment " + TAG + "is added");
+            fm.beginTransaction().add(resId, this, TAG).hide(this).commit();
+            // make sure commits are available immediately. slow but dependent.
+            fm.executePendingTransactions();
+        }
+        else {
+            Toast.makeText(getContext(), "normally add again", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            // normal process
+            savedBundle = getArguments();
+        } else {
+            // activity be killed and restore
+            savedBundle = savedInstanceState.getBundle("savedBundle");
+        }
+
+        //如果没有任何参数，则初始化 savedBundle，避免调用时 null pointer
+        if (savedBundle == null) {
+            savedBundle = new Bundle();
+        }
+    }
+
+    // processing savedBundle == getArguments()
+    protected void initData(Bundle savedBundle) { }
+}```

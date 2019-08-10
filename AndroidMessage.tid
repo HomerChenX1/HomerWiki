@@ -1,0 +1,17 @@
+created: 20190529032408651
+modified: 20190529041549639
+tags: AndroidSystem
+title: AndroidMessage
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* 使用`obtain()`來獲取一個 Message
+** `Message msg = Message.obtain();`
+** `Message msg = Handler.obtainMessage()`
+*同一個Message不要發送兩次
+* Android已經提供了很多實現了Handler的類和方法，方便我們使用
+** Activity類的runOnUiThread()
+** View的post()
+** HandlerThread
+
+!! 參考資料 :

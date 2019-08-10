@@ -1,0 +1,41 @@
+created: 20190629164854411
+modified: 20190629174433822
+tags: [[Servers' setup]] WAMPServer
+title: MariaDb
+type: text/vnd.tiddlywiki
+
+!! 安裝:
+* port = 3307
+* CMD命令提示字元 : `netstat -ano | findstr 3307`, 需看到 `0.0.0.0:3307` 確保 LAN 可用
+* 建立資料庫
+** 給這個資料庫一個使用者
+* default user: `root` , and password: empty
+
+!! 設定:
+* [`MySQL`] 解決中文亂碼，預設編碼改為UTF-8設定 : my.ini
+```xml
+[client]
+default-character-set=utf8
+
+[mysqld]
+character-set-server=utf8
+collation-server=utf8_general_ci
+
+```
+* Use in LAN or Internet : my.ini
+** if no bind-address, the default address is `0.0.0.0`
+```xml
+bind-address    = 0.0.0.0 ??
+#skip-networking ??
+```
+
+
+
+
+!! 參考資料 :
+* [[MariaDB-安裝|https://ithelp.ithome.com.tw/m/articles/10194334]]
+* [[`MySQL` 解決中文亂碼，預設編碼改為UTF-8設定|https://j796160836.pixnet.net/blog/post/27937262-%5Bmysql%5D-%E8%A7%A3%E6%B1%BA%E4%B8%AD%E6%96%87%E4%BA%82%E7%A2%BC%EF%BC%8C%E9%A0%90%E8%A8%AD%E7%B7%A8%E7%A2%BC%E6%94%B9%E7%82%BAutf-8%E8%A8%AD%E5%AE%9A]]
+* [[mysql-設定遠端登入|http://pclevinblog.pixnet.net/blog/post/314562604-%5Bmysql%5Dmysql-%E8%A8%AD%E5%AE%9A%E9%81%A0%E7%AB%AF%E7%99%BB%E5%85%A5--windows]]
+* [[MySQL/MariaDB Server: Bind To Multiple IP Address|https://www.cyberciti.biz/faq/unix-linux-mysqld-server-bind-to-more-than-one-ip-address/]]
+* [[mysqld bind address|http://gaznjang.blogspot.com/2010/08/mysqld-bind-address.html]]
+* [[調整組態,優化SQL指令,動手找回MySQL效能|https://www.netadmin.com.tw/netadmin/zh-tw/technology/0EF55C3A537D432899F30EF8854B90CA]]

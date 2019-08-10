@@ -1,0 +1,12 @@
+created: 20190529023043201
+modified: 20190529032400180
+tags: AndroidSystem
+title: MessageQueue
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+
+* 負責裝載Message的佇列, 對Message進行管理, 是一個無限制的鏈結串列
+** AndroidMessage
+
+!! 參考資料 :

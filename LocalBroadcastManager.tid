@@ -1,0 +1,18 @@
+created: 20190515072457591
+modified: 20190515100903388
+tags: AndroidSystem
+title: LocalBroadcastManager
+type: text/vnd.tiddlywiki
+
+特徵:
+
+* 使用這個機制發出的廣播只能在應用內部進行傳遞，而且廣播接收器也只能接收本應用內自身發出的廣播
+* 本地廣播是無法通過靜態註冊的方式來接收的
+* 使用私有權限
+** 為< receiver >標籤添加一個android:exported="false"屬性，標明該Receiver僅限應用內部使用。
+** 或者 選擇創建自己的使用權限，即在清單文件中添加一個< permission >標籤來聲明自定義權限
+
+參考資料:
+
+* [[https://www.jianshu.com/p/f348f6d7fe59]]
+*[[https://ithelp.ithome.com.tw/articles/10157973]]

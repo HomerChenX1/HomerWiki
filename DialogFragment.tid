@@ -1,0 +1,29 @@
+created: 20190628081623988
+modified: 20190628083658143
+tags: AndroidUI
+title: DialogFragment
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* DialogFragment裡的onCreateView和onCreateDIalog 2個方法
+** onCreateView可以用來創建自定義Dialog
+*** 用於 layout 複雜時
+** onCreateDIalog 可以用Dialog來創建系統原生Dialog
+
+
+
+!! 參考資料 :
+* [[DialogFragment 創建對話框|https://blog.csdn.net/lmj623565791/article/details/37815413]]
+* [[可浮在Activity之上的DialogFragment(1)|https://ithelp.ithome.com.tw/articles/10156146]]
+* [[Android Fragment 的使用，一些你不可不知的注意事项|http://yifeng.studio/2016/12/15/android-fragment-attentions/]]
+
+!!!'' in `MainActivity` Java Code''
+```java
+if (mDialogFragment == null) {
+	mDialogFragment = SampleDialogFragment.newInstance();
+}
+Dialog mDialog = SampleDialogFragment.getDialog();
+if (mDialog==null || !mDialog.isShowing()) {
+	mDialogFragment.show(getSupportFragmentManager(), FRAGMENT_TAG_SAMPLE);
+}
+```

@@ -1,0 +1,29 @@
+created: 20190627060956708
+modified: 20190627071026138
+tags: AndroidUI
+title: AndroidUIResource
+type: text/vnd.tiddlywiki
+
+!!! 自動產生 icons : 
+* [[Android Image Asset Studio|https://developer.android.com/studio/write/image-asset-studio]]
+* [[Android神兵利器之Image Asset Studio|https://www.itread01.com/p/35965.html]]
+* [[Android UI開發神兵利器之Angrytools|https://www.itread01.com/p/106757.html]]
+* [[手機、網頁 UI 設計線上工具懶人包，初學者也能設計出好看又好用的介面|https://steachs.com/archives/32418]]
+
+!!! NinePathPNG
+
+!!! `WebP images`
+* 是一種同時提供了有損壓縮與無失真壓縮（可逆壓縮）的圖片檔案格式
+* 支援無失真壓縮和透明色（alpha通道）的功能
+* [[Create WebP images|https://developer.android.com/studio/write/convert-webp]]
+* [[使用Android Studio批量轉換圖片為Webp格式|https://yuweiguocn.github.io/convert-images-to-webp/]]
+* minSdkVersion 18
+
+!!! SVG or PSD
+* [[Vector-Asset-Studio|https://developer.android.com/studio/write/vector-asset-studio]]
+* [[Android SVG|http://jc7003.pixnet.net/blog/post/94796420-android-svg]]
+* [[https://livejinju.com/how-to-use-vector-asset-studio-in-android-development/|https://livejinju.com/how-to-use-vector-asset-studio-in-android-development/]]
+* [[Android SVG矢量資源的使用方法|https://kknews.cc/zh-tw/other/l8yj4oz.html]]
+
+!! 參考資料:
+

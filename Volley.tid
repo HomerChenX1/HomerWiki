@@ -1,0 +1,268 @@
+created: 20190510060304229
+modified: 20190614074614768
+tags: Volley
+title: Volley
+type: text/vnd.tiddlywiki
+
+!! Setup:
+
+* Volley 適合數據量不大但通信比較頻繁的場景
+* 新版本的Volley已經支持https
+* gradle : `implementation 'com.android.volley:volley:1.1+'`
+* manifest : `<uses-permission android:name="android.permission.INTERNET" />`
+*Ajax need to use `StringRequest`
+*Java code initialize : `RequestQueue volleyRequestQueue= Volley.newRequestQueue(mContext);`
+*Java code for start issue request :  `volleyRequestQueue.add(jsonObjectRequest)`
+* 用 Volley 以 GET 發送 request，其中參數帶有中文，會發生 server 收到的參數內容是 "???"，解決方法是要用 URLEncoder.encode("中文字", "utf-8")
+** 不確定 V1.1.1 是否仍如此
+* `JsonObjectRequest`
+** input/constructor: JSONObject, null, JSON string
+** response: JSONObject
+* `StringRequest`
+** input: from getParams()
+** response: string
+* `JsonArrayRequest`
+** input: from getParams()
+** response: JSONArray
+* `CleartextRequest` issue in Android 8 or higher:
+* CA 證書有問題
+** `SSLHandshakeException`
+** `CertificateException`
+** `CertPathValidatorException
+`
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:targetSandboxVersion="1"
+    package="com.example.demoibobby">
+
+    <application
+        android:usesCleartextTraffic="true"
+    </application>
+```
+
+!! Restful
+
+*Create :  HTTP POST method
+*Read : HTTP GET method
+*Update : HTTP PUSH/ PATCH method
+*Destroy : HTTP DELETE method
+
+!! 參考資料 :
+* [[Android Volley框架|https://blog.csdn.net/lvyoujt/article/details/47415209]]
+* [[android - Volley image request example|https://android--examples.blogspot.com/2017/02/android-volley-image-request-example.html]]
+* [[JSONObject|https://developer.android.com/reference/org/json/JSONObject]]
+* [[Http CRUD|https://www.itsalif.info/content/android-volley-tutorial-http-get-post-put]]
+* [[Android 8: Cleartext HTTP traffic not permitted|https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted]]
+* [[Volley的使用詳解|https://www.itread01.com/articles/1488530335.html]]
+* [[Volley支持https的3種方法小結|https://blog.csdn.net/lintax/article/details/69761913]]
+
+!! example for `JsonObjectRequest` :
+
+```java
+class DigestJsonObjectRequest extends JsonObjectRequest {
+    private boolean oldSpec = true;
+    private String digest = null;
+    private String digestMethod = null;
+
+    public String getDigest() { return digest; }
+    public void setDigest(String digest) { this.digest = digest; }
+
+    public String getDigestMethod() { return digestMethod; }
+    public void setDigestMethod(String digestMethod) { this.digestMethod = digestMethod; }
+
+    DigestJsonObjectRequest(int method, String url, JSONObject jsonRequest,
+                            Response.Listener<JSONObject> listener,
+                            @Nullable Response.ErrorListener errorListener){
+        super(method, url, jsonRequest, listener, errorListener);
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        // return super.getHeaders();
+        Map<String,String> headers = new HashMap<>();
+        if(oldSpec){
+            headers.put("digest", digest);
+        } else {
+            if (digestMethod == null) headers.put("Authorization", digest );
+            else headers.put("Authorization", digestMethod + " " + digest );
+        }
+        return headers;
+    }
+}
+```
+
+!! example for `StringRequest` :
+
+```java
+class DigestStringRequest extends StringRequest {
+    private boolean oldSpec = true;
+    private String digest = null;
+    private String digestMethod = null;
+
+    public String getDigest() { return digest; }
+    public void setDigest(String digest) { this.digest = digest; }
+
+    public String getDigestMethod() { return digestMethod; }
+    public void setDigestMethod(String digestMethod) { this.digestMethod = digestMethod; }
+
+    public DigestStringRequest(int method, String url, Response.Listener<String> listener,
+                               @Nullable Response.ErrorListener errorListener) {
+        super(method, url, listener, errorListener);
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        // return super.getHeaders();
+        Map<String,String> headers = new HashMap<>();
+        if(oldSpec){
+            headers.put("digest", digest);
+        } else {
+            if (digestMethod == null) headers.put("Authorization", digest );
+            else headers.put("Authorization", digestMethod + " " + digest );
+        }
+        return headers;
+    }
+
+    /**
+     *  for POST/PUT method
+     * @return
+     * @throws AuthFailureError
+     */
+    @Override
+    protected Map<String, String> getParams() throws AuthFailureError {
+        Map<String, String> map = new HashMap<String, String>();
+        // map.put("paraString", requestJson.toString());  // for AJAX
+        return map;
+    }
+}
+```
+
+!! example for `Restful`:
+
+```java
+class Restful implements Chain {
+    private String TAG = getClass().getSimpleName();
+    private int mode = Request.Method.PUT;
+    private String textCommand = null;
+    private JSONObject requestJson = null;
+    private int errCode = 0;
+    String url;
+    JSONObject jsonRequest;
+    Chain nextCmd = null;
+    Object msg = null;
+
+    public String getTAG(){ return TAG;}
+    public void setMode(int mode) { this.mode = mode; }
+    public void setTextCommand(String textCommand) { this.textCommand = textCommand; }
+    public void setRequestJson(JSONObject requestJson) { this.requestJson = requestJson; }
+    public int getErrCode() { return errCode; }
+
+    public Restful(){}
+    public Restful(int mode, String textCommand, JSONObject requestJson, Chain nextCmd){
+        TAG = TAG + textCommand.substring(0, 1).toUpperCase() + textCommand.substring(1);
+        setMode(mode);
+        setTextCommand(textCommand);
+        setRequestJson(requestJson);
+        if(requestJson != null) Log.d(TAG, requestJson.toString());
+        this.nextCmd = nextCmd;
+    }
+
+    @Override
+    public void startUp(Object msg) {
+        this.msg = msg;
+        JsonObjectRequest jsonObjectRequest = new DigestJsonObjectRequest(mode, url, jsonRequest,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        errCode = 0;
+                        shutDown(errCode, null);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.e(TAG, volleyError.getMessage(),volleyError);
+                        errCode = 1;
+                        shutDown(errCode, null);
+                    }
+                }
+        );
+
+        // start running
+        TryConfig.getInstance().volleyRequestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void shutDown(int errCode, Map<String, Object> params) {
+        if (nextCmd != null) {
+            // nextCmd.startUp(msg) or;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    nextCmd.startUp(msg);
+                }
+            }, 100);
+        }
+    }
+}
+```
+
+!! 信任所有證書:
+```java
+class HTTPSTrustManager implements X509TrustManager {
+
+    private static TrustManager[] trustManagers;
+    private static final X509Certificate[] _AcceptedIssuers = new X509Certificate[] {};
+
+    @Override
+    public void checkClientTrusted(
+            java.security.cert.X509Certificate[] x509Certificates, String s)
+            throws java.security.cert.CertificateException {
+        // To change body of implemented methods use File | Settings | File
+        // Templates.
+    }
+
+    @Override
+    public void checkServerTrusted(
+            java.security.cert.X509Certificate[] x509Certificates, String s)
+            throws java.security.cert.CertificateException {
+        // To change body of implemented methods use File | Settings | File
+        // Templates.
+    }
+
+    @Override
+    public X509Certificate[] getAcceptedIssuers() {
+        return _AcceptedIssuers;
+    }
+
+    public static void allowAllSSL() {
+        HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+
+            @Override
+            public boolean verify(String arg0, SSLSession arg1) {
+                // TODO Auto-generated method stub
+                return true;
+            }
+
+        });
+
+        SSLContext context = null;
+        if (trustManagers == null) {
+            trustManagers = new TrustManager[] { new HTTPSTrustManager() };
+        }
+
+        try {
+            context = SSLContext.getInstance("TLS");
+            context.init(null, trustManagers, new SecureRandom());
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+        HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
+    }
+}
+
+HTTPSTrustManager.allowAllSSL();
+        DataConfig.getRef().setVolleyRequestQueue(Volley.newRequestQueue(mContext));
+```

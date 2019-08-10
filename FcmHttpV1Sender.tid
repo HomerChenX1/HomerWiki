@@ -1,0 +1,245 @@
+created: 20190510035954899
+modified: 20190510083119601
+tags: Firebase
+title: FcmHttpV1Sender
+type: text/vnd.tiddlywiki
+
+Firebase Cloud Messaging HTTP V1.1 Sender
+
+參考資料:
+
+* [[https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages]]
+* [[https://www.zoftino.com/sending-device-specific-push-notification-message-using-firebase-cloud-messaging]]
+* [[https://medium.com/@ThatJenPerson/authenticating-firebase-cloud-messaging-http-v1-api-requests-e9af3e0827b8]]
+
+Setup:
+
+*service-sdk.json 放在 assets 中
+* 修改 build.gradle(app)
+`
+android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
+}
+dependencies {
+    implementation 'com.google.api-client:google-api-client:1.28.0'
+}
+`
+
+Java code:
+
+```java
+/*
+  1. make sure FCM API is enabled.   https://console.cloud.google.com/apis/dashboard
+  2. add  build.gradle(module:app)
+        implementation 'com.google.api-client:google-api-client:1.28.0'
+  3.  run FcmSender.getAccessToken() first to get the really Token
+  4. there are bugs in JSONObject such as .toString.  So the outter object needs to use string concat.
+  5. the googleCredential.refreshToken() is an async function, need to watch out.
+  6. data must be map <key: string, value: string>
+  7. topic can not have "/" or ":"
+ */
+public class FcmSender {
+    private static final String PROJECT_ID = "easypick-86afb";
+    static final String BASE_URL = "https://fcm.googleapis.com";
+    static final String FCM_SEND_ENDPOINT = "/v1/projects/" + PROJECT_ID + "/messages:send";
+    private static final String MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging"; // 404
+    private static final String[] SCOPES = { MESSAGING_SCOPE };
+
+    /**
+     * Retrieve a valid access token that can be use to authorize requests to the FCM REST
+     * API.
+     *
+     * @return Access token.
+     * @throws IOException
+     */
+    // [START retrieve_access_token]
+    public static void getAccessToken(){
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                if (MsgObjectAct.getRef().getFcmTokenV1() != null)
+                    return;
+
+                GoogleCredential googleCredential = null;
+                try {
+                    googleCredential = GoogleCredential
+                            // .fromStream(new FileInputStream("service-account.json"))
+                            .fromStream(GlobalApplication.getInstance().getBaseContext()
+                                    .getAssets().open("service-sdk.json"))
+                            .createScoped(Arrays.asList(SCOPES));
+                    googleCredential.refreshToken();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                MsgObjectAct.getRef().setFcmTokenV1(googleCredential.getAccessToken());
+                // Log.d("FcmSingleDeviceSender", "fcm token :" + MsgObjectAct.getRef().getFcmToken());
+            }
+        }).start();
+    }
+
+    public static void testAccessToken(){
+        String json = null;
+        try {
+            InputStream is = GlobalApplication.getInstance().getBaseContext()
+                    .getAssets().open("service-sdk.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return;
+        }
+        return;
+    }
+
+    public static class FcmSingleDeviceSender {
+        String TAG = "FcmSingleDeviceSender";
+        String token;
+        JSONObject sendMessage;
+
+        public FcmSingleDeviceSender(String token, JSONObject sendMessage) {
+            this.token = token;
+            this.sendMessage = sendMessage;
+        }
+
+        void setTarget(JSONObject jObject){
+            try {
+                // if (token == null) jObject.put("token", "");
+                // else jObject.put("token", token);
+                jObject.put("topic", "foo-bar");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void startUp() {
+            Map<String, String> aMap = new HashMap<>();
+            JSONObject innerObject = new JSONObject();
+
+            try {
+                innerObject.put("notification", sendMessage);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            setTarget(innerObject);
+            String outterObject = "{\"message\":" + innerObject.toString() + "}";
+            // Log.d(TAG, "Url: " + FcmJsonObjectRequest.url);
+            // Log.d(TAG, outterObject.toString());
+            JSONObject tempObject = null;
+            try {
+                tempObject = new JSONObject(outterObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest jsonObjectRequest = new FcmJsonObjectRequest(tempObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            doResponse(response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            checkVolleyError(error);
+                        }
+                    });
+            // start execute
+            FcmTopicsManager.getRef().getQueue().add(jsonObjectRequest);
+        }
+
+        String checkVolleyError(VolleyError error){
+            String result = " Volly Error: " + "\r\nResponse: " + error.networkResponse + "\r\nError type: ";
+            if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                result += "TimeoutError!";
+            } else if (error instanceof AuthFailureError) {
+                result += "AuthFailureError!";
+            } else if (error instanceof ServerError) {
+                result += "ServerError!";
+            } else if (error instanceof NetworkError) {
+                result += "NetworkError!";
+            } else if (error instanceof ParseError) {
+                result +=  "ParseError!";
+            }
+            Log.d(TAG, result);
+            return result;
+        }
+        void doResponse(JSONObject response){
+            Log.d(TAG, "OK. response: " + response.toString());
+        }
+    }
+
+    public static class FcmV1Sender {
+        String TAG = "FcmV1Sender";
+        JSONObject sendMessage;
+
+        public FcmV1Sender(JSONObject sendMessage) {
+            this.sendMessage = sendMessage;
+        }
+
+        public void startUp() {
+            JsonObjectRequest jsonObjectRequest = new FcmJsonObjectRequest(sendMessage,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            doResponse(response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            checkVolleyError(error);
+                        }
+                    });
+            // start execute
+            FcmTopicsManager.getRef().getQueue().add(jsonObjectRequest);
+
+        }
+        String checkVolleyError(VolleyError error){
+            String result = " Volly Error: " + "\r\nResponse: " + error.networkResponse + "\r\nError type: ";
+            if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                result += "TimeoutError!";
+            } else if (error instanceof AuthFailureError) {
+                result += "AuthFailureError!";
+            } else if (error instanceof ServerError) {
+                result += "ServerError!";
+            } else if (error instanceof NetworkError) {
+                result += "NetworkError!";
+            } else if (error instanceof ParseError) {
+                result +=  "ParseError!";
+            }
+            Log.d(TAG, result);
+            return result;
+        }
+        void doResponse(JSONObject response){
+            Log.d(TAG, "OK. response: " + response.toString());
+        }
+    }
+}
+
+class FcmJsonObjectRequest extends JsonObjectRequest {
+    static String url = FcmSender.BASE_URL + FcmSender.FCM_SEND_ENDPOINT;
+    // static String url = "http://192.168.1.164:8090";
+    FcmJsonObjectRequest(JSONObject jsonRequest,
+                         Response.Listener<JSONObject> listener,
+                         @Nullable Response.ErrorListener errorListener){
+        super(Request.Method.POST, url, jsonRequest, listener, errorListener);
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        Map<String,String> headers = new HashMap<>();
+        // Authorization: Bearer ya29.ElqKBGN2Ri_Uz...HnS_uNreA
+        String token = MsgObjectAct.getRef().getFcmTokenV1();
+        headers.put("Authorization", "Bearer " + token);
+        // Log.d("FcmSingleDeviceSender", "Bearer " + token);
+        return headers;
+    }
+}
+
+```

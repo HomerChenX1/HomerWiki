@@ -1,0 +1,82 @@
+created: 20190515063455328
+modified: 20190619063620002
+tags: AndroidSystem
+title: BroadcastReceiver
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+
+* 系統級的全範圍通知
+* onReceive的生命週期大約只有十秒，超過會產生ANR，因此不要在這邊做太複雜的事情，可以啟動一個Service後，靠Service去執行一些較花時間的動作。
+* sendBroadcast (Intent intent) : 不會回傳任何值，也不能打斷broadcast的傳輸
+* sendOrderedBroadcast() : 
+** 有序廣播是一種同步執行的廣播
+** 在廣播發出後同一時刻只有一個廣播接收器能夠接收到
+** 優先級高的廣播接收器會優先接收
+** 再傳給其次優先級的receiver。
+** 優先級高的廣播接收器可以選擇截斷廣播
+* 註冊
+** 直接在Activity 或 Service註冊 (動態註冊)
+** 在 `AndroidManifest.xml` 下註冊 (靜態註冊)
+* LocalBroadcastManager :　Local broadcast為單一APP內部使用，效能更快且更安全。
+* 系統廣播事件 : 很重要
+** android.content.Intent – 主要的系統廣播事件都宣告在這個類別
+** android.bluetooth
+** android.hardware.Camera
+** android.net.wifi.WifiManager
+** android.media.AudioManager
+** ACTION_BOOT_COMPLETED – 系統裝置完成開機的工作後發送的廣播事件
+*** 要加入「RECEIVE_BOOT_COMPLETED」的授權設定到應用程式設定檔中。
+** ACTION_TIME_TICK – 系統固定每一分鐘發送一次這個廣播事件。
+** ACTION_DATE_CHANGED、ACTION_TIME_CHANGED – 改變系統的日期與時間的時候發送的廣播事件。
+
+!! 參考資料:
+
+* [[http://aiur3908.blogspot.com/2015/05/android-broadcastreceiver.html]]
+* [[https://ithelp.ithome.com.tw/articles/10157973]]
+* [[https://www.jianshu.com/p/f348f6d7fe59]]
+* [[https://developer.android.com/reference/android/content/Intent.html#ACTION_BATTERY_LOW]]
+
+!!! 在`AndroidManifest.xml`加入這個 receiver。
+
+```xml
+<receiver android:name=".MyBroadcastReceiver">
+</receiver>
+```
+
+receiver java code
+
+```java
+public class MyBroadcastReceiver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+    }
+}
+
+unregisterReceiver(new MyBroadcastReceiver());
+```
+
+!!! 特定的頁面裡面在註冊(register)接收器，而且可以註銷(unregister)你的接收器。在註銷這個接收器前，它會一直存在背景
+
+```java
+IntentFilter intentFilter = new IntentFilter();  //創建一個IntentFilte物件
+intentFilter.addAction("Hello");  //加入Action的辨識字串
+registerReceiver(new MyBroadcastReceiver() , intentFilter);
+        //註冊我們創建的BroadcastReceiver
+        
+Intent intent = new Intent();  //創建一個Inten物件
+intent.setAction("Hello");  //設定Actio的辨識字串
+sendBroadcast(intent);  //發送廣播！
+```
+假如你背景有多個接收器(Receive)，它們都會一起收到這個廣播，因此我們可以利用剛才設定的辨識字串來做判斷。
+
+!!! 在`AndroidManifest.xml`裡面註冊, 它會長時間在背景監聽，但是不能被註銷(unregister)，只要安裝這個App就會一直在背景做監聽的動作。
+
+```xml
+<receiver android:name=".MyBroadcastReceiver">
+    <intent-filter>
+        <action android:name="Hello" />
+    </intent-filter>
+</receiver>
+```

@@ -1,0 +1,127 @@
+created: 20190624063224512
+modified: 20190624075814388
+tags: AndroidSystem
+title: EventBus
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* Version 3
+* 可以代替Intent、Handler、Broadcast等在Fragment、Activity之間傳遞消息
+* 將發送者和接受者解耦
+* event class must be outer class or inner static class.
+* event class 必須為public class,為 index 做準備
+* `ThreadMode`
+** `ThreadMode.MAIN` : 那麽不論事件是在哪個線程中發布出來的，`onEventMainThread`都會在UI線程中執行，接收事件就會在UI線程中運行
+** `ThreadMode.POSTING` : 那麽該事件在哪個線程發布出來的，onEventPostThread就會在這個線程中運行，也就是說發布事件和接收事件線程在同一個線程
+*** 使用這個方法時，在`onEventPostThread`方法中不能執行耗時操作，如果執行耗時操作容易導致事件分發延遲
+** `ThreadMode.BACKGROUND` : 如果使用`onEventBackgrond`作為訂閱函數，那麽
+*** 如果事件是在UI線程中發布出來的，那麽`onEventBackground`就會在子線程中運行，
+*** 如果事件本來就是子線程中發布出來的，那麽`onEventBackground`函數直接在該子線程中執行
+** `ThreadMode.ASYNC` : 使用這個函數`onEventAsync`作為訂閱函數，那麽無論事件在哪個線程發布，都會創建新的子線程再執行`onEventAsync`
+
+!!! ''build.gradle(app)''
+```xml
+implementation 'org.greenrobot:eventbus:3.1.1'
+```
+
+!!! ''Define events:''
+```java
+// must be public outer class or public inner static class
+public class MessageEvent {
+    public final String message;
+
+    public MessageEvent(String message) {
+        this.message = message;
+    }
+}
+```
+
+!!! ''Prepare subscribers in Activities or Fragments , ... etc''
+```java
+    @Subscribe(threadMode = ThreadMode.MAIN)  
+    public void onMessageEvent(MessageEvent event) {
+        /* Do something */
+    };
+```
+
+!!! ''Register and unregister your subscriber''
+```java
+@Override
+ public void onStart() {
+     super.onStart();
+     EventBus.getDefault().register(this);
+ }
+
+ @Override
+ public void onStop() {
+     super.onStop();
+     EventBus.getDefault().unregister(this);
+ }
+```
+
+!!! ''發布訂閱事件''
+```java
+ EventBus.getDefault().post(new MessageEvent());
+ EventBus.getDefault().postSticky(new MessageEvent("發送粘性的事件"));
+```
+
+!!! ''刪除事件''
+* 普通事件刪除 :  `EventBus.getDefault().cancelEventDelivery(event);`
+** 事件取消僅限於ThreadMode.PostThread下才可以使用
+* 粘性事件刪除 :
+```java
+//指定粘性事件删除
+T stickyEvent = EventBus.getDefault().getStickyEvent(eventType);
+    if (stickyEvent != null) {
+        EventBus.getDefault().removeStickyEvent(stickyEvent);
+    }
+
+//删除所有粘性事件 
+EventBus.getDefault().removeAllStickyEvents();
+```
+
+!!! ''Subscriber Index''
+```xml
+android {
+    defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ eventBusIndex : 'com.example.myapp.MyEventBusIndex' ]
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.1.1'
+}
+```
+
+and the Java code (normally in `Application.onCreate()`) :
+
+```java
+EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
+// Now the default instance uses the given index. Use it like this:
+EventBus eventBus = EventBus.getDefault();
+```
+
+!!! ''Proguard-rules.pro''
+```xml
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+ 
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+```
+
+!! 參考資料 :
+* [[EventBus|https://github.com/greenrobot/EventBus]]
+* [[EventBus 3.0 新特性|https://yuweiguocn.github.io/eventbus-3-new-feature/]]
+* [[Android EventBus 3.0 實例使用詳解|https://www.itread01.com/articles/1487024375.html]]
+* [[EventBus 3.X的使用|https://www.jianshu.com/p/95bc9615b5de]]

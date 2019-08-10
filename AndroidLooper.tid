@@ -1,0 +1,18 @@
+created: 20190529024951954
+modified: 20190529040323477
+tags: AndroidSystem
+title: AndroidLooper
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* 負責管理 MessageQueue
+* 當Message處理完畢後, 會將Message發送給Handler
+* `Looper.prepare()`
+* `Looper.myLooper()`
+* `Looper.getMainLooper()`
+* `Looper.loop()`
+
+
+!! 參考資料 :
+* [[https://juejin.im/post/5910533dac502e006cfe01cd]]
+

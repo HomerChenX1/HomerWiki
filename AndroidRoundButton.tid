@@ -1,0 +1,62 @@
+created: 20190509031237248
+modified: 20190510034507481
+tags: AndroidUI
+title: AndroidRoundButton
+type: text/vnd.tiddlywiki
+
+在 layout 中加入 :
+
+```xml
+<Button
+    android:background="button_background" />
+```
+
+在 drawable 中加入 4 個檔案 : 
+button_background.xml , button_press.xml , button_focus.xml , button_unfocused.xml
+
+button_background.xml :
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--  Non focused states
+     -->
+    <item android:state_focused="false" android:state_selected="false" android:state_pressed="false" android:drawable="@drawable/button_unfocused" />
+    <item android:state_focused="false" android:state_selected="true" android:state_pressed="false" android:drawable="@drawable/button_unfocused" />
+    <!--  Focused states
+     -->
+    <item android:state_focused="true" android:state_selected="false" android:state_pressed="false" android:drawable="@drawable/button_focus" />
+    <item android:state_focused="true" android:state_selected="true" android:state_pressed="false" android:drawable="@drawable/button_focus" />
+    <!--  Pressed
+     -->
+    <item android:state_pressed="true" android:drawable="@drawable/button_press" />
+</selector>
+```
+
+button_press.xml :
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/dark_blue" />
+    <stroke
+                android:width="2dp"
+                android:color="@android:color/white" />
+    <corners android:radius="@dimen/round_btn_radius" />
+    <padding
+        android:left="@dimen/round_btn_padding"
+        android:top="@dimen/round_btn_padding_ud"
+        android:right="@dimen/round_btn_padding"
+        android:bottom="@dimen/round_btn_padding_ud" />
+</shape>
+```
+
+copy button_press.xml to button_focus.xml , button_unfocused.xml
+
+請注意 顏色深淺 , 以下顏色由淺至深 :
+
+focus_solid_color -> unfocused_solid_color -> stroke_color -> press_solid_color
+
+如此可以看到一個上凸式 button
+
+

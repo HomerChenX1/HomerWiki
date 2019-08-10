@@ -1,0 +1,42 @@
+created: 20190617071321419
+modified: 20190624085117683
+tags: AndroidUI
+title: AndroidAppBar
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* `AppBar` 
+** xml layout 使用 v7 appcompat support library 的 `ToolBar `
+*** Action View
+*** action provider小部件
+** java code 仍使用 `ActionBar` interface
+* 從Android 3.0（API級別11）開始，使用默認主題的所有Activity都將`ActionBar`作為`AppBar`
+* `ToolBar`在運行Android 2.1（API級別7）或更高版本的設備上提供`MaterialDesign`體驗
+* `ActionBar`不支持`MaterialDesign`，除非設備正在運行Android 5.0（API級別21）或更高版本。
+
+
+
+!! 參考資料:
+* [[如何自己設計 Toolbar (Action Bar)|https://spicyboyd.blogspot.com/2018/04/app-toolbar-actionbar.html]]
+* [[Android開發：最詳細的Toolbar開發實踐總結|https://www.jianshu.com/p/79604c3ddcae]]
+* [[如何使用AppBar|https://juejin.im/entry/58e2f26b8d6d8100615ba3a7]]
+* [[Android工具欄，你想知道的都在這裡了|http://yifeng.studio/2016/10/12/android-toolbar/]]
+
+* [[ANDROID – TOOLBAR STEP BY STEP|http://blog.mosil.biz/2014/10/android-toolbar/]]
+
+* [[如何使用Toolbar(Actionbar)+DrawerLayout|http://givemepass.blogspot.com/2016/07/toolbaractionbardrawerlayout.html]]
+* [[如何製作客制化Appbar|https://ukyoappdev.blogspot.com/2017/04/appbar.html]]
+* [[如何將 Android ActionBar 轉換到 Toolbar|http://blog.tonycube.com/2015/06/toolbar-demo-toolbar-actionbar-android-5.html]]
+
+!!! `ToolBar` setting:
+* setNavigationIcon
+* setLogo 
+* setTitle
+* setSubtitle 
+* setOnMenuItemClickListener
+
+!!! `ToolBar view`
+[img[toolbar.png]]
+
+!!! Theme Colors
+[img[theme_colors.png]]

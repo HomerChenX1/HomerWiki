@@ -1,0 +1,22 @@
+created: 20190515101856014
+modified: 20190617071410167
+tags: AndroidSystem
+title: AndroidForeground
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+
+* Multi-Processes:
+** ContentProvider
+** RemoteService
+* Multi-Thread
+** AndroidThread
+** AndroidHandler
+** HandlerThread
+** AsyncTask
+** RxJava2
+** EventBus 3
+* coroutine
+** Quasar Fiber : [[https://segmentfault.com/a/1190000006079389]]
+
+!! 參考資料:

@@ -1,0 +1,212 @@
+created: 20190619074540362
+modified: 20190620013156406
+tags: AndroidUI
+title: AndroidRecyclerViewGridLayoutManager
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* item.xml: important for click
+** `android:background="?android:attr/selectableItemBackground"`
+
+!! 參考資料 :
+* [[使用 RecyclerView|https://julianchu.net/2016/03/13-recyclerview.html]]
+* [[RecyclerView的拖動和滑動第二部分：拖塊，Grid以及自定義動畫|http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0724/3219.html]]
+* [[Material Design Patterns 教學 (4) - RecyclerView|https://blog.30sparks.com/material-design-4-recyclerview/]]
+
+!!! `MainActivity.java`
+
+```java
+import static com.example.dashboardmain.Utils.getResId;
+
+public class MainActivity extends AppCompatActivity {
+    String TAG = getClass().getSimpleName();
+    private TextView textView;
+    private RecyclerView recyclerView;
+    private MainRecyclerViewGridAdapter myAdapter;
+    private ArrayList<GridData> gridDataArray = new ArrayList<>();
+    private ItemTouchHelper.Callback myCallback;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        findViews();
+    }
+
+    private void findViews() {
+        textView = findViewById(R.id.textView);
+
+        recyclerView = findViewById(R.id.rvGrid);
+        GridLayoutManager mgr=new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(mgr);
+        setDataSnapShot();
+        myAdapter = new MainRecyclerViewGridAdapter(gridDataArray);
+        recyclerView.setAdapter(myAdapter);
+        setItemTouchHelperCallback();
+    }
+
+    private void setDataSnapShot() {
+        String [] resStrings = { "cat0", "cat1", "cow", "dog0", "dog1", "dog2", "dog3", "dove", "fish", "teddy_bear"};
+        for (String s : resStrings) {
+            gridDataArray.add(new GridData(getResId("ic_"+s, R.drawable.class), s));
+        }
+    }
+
+    private void setItemTouchHelperCallback() {
+        myCallback = new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP|ItemTouchHelper.DOWN |
+                ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT, 0) {
+
+            // For drag function
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
+                Collections.swap(gridDataArray,fromPosition,toPosition);
+                myAdapter.notifyItemMoved(fromPosition, toPosition);
+                return true;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+            }
+
+            // old method, new methos is onChildDraw(), 每次View Holder的狀態變成拖拽( ACTION_STATE_DRAG )
+            // 或者滑動( ACTION_STATE_SWIPE )的時候被調用
+            @Override
+            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                // We only want the active item
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    if (viewHolder instanceof MainRecyclerViewGridAdapter.ViewHolder) {
+                        MainRecyclerViewGridAdapter.ViewHolder itemViewHolder =
+                                (MainRecyclerViewGridAdapter.ViewHolder) viewHolder;
+                        itemViewHolder.onItemSelected();
+                    }
+                }
+                super.onSelectedChanged(viewHolder, actionState);
+            }
+
+            // old method, new methos is onChildDraw(), 在一個view被拖拽然後被放開的時候被調用，
+            // 同時也會在滑動被取消或者完成ACTION_STATE_IDLE )的時候被調用
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+
+                if (viewHolder instanceof MainRecyclerViewGridAdapter.ViewHolder) {
+                    MainRecyclerViewGridAdapter.ViewHolder itemViewHolder =
+                            (MainRecyclerViewGridAdapter.ViewHolder) viewHolder;
+                    itemViewHolder.onItemClear();
+                }
+            }
+        };
+        //
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(myCallback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+}
+```
+
+!!! `Adapter.java`
+```java
+class MainRecyclerViewGridAdapter extends RecyclerView.Adapter<MainRecyclerViewGridAdapter.ViewHolder> {
+    private ArrayList<GridData> gridDataArray;
+
+    public MainRecyclerViewGridAdapter(ArrayList<GridData> gridDataArray) {
+        this.gridDataArray = gridDataArray;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView gridImage;
+        TextView gridText;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            // find views in the main_grid_item
+            gridImage = itemView.findViewById(R.id.grid_image);
+            gridText = itemView.findViewById(R.id.grid_text);
+        }
+
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
+    }
+
+    @NonNull
+    @Override
+    public MainRecyclerViewGridAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.main_grid_item, parent, false);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MainRecyclerViewGridAdapter.ViewHolder holder, final int position) {
+        holder.gridImage.setImageResource(gridDataArray.get(position).gridResId);
+        holder.gridText.setText(gridDataArray.get(position).gridText);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toast not work
+                // Toast.makeText(v.getContext(), "Item " + position + " is clicked.", Toast.LENGTH_LONG);
+                DataWarehouse.getRef().TvDebug.setText("Item " + position + " is clicked.");
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return gridDataArray.size();
+    }
+}
+
+class GridData {
+    int gridResId;
+    String gridText;
+
+    public GridData(int gridResId, String gridText) {
+        this.gridResId = gridResId;
+        this.gridText = gridText;
+    }
+}
+```
+
+!!! `item.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="5dp">
+
+ <ImageView
+     android:id="@+id/grid_image"
+     android:layout_width="50dp"
+     android:layout_height="50dp" />
+
+ <TextView
+     android:id="@+id/grid_text"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="5dp" />
+</LinearLayout>
+```
+
+!!! `MainActivity.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+```

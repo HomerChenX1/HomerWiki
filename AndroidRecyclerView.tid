@@ -1,0 +1,26 @@
+created: 20190614093128076
+modified: 20190620012410763
+tags: AndroidUI
+title: AndroidRecyclerView
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* setup gradle
+** `implementation 'com.android.support:appcompat-v7:+'`
+** `implementation 'com.android.support:recyclerview-v7:+'`
+* `LayoutManager`:
+** `LinearLayoutManager` :  AndroidRecyclerViewLinearLayoutManager
+** `GridLayoutManager` : AndroidRecyclerViewGridLayoutManager
+** `StaggeredGridLayoutManager`
+* XML layout : `CoordinatorLayout` is better
+
+!! 參考資料:
+* [[如何使用RecyclerView|http://givemepass.blogspot.com/2015/12/recyclerview.html]]
+* [[使用 RecyclerView|https://julianchu.net/2016/03/13-recyclerview.html]]
+* [[Adding Swipe Gestures to RecyclerViews|https://code.tutsplus.com/tutorials/adding-swipe-gestures-to-recyclerviews--cms-32427]]
+* [[RecyclerView的拖動和滑動2|http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0724/3219.html]]
+* [[Android RecyclerView Swipe To Delete And Undo|https://www.journaldev.com/23164/android-recyclerview-swipe-to-delete-undo]]
+* [[簡單實現RecyclerView項目拖動效果|https://tpu.thinkpower.com.tw/tpu/articleDetails/795]]
+* [[RecyclerView.Adapter：全能notify解決方案|https://zhuanlan.zhihu.com/p/22170152]]
+
+

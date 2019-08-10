@@ -1,0 +1,17 @@
+created: 20190529040901573
+modified: 20190529042327900
+tags: AndroidSystem
+title: AsyncTask
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* 旨在成為Thread和Handler的輔助類
+* 效率不是很高
+* 資源代價也比較重
+* 只有當進行一些小型操作時為了方便起見使用
+* 如果需要保持線程長時間運行，強烈建議您使用java.util.concurrent包提供的各種API，例如Executor，ThreadPoolExecutor 和 FutureTask。
+* `Async mode` : 在背景執行緒運作的非同步任務, 如果你使用它, 則必須覆寫它唯一的方法doInBackground。
+* `Block mode` : 想等待AsyncTask直到結束，可透過 `AsyncTask.get()`，呼叫後會一直等到執行結束或timeout
+
+!! 參考資料:
+* [[http://givemepass.blogspot.com/2015/10/asynctask.html]]

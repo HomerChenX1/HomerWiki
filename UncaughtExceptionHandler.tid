@@ -1,0 +1,99 @@
+created: 20190612095523032
+modified: 20190624051005108
+tags: Java AndroidSystem
+title: UncaughtExceptionHandler
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* 當程序崩潰（Crash）的時候，默認是不對異常信息做處理的。如果想要把異常信息保存到本地文件中，或上傳的服務器。那麼就要藉助`UncaughtExceptionHandler`這個類。
+* 在UI線程中添加異常處理處理程序，在Application中添加而不是在Activity中添加
+** 只需要在Application的 `onCreate()` 方法裡進行
+* proguad :
+** `-keepattributes SourceFile，LineNumberTable`＃keep住源文件以及行號
+
+!! 參考資料 :
+* [[How to have a callback for when a crash occurred, while using Crashlytics SDK?|https://stackoverflow.com/questions/37256595/how-to-have-a-callback-for-when-a-crash-occurred-while-using-crashlytics-sdk?rq=1]]
+* [[Crashlytics : Enhance Crash Reports|https://docs.fabric.io/android/crashlytics/enhanced-reports.html#custom-keys]]
+* [[Android使用UncaughtExceptionHandler捕獲全局異常|https://blog.csdn.net/hehe9737/article/details/7662123]]
+* [[Android使用UncaughtExceptionHandler捕獲全局異常|https://blog.csdn.net/whu_zhangmin/article/details/42294141]]
+
+!!! ''example:'' used
+
+```java
+public class MyApplication extends Application {
+   private static Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
+
+   private static Thread.UncaughtExceptionHandler mCaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
+       @Override
+       public void uncaughtException(Thread thread, Throwable ex) {
+          // Custom logic goes here
+          // Calculate available memory
+          Crashlytics.setString("available_memory", "5784");
+          // This will make Crashlytics do its job
+          mDefaultUncaughtExceptionHandler.uncaughtException(thread, ex);
+       }
+   };
+
+   @Override
+   public void onCreate() {
+     super.onCreate();
+
+     // Order is important!
+     // cache a reference to default uncaught exception handler
+     mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+     // set custom UncaughtExceptionHandler
+     Thread.setDefaultUncaughtExceptionHandler(mCaughtExceptionHandler);
+   }
+}
+```
+
+!!! ''Another example:''
+
+```java
+class DefaultUnCaughtExceptionHandlerDecorator implements Thread.UncaughtExceptionHandler {
+
+    private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler; //we will decorate the default handler to add functionality to it
+
+    public DefaultUnCaughtExceptionHandlerDecorator(Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler) {
+        this.mDefaultUncaughtExceptionHandler = mDefaultUncaughtExceptionHandler;
+    }
+
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+
+        logToCrashLytics(); //add our crashlytics logging and keys here
+        //  we have added our crashlytics extra data, now invoke Crashlytics
+        mDefaultUncaughtExceptionHandler.uncaughtException(t, e);
+    }
+
+    private void logToCrashLytics() {
+        Crashlytics.setUserIdentifier(Model.getUserID());//or whatever. this will show directly on crashlytics dashboard a pretty element
+        Crashlytics.setString("Some useful Info", "user is logged in"); // or whatever you want, such as printing out singleton managers references or model info
+        //dont use Crashlytics.Log(..) here. it wont work consistent. 
+    }
+}
+
+Thread.setDefaultUncaughtExceptionHandler(new DefaultUnCaughtExceptionHandlerDecorator(Thread.getDefaultUncaughtExceptionHandler()));
+```
+
+```java
+// 綁定Service 實例
+public class MyService extends Service {
+
+	@Override
+	public void onCreate() {
+	    Thread.currentThread().setName(CrashLogCatch.THREAD_NAME_REMOTE);  //线程名称
+		CrashLogCatch.initCrashLog(this);   //注意这里
+	}
+}
+
+// 綁定BroadcastReceiver實例
+public class LaunchReceiver extends BroadcastReceiver {
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		Thread.currentThread().setName(CrashLogCatch.THREAD_NAME_REMOTE);  //线程名称
+		CrashLogCatch.initCrashLog(context);   //注意这里
+	}
+}
+```

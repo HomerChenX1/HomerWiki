@@ -1,0 +1,44 @@
+created: 20190627100901143
+modified: 20190627102608359
+tags: AndroidUI
+title: PopupMenuV7
+type: text/vnd.tiddlywiki
+
+[[Android PopupMenu 的使用|https://www.jianshu.com/p/60a34a4d52bd]]
+
+[[PopupMenuDemo【popupMenu的简单使用】|https://www.cnblogs.com/whycxb/p/9365886.html]]
+
+[[Android Compatibility popup menu with icons (requires support library v7)|https://gist.github.com/mediavrog/9345938]]
+
+```java
+private void showPopupMenu(View view) {
+        // 这里的view代表popupMenu需要依附的view
+        PopupMenu popupMenu = new PopupMenu(view.getContext(), view);
+        // 获取布局文件
+        popupMenu.getMenuInflater().inflate(R.menu.travel_mode, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return true;
+            }
+        });
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                // 控件消失时的事件
+            }
+        });
+
+        try {
+            Field field = popupMenu.getClass().getDeclaredField("mPopup");
+            field.setAccessible(true);
+            MenuPopupHelper helper = (MenuPopupHelper) field.get(popupMenu);
+            helper.setForceShowIcon(true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        popupMenu.show();
+    }
+```

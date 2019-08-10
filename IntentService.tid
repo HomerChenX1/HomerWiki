@@ -1,0 +1,51 @@
+created: 20190515053640734
+modified: 20190515063222896
+tags: AndroidSystem
+title: IntentService
+type: text/vnd.tiddlywiki
+
+參考資料:
+
+* [[https://www.jianshu.com/p/95ec2a23f300]]
+* [[https://blog.csdn.net/xiaomi987/article/details/80074686]]
+
+特徵:
+
+* 由於大多數啟動服務都不必同時處理多個請求，因此使用IntentService 類實現服務也許是最好的選擇
+* 創建默認的工作線程，用於在應用的主線程外執行傳遞給onStartCommand() 的所有Intent
+* 創建工作隊列，用於將Intent 逐一傳遞給onHandleIntent() 實現，這樣就不必擔心多線程問題
+* 在處理完所有啟動請求後停止服務，因此不必自己調用stopSelf()方法
+* 提供onBind() 的默認實現（返回null）
+* 提供onStartCommand() 的默認實現，可將Intent 依次發送到工作隊列和onHandleIntent()
+* 只需實現構造函數與onHandleIntent() 方法即可
+* thread-safe
+
+APP :
+
+```java
+public void startService(View view) {
+        Intent intent = new Intent(this, MyIntentService.class);
+        Bundle bundle = new Bundle();
+        ...
+        startService(intent);
+    }
+```
+
+Service:
+
+```java
+public class MyIntentService extends IntentService {
+    private final String TAG = "MyIntentService";
+
+    public MyIntentService() {
+        super("MyIntentService");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        Bundle bundle = intent.getExtras();
+        ...
+    }
+
+}
+```

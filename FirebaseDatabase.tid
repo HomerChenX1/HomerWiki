@@ -1,0 +1,90 @@
+created: 20190510095042019
+modified: 20190515100704133
+tags: Firebase
+title: FirebaseDatabase
+type: text/vnd.tiddlywiki
+
+特徵 :
+
+* 一定要宣告成
+** outer class 
+** or static inner class
+* 符合 JAVA bean
+** default constructor for getValue()
+** total public fields without getter/setter
+** or total private fields with public getter/setter
+** keep as Simple as possible
+
+
+```java
+class FbDbBasic {
+    private String TAG = getClass().getSimpleName();
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private String dbPath = null;
+    private DatabaseReference dbRef = null;  // database.getReference(dbPath)
+    private ValueEventListener listener;
+    private boolean inDbDebug = false;  // if true , use single read
+
+    public FbDbBasic() {}
+
+    public FirebaseDatabase getDb() { return db; }
+
+    public String getDbPath() { return dbPath; }
+    public FbDbBase setDbPath(String dbPath) {
+        this.dbPath = dbPath;
+        return this;
+    }
+
+    public DatabaseReference getDbRef() { return dbRef; }
+    public FbDbBase setDbRef(DatabaseReference dbRef) {
+        this.dbRef = dbRef;
+        return this;
+    }
+
+    public void remove(){ 
+        // dbRef.setValue(null);
+        dbRef.removeValue();
+    }
+    public void write(Object o) { dbRef.setValue(o); }
+
+    // for override method
+    void readSuccess(DataSnapshot dataSnapshot) { dataSnapshot.getValue(); }
+    // for override method and chaining method
+    void checkComplete(){}
+    // for override method
+    void readFail(DatabaseError databaseError){
+        Log.d(TAG, "readFail: " + databaseError.toException());
+    }
+
+    public int read(){
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                readSuccess(dataSnapshot);
+                checkComplete();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                readFail(databaseError);
+            }
+        };
+
+        // read start here
+        this.listener = listener;
+        if (inDbDebug) {
+            dbRef.addListenerForSingleValueEvent(listener);
+            return -1;
+        } else {
+            dbRef.addValueEventListener(listener);
+            // booking the listensor
+            return FirebaseIdAndName.getRef().addTrackingListener(dbRef, listener);
+        }
+    }
+
+    // void detachListenser(){
+    void detachListenser(ValueEventListener listener){
+        dbRef.removeEventListener(listener);
+    }
+}
+```

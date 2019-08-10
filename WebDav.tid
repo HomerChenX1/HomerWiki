@@ -1,0 +1,36 @@
+created: 20190509070412359
+modified: 20190510033822639
+tags: [[Servers' setup]]
+title: WebDav
+type: text/vnd.tiddlywiki
+
+建立 Digest password file user.passwd :
+
+`C:\AP24\Apache24\bin\htdigest -c user.passwd DAV-upload homer
+rem C:\AP24\Apache24\bin\htdigest user.passwd DAV-upload anotherUser
+copy user.passwd C:/AP24/Apache24/htdocs/user.passwd
+md C:/AP24/Apache24/htdocs/var
+pause`
+
+
+httpd-dav.conf :
+
+```apache
+DavLockDB "C:/AP24/Apache24/htdocs/var/DavLock"
+Alias /WebDAV "D:/WebDAV"
+
+<Directory "D:/WebDAV">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Dav On
+
+    AuthType Digest
+    AuthName DAV-upload
+
+    AuthUserFile "C:/AP24/Apache24/htdocs/user.passwd"
+    AuthDigestProvider file
+    
+    Require valid-user
+</Directory>
+```
+

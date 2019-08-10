@@ -1,0 +1,37 @@
+created: 20190515092108280
+modified: 20190515100837770
+tags: AndroidSystem
+title: CountDownTimer
+type: text/vnd.tiddlywiki
+
+特徵 :
+
+* 覆寫兩個方法
+** Finish()
+** onTick()
+* 有兩個使用上的問題我們不得不稍加註意
+** 計時不准確
+*** 內部也是藉助Handler實現的
+*** 在CountDownTimer初始化時，將總的倒計時時長額外延長0.5秒即可，也就是500毫秒
+** 內存洩漏問題
+*** 如果沒有倒計時完畢的話，就會在後台一直執行，並且持有Activity的引用，導致不必要的內存洩漏
+*** 應該將CountDownTimer定義成全局變量(static)，然後在Activity onDestroy() 時取消倒計時
+* Cancel無效的問題
+
+
+參考資料:
+
+*[[http://givemepass.blogspot.com/2011/12/blog-post_08.html]]
+* [[https://www.jianshu.com/p/c8e5ec204096?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation]]
+* [[https://blog.csdn.net/liuweiballack/article/details/46605787]]
+
+Java Demo for cancel CountDownTimer
+
+```java
+protected  void  onDestroy （）  {
+    super .onDestroy（）;
+    if（timer！= null）{
+        timer.cancel（）;
+    }
+}
+```

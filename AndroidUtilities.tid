@@ -1,0 +1,21 @@
+created: 20190620013217389
+modified: 20190620013538407
+tags: AndroidSystem
+title: AndroidUtilities
+type: text/vnd.tiddlywiki
+
+```java
+class Utils {
+    // get resource id by string from the Class : R.drawable
+    public static int getResId(String resName, Class<?> c) {
+        try {
+            Field idField = c.getDeclaredField(resName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+}
+```

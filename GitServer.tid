@@ -1,0 +1,129 @@
+created: 20190509052926044
+modified: 20190619064313071
+tags: [[Servers' setup]]
+title: GitServer
+type: text/vnd.tiddlywiki
+
+Git server behind Apache on Windows
+
+OS : Windows10
+
+Web Server : Apache x64 2.4.39
+
+Git : Git on Windows
+
+參考資料
+
+[[http://mapler-learn.blogspot.com/2016/03/windowsgit-server.html]]
+
+[[https://blog.miniasp.com/post/2016/02/01/Useful-tool-Git-Credential-Manager-for-Windows]]
+
+install git-for-windows, need to install/check Git Credential Manager for Windows 
+
+`	git config --global user.name "homer"
+	git config --global user.email "homer@ideeestudio.com"
+	git config --global credential.helper 
+`
+        正確的回應值應該為 manager 才對喔！
+	如果你沒有正確設定好的話也沒關係，直接輸入以下指令就可以設定成功：
+
+	`git config --global credential.helper manager
+	git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -nosession"`
+
+install Apache
+
+build `D:/GitRepos/htpasswd`
+
+`C:\AP24\Apache24\bin\htpasswd -cb htpasswd homer xxxx
+C:\AP24\Apache24\bin\htpasswd -b htpasswd Clark xxxx`
+
+edit httpd.conf:
+
+`	include git.conf`
+
+git.conf :
+
+```apache
+<Directory "D:/GitRepos">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+<Directory "C:/Program Files/Git/mingw64/bin">
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
+
+SetEnv GIT_PROJECT_ROOT D:/GitRepos
+SetEnv GIT_HTTP_EXPORT_ALL
+ScriptAliasMatch \
+        "(?x)^/git/(.*/(HEAD | \
+                        info/refs | \
+                        objects/(info/[^/]+ | \
+                                 [0-9a-f]{2}/[0-9a-f]{38} | \
+                                 pack/pack-[0-9a-f]{40}\.(pack|idx)) | \
+                        git-(upload|receive)-pack))$" \
+"C:/Program Files/Git/mingw64/libexec/git-core/git-http-backend.exe/$1"
+
+Alias /git "D:/GitRepos"
+<Location /git>
+AuthType Basic
+AuthName "GIT Repository"
+AuthUserFile "D:/GitRepos/htpasswd"
+Require valid-user
+</Location>
+```
+
+check apache installed result by
+
+`	http://127.0.0.1:8080/git    homer 456789`
+
+in `D:/GitRepos`
+
+	open git-bash : very important, only bash available
+
+`	git init --bare project
+	cd project
+	git update-server-info
+	touch daemon-export-ok`
+
+or repo-create.sh
+
+chrome 
+
+`http://homer:4567@127.0.0.1:8080/git/project `
+
+will see the result
+
+
+`md d:/git-test
+cd d:/git-test`
+
+`	git clone -v http://homer:456789@127.0.0.1:8080/git/project` 
+
+?? after this time success, 
+
+others will show input dialogue
+will clone to d:/git-test/project
+	or pkg-clone.sh
+
+`	cd d:/git-test/project
+	copy some files into d:/git-test/project
+	git add .
+	git commit -m "my first try"
+	git push`
+
+backup : repo-backup.sh
+remote restore : repo-restore.sh
+
+rem remote mirror
+git clone --mirror other/repo.git
+
+important file C:\Users\Homer\.gitconfig
+
+控制台 服務  AP24
+
+控制台 管理網路密碼  Git Credential Manager for Windows
+

@@ -1,0 +1,61 @@
+created: 20190514070457310
+modified: 20190514071348289
+tags: AndroidSystem
+title: AndroidPermission
+type: text/vnd.tiddlywiki
+
+當你在Android6.0以上的版本，加強了隱私權的重視，因此在操作APP上，就必須讓使用者自行勾選是否開放這些權限。
+
+```java
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            runResidual();
+            return;
+        }
+        else {
+            askPermissions();
+        }
+
+    private static final int REQ_PERMISSIONS = 0;
+    private void askPermissions() {
+        String[] permissions = {
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+
+        Set<String> permissionsRequest = new HashSet<>();
+        for (String permission : permissions) {
+            int result = ContextCompat.checkSelfPermission(this, permission);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                permissionsRequest.add(permission);
+            }
+        }
+
+        if (!permissionsRequest.isEmpty()) {
+            ActivityCompat.requestPermissions(this,
+                    permissionsRequest.toArray(new String[permissionsRequest.size()]),
+                    REQ_PERMISSIONS);
+        } else {
+            runResidual();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        int noGrant = 0;
+        switch (requestCode) {
+            case REQ_PERMISSIONS:
+                for (int result : grantResults) {
+                    if (result != PackageManager.PERMISSION_GRANTED) {
+                        noGrant++;
+                        // String text = getString(R.string.text_ShouldGrant);
+                        String text = "No permiision got!" ;
+                        Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+                        finish();
+                        return;
+                    }
+                }
+                if(noGrant == 0)
+                    runResidual();
+                break;
+        }
+    }
+```

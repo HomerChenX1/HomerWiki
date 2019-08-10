@@ -1,0 +1,63 @@
+created: 20190510061828917
+modified: 20190510074212002
+tags: Socket Java
+title: UdpSocket
+type: text/vnd.tiddlywiki
+
+Use UDP client to act as trigger port
+
+* one port has one and only one socket : use 9000 as test port
+* port direction is changed automatically by send/receive command
+* need Singleton or a static instance for asynchronous operations
+* need outer class or inner static class to prevent memory leakage.
+* send an UDP packet then changing to the receive port
+
+參考資料:
+
+* [[https://stevenitlife.blogspot.com/2015/09/nio2-udp-request-response.html]]
+* [[https://www.jianshu.com/p/cc62e070a6d2]]
+* [[https://wiki.jikexueyuan.com/project/java-socket/udp.html]]
+* [[https://juejin.im/post/5ae199f3f265da0b8c24ab4f]]
+* [[https://www.jianshu.com/p/46839045ff5a]]
+
+Init a UDP port
+
+```java
+// discoverSocket = new DatagramSocket(assignedPort);
+discoverSocket = new DatagramSocket();  // normal programming
+discoverSocket.setBroadcast(true);  // //設定允許廣播
+```
+close UDP port
+
+```java
+discoverSocket.close();
+```
+
+send an UDP packet
+
+```java
+byte[] sendData = "ping".getBytes();
+
+DatagramPacket sendPacket = new DatagramPacket(
+                    sendData, sendData.length,
+                    // "255.255.255.255"
+                    InetAddress.getByName(IP_String),
+                    // 7432
+                    IP_Port);
+discoverSocket.send(sendPacket);
+```
+receive an UDP packet
+
+```java
+byte[] recvBuf = new byte[15000];
+
+DatagramPacket receivePacket = new DatagramPacket(recvBuf, recvBuf.length);
+discoverSocket.setSoTimeout(3000);
+discoverSocket.receive(receivePacket);
+String content = new String(receivePacket.getData()).trim();
+
+void receiveCancel(){
+    discoverSocket.close();
+}
+```
+

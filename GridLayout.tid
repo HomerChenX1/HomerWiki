@@ -1,0 +1,23 @@
+created: 20190619040639229
+modified: 20190619061852026
+tags: AndroidUI
+title: GridLayout
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* `GridLayout` ->
+** [[RecyclerView|AndroidRecyclerView]] `GridLayoutManager`
+* v7 和以前完全不同, 只適合用於 XML
+** 提供了自由度較大且實用的排版功能
+** 為了相容 4.0 以下的較低版本
+** `app:orientation`
+** `app:columnCount`
+** `app:rowCount`
+** `app:alignmentMode`
+** `app:useDefaultMargins`
+** `app:columnOrderPreserved`
+** `app:rowOrderPreserved`
+
+!! 參考資料 :
+* [[Creating a fancy chat settings using GridLayout|http://androidbox.me/using-gridlayout-to-display-icons-and-text/]]
+* [[使用v7.widget.GridLayout做九宮格|https://blog.csdn.net/u011511368/article/details/51910944]]

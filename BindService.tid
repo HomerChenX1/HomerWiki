@@ -1,0 +1,40 @@
+created: 20190515030603240
+modified: 20190515054953278
+tags: AndroidSystem
+title: BindService
+type: text/vnd.tiddlywiki
+
+特徵 : 
+
+* 其他元件想要與服務 (如執行 RPC) 繫結時，系統會透過呼叫 bindService() 來呼叫此方法。
+* 多重元件可以一次繫結至服務，但是當所有元件都取消繫結時，服務就會被終結。
+* 要使用服務裡面的方法。
+** 只要 bindService 過即使 unbindService，我們卻依舊可以調用服務中的方法。
+* 當一個 App 要使用別人的 Service 時，是在它自己 App 的 `AndroidManifest.xml` 中的 uses-permission 作宣告。
+* 只有Activity、Service 和 ContentProvider 可以綁定到服務，無法從 BroadcastReceiver 綁定到服務
+
+Lifecycle:
+
+|! | !App1 | !App2 | !Service1 | !Service1 |
+|! 1| bindService()| | | |
+|! 2| | | onCreate()| |
+|! 3| | | onBind()| |
+|! 4| | bindService()| | |
+|! 5| | | | onRebind()|
+|! 6| | |Running | |
+|! 7| unbindService()| | | |
+|! 8| | | onUnbind()??| |
+|! 9| | unbindService()| | |
+|! 10| | | onUnbind()| |
+|! 11| | | onDestroy()| |
+
+Startup : use bindService() get IBinder
+
+Send data in/out :  使用 IBinder call functions inside Service. Not good example!
+
+`IBinder service;
+LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
+            mService = binder.getService();
+mService = binder.getService();
+mService.removeLocationUpdates()
+`

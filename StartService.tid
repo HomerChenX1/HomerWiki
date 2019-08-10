@@ -1,0 +1,37 @@
+created: 20190515024803232
+modified: 20190515044130742
+tags: AndroidSystem
+title: StartService
+type: text/vnd.tiddlywiki
+
+特徵 : 
+
+* 一旦執行此方法，服務會被啟動且可以無限次數地在背景中執行
+** forever running
+* 當作業完成時，您必須負責停止服務，方式為呼叫 stopSelf() 或 stopService()
+** app call stopService()
+** service itself call stopSelf();
+* startService() -> stopService()
+** onBind() 必須 return null;
+* startService() -> bindService() ->unbindService() -> stopService()
+** 可以使用服務中的方法
+** 適用於希望服務能夠在後台長期運行，只要不stopService就不停止，也可以讓Activity調用服務中的方法。
+
+Lifecycle:
+
+|! | !App | !Service |
+|! 1| startService()| |
+|! 2| | onCreate()|
+|! 4| startService()| |
+|! 5 | | onStartCommand()|
+|! 3 | | onBind()|
+|! 6 | |Running |
+|! 7 |stopService() | |
+|! 8 | | stopSelf()|
+|! 9 | | onDestroy()|
+
+Startup
+
+Send data in : ???
+
+Send data out : use BroadcastReceiver for output.

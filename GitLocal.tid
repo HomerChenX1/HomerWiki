@@ -1,0 +1,34 @@
+created: 20190529053930914
+modified: 20190530053411667
+tags: Git
+title: GitLocal
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* major for the local repository
+* 如果想針對本來就存在的目錄進行版控，其實只要到那個目錄下執行 `git init` 指令即可
+* 只要把那個 `.git` 目錄移除，Git 就對這個目錄失去控制權了。
+
+!! 參考資料 :
+
+!!! ''建立 Empty Local Repository:''
+
+```bash
+read -p "Please input your project name:  " proj_name
+echo -e "\nYour project name is: ${proj_name}"
+git init ${proj_name}
+cd ${proj_name}
+echo -e "put a .gitignore file here"
+read -n1 -r -p "Press any key to continue..." key
+exit 0
+```
+
+!!! ''下載 Remote Repository 並建立 Local Repository:''
+
+```bash
+read -p "Please input your project name:  " proj_name
+echo -e "\nWill clone the project: ${proj_name}".git
+echo -e "\nFirst time need put pwd in URL. Another is unnecessary!"
+git clone -v http://homer:456789@127.0.0.1:8080/git/${proj_name}.git
+read -n1 -r -p "Press any key to continue..." key
+```

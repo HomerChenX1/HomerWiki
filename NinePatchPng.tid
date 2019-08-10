@@ -1,0 +1,20 @@
+created: 20190627022902318
+modified: 20190627024330235
+tags: AndroidUI
+title: NinePatchPng
+type: text/vnd.tiddlywiki
+
+File name : Picture.9.png
+9-PATCH png
+
+!! 特徵:
+* 因為 Android 有太多尺寸了，有些圖（例如：按鈕）就需要根據每個裝置去重出尺寸, 這樣不僅費時又麻煩，所以能任意調整尺寸的 .9.png 一舉解決了這個問題。
+* 在製作時把原本的物件在外圍各加 1px
+** 例如圖片原本是 120x20px ，.9.png 就會是122x22px
+** 用 1px 黑色線段標注可延伸的區域，這邊要注意的是黑色一定要用純黑（#000000）
+* NinePatch圖可以設置給任意View的background屬性。如果要設置給ImageView的src屬性，則需要設置成fitXY模式
+
+!! 參考資料:
+* [[解密！點九切圖(.9.PNG, 9-PATCH)|https://dollyhuang.com/2017/10/15/9-patch/]]
+* [[NinePatch圖（9-Patch圖，.9圖）使用全面介紹|http://www.paincker.com/nine-patch-usage]]
+* [[Android Studio中使用.9（Nine Patch）圖片|https://blog.csdn.net/lastwarmth/article/details/49991445]]

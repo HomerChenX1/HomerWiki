@@ -1,0 +1,30 @@
+created: 20190516043258422
+modified: 20190614093306092
+tags: AndroidSystem
+title: AndroidLocation
+type: text/vnd.tiddlywiki
+
+For location used, not map
+
+!! 特徵:
+
+* `LocationServices `APIs
+** addApi(Api) in book
+** FusedLocationProviderClient : use in `FusedLocationAPI`
+** GeofencingClient
+** SettingsClient
+* `FusedLocationAPI`
+** signal sources : GPS, `WiFi`, 3G, 4G
+** Register for location connection events
+** Connect to the location sensor
+** Register for updates or accuracy changes
+** Get last location
+* LocationManager, LocationProvider, LocationListener
+* On Android 8.0 (API level 26) and higher, if an app is running in the background when it requests the current location, then the device calculates the location only a few times each hour.
+
+!! 參考資料:
+
+* [[https://blog.stylingandroid.com/locationservices/]]
+* [[Fused Location API|https://guides.codepath.com/android/Retrieving-Location-with-LocationServices-API#troubleshooting-location-updates]]
+* [[https://developer.android.com/guide/topics/location/strategies.html]]
+* [[https://developer.android.com/training/location]]

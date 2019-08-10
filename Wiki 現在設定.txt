@@ -1,0 +1,29 @@
+~TiddlyWiki on Node.js
+
+安裝
+`
+npm install -g tiddlywiki
+tiddlywiki --version
+pause
+`
+
+*Port : 8090
+*使用 Windows 10 scheduler 
+**trigger : 任何使用者登入時
+**action : host.cmd, content as following :
+
+`C:
+cd \Users\Homer\Documents\Servers\TiddlyWiki
+tiddlywiki HomerWiki --listen port=8090 
+pause`
+
+加入中文 by standalone mode :  [[https://tiddlywiki.com/static/Installing%2520a%2520plugin%2520from%2520the%2520plugin%2520library.html]]
+
+Version Upgrading: [[https://tiddlywiki.com/static/Upgrading.html]]
+
+[[http://127.0.0.1:8080/apachehaus.ico]]
+
+need to import apachehaus.ico first {{apachehaus.ico}}
+
+import mathjax failure.
+

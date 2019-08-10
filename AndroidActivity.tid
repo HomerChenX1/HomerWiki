@@ -1,0 +1,56 @@
+created: 20190610051609949
+modified: 20190624080459979
+tags: AndroidUI
+title: AndroidActivity
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* onSaveInstanceState方法最大的缺點就是不靠譜
+** 因為onSaveInstanceState和onResotreInstanceState不是每次都能被系統調用，因為應用可能在調用onRestoreInstanceState方法之前應用就被結束了
+* Android推薦在onPause方法中使用`SharedPreference`保存狀態
+
+!!! `ActivityBasic.java`
+```java
+// https://www.jianshu.com/p/f45b46be671e
+public class ActivityBasic extends AppCompatActivity {
+    private String TAG = getClass().getSimpleName();
+    private Bundle savedBundle;  // google suggest to user sharedPreferences not bundle
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initBundle(savedInstanceState);
+        initData(savedBundle);
+    }
+
+    // override the function and put data into the savedBundle
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (this.savedBundle != null)
+            outState.putBundle("savedBundle", this.savedBundle);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void initBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            // normal process
+            savedBundle = getIntent().getExtras();
+        } else {
+            // activity be killed and restore
+            savedBundle = savedInstanceState.getBundle("savedBundle");
+        }
+
+        //如果没有任何参数，则初始化 savedBundle，避免调用时 null pointer
+        if (savedBundle == null) {
+            savedBundle = new Bundle();
+        }
+    }
+
+    // processing savedBundle, usually contains data from startActivityFromResult
+    protected void initData(Bundle savedBundle) { }
+
+}
+```
+
+!! 參考資料:
+* [[絕不丟失狀態的Activity 重建機制|https://juejin.im/post/5d03be376fb9a07eca697906]]

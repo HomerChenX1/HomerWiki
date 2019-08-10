@@ -1,0 +1,68 @@
+created: 20190529054034105
+modified: 20190529062216672
+tags: Git
+title: GitRepository
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* Major for remote repository 
+
+!! 參考資料 :
+
+
+!!! ''Create an empty remote Repository ''
+```bash
+read -p "Please input your project name:  " proj_name
+echo -e "\nYour project name is: ${proj_name}.git"
+git init --bare ${proj_name}.git
+cd ${proj_name}.git
+git update-server-info
+touch daemon-export-ok
+cd ..
+read -n1 -r -p "Press any key to continue..." key
+exit 0
+```
+
+!!! ''備份整個 Repository ''
+```bash
+#!/bin/bash
+function backup_proj(){
+	# $1= proj_name
+	# date0=$(date +%Y%m%d)
+	date0=$(date +%a)
+	proj_name=${1}
+	file_name="${proj_name}${date0}.bundle"
+	echo -e "I will create 1 files: ${file_name}."
+	cd ${proj_name}.git
+	git bundle create ${file_name} --all
+	mv ${file_name} ../backup
+	cd ..
+}
+
+backup_proj "EasyPick"
+# read -n1 -r -p "Press any key to continue..." key
+exit 0
+```
+
+!!! ''回復整個 Repository ''
+```bash
+read -p "Please input your project name:  " proj_name
+echo -e "\nYour project name is: ${proj_name}"
+git clone ${proj_name}.bundle ${proj_name}
+cd ${proj_name}
+#git fetch
+#git pull
+cd ..
+read -n1 -r -p "Press any key to continue..." key
+exit 0
+```
+!!! ''從一個 Repository 複製到另一個 Repository''
+```bash
+git clone --mirror z:\\EasyPick.git EasyPick.git
+cd EasyPick.git
+git branch -a
+read -n1 -r -p "Press any key to continue..." key
+git log
+read -n1 -r -p "Press any key to continue..." key
+exit 0
+```

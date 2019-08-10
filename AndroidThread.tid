@@ -1,0 +1,71 @@
+created: 20190528053601421
+modified: 20190529041712435
+tags: Java AndroidSystem
+title: AndroidThread
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+
+* 多執行緒的機制可以同時執行多個程式區塊,使程式執行的效率變高
+** 如果要某類別啟動執行緒則必須繼承自Thread類別,而執行緒的處理必須撰寫在run()方法內,但執行時是呼叫start()
+** 一定要宣告成static inner class or outer class
+* 在Android的世界裡, 存在 main UI thread, 
+** only main UI thread can show UI
+*** Activity.runOnUiThread( Runnable action ) 
+**  不要在 main UI thread 做耗時工作 會導致 ANR exception
+*** 如果可能  不在 main UI thread 做 UI以外的工作
+* 單次型 (Java原有的)
+** 意指就是給他一件艱巨的任務, 他做完就會關閉了
+** JavaThread
+** ThreadPollExecutor
+* 常駐型 (Android特有的)
+** 就是做完事情他不會自動關閉，而是變成一個idle (閒置) 的狀態 : HandlerThread
+* Message dispatcher 型 (Android特有的)
+** AndroidHandler, Looper 和 MessageQueue。
+
+!! 參考資料 :
+
+* [[http://xxs4129.pixnet.net/blog/post/168968368-%E5%9F%B7%E8%A1%8C%E7%B7%92thread%E3%80%81handlerthread%E7%9A%84android%E7%AF%84%E4%BE%8B]]
+* [[https://larry850806.github.io/2016/06/10/Java-Thread/]]
+
+
+!!! ''Declare:''
+
+```java
+//  一定要宣告成static inner class or outer class
+class 類別名稱 extends Thread
+{
+    類別裡的成員資料;
+    類別裡的方法;
+    修飾子 run()    //改寫Thread類別裡的run()方法
+    {
+        以執行緒處理的程序;
+    }
+}
+
+//  一定要宣告成static inner class or outer class
+// 如本身以繼承某父類別只能使用Runnable介面
+class 類別名稱 implements Runnable
+{
+    類別裡的成員資料;
+    類別裡的方法;
+    修飾子 run()
+    {
+        以執行緒處理的程序;
+    }
+}
+```
+
+!!! ''Stop:''
+
+* 使用退出標誌，使線程正常退出，也就是當run方法完成後線程終止
+* 使用interrupt方法終止線程:  `mthread.stop();`
+* 使用stop方法強行終止線程:  `mthread.stop();`
+** 這個方法不推薦使用，因為stop和suspend、resume一樣，也可能發生不可預料的結果
+
+!!! ''優先權''
+可以用`Thread.setPriority(int)`來設定優先權
+
+* priority可以設定 1 ~ 10, 預設值是 5, 數字越大優先權越高.
+* 優先權低不代表一定比較晚執行, 只是代表他們同時競爭相同資源時, 會先給優先權大的
+** 譬如說同時要輸出或是存取某個檔案時

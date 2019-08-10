@@ -1,0 +1,52 @@
+created: 20190619014807385
+modified: 20190619063113719
+tags: AndroidSystem
+title: AndroidApplication
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* Android系統自動會為每個程序運行時創建一個Application類的對象且只創建一個
+** 所以Application可以說是單例（singleton）模式的一個類。
+* 啟動Application時，系統會創建一個PID，即進程ID，所有的Activity都會在此進程上運行
+* 我們在Application創建的時候初始化全局變量，同一個應用的所有Activity都可以取到這些全局變量的值
+** 直到應用的所有Activity全部被destory掉之後才會被釋放掉。
+* Application對象的生命週期是整個程序中最長的，它的生命週期就等於這個程序的生命週期
+* 如果需要創建自己的Application，那也很簡單！
+** 創建一個 singleton類 繼承Application 
+** 並在 `AndroidManifest.xml` 文件中的application標籤中進行註冊（只需要給application標籤增加name屬性，並添加自己的Application的名字即可）。
+* 獲得一個Application 對象
+** `activity.getApplication()`
+** `context.getApplicationContext()`
+
+!! 參考資料 :
+* [[Android中Application類用法|https://www.cnblogs.com/renqingping/archive/2012/10/24/Application.html]]
+* [[Android：全面解析Application類|https://juejin.im/entry/59c30e0ff265da06611f7024]]
+* [[android 中getBaseContext getApplicationContext使用情景|https://blog.csdn.net/lx627776548/article/details/52025893]]
+
+!!! ''Java code'' :
+```java
+// activity.getApplication()
+// context.getApplicationContext()
+// GlobalApplication getRef()
+//many debug tools and Firebase use this. Keep the class simple and short
+public class GlobalApplication extends Application {
+    private final String TAG = this.getClass().getSimpleName();
+    private static Context app = null;
+
+    public static Context getAppContext() { return app; }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (app == null) app = getApplicationContext();
+    }
+
+}
+```
+
+!!! ''在 `AndroidManifest.xml` 文件中配置自定義的Application''
+```xml
+<application
+         android:name ="GlobalApplication" > 
+</application>
+```

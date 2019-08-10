@@ -1,0 +1,110 @@
+created: 20190628071552497
+modified: 20190628101041832
+tags: AndroidUI
+title: ListView
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* `ListView` 本身 scrollable, 不需要 `ScrollView`
+
+!! 參考資料 :
+* [[ListView 進階用法 BaseAdapter|http://learnexp.tw/%E3%80%90android%E3%80%91listview-%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95-baseadapter/]]
+* [[實作 Android ListView|https://julianchu.net/2015/09/26-implement-listview.html]]
+
+!!! ''XML code'' :
+```xml
+<ListView
+            android:id="@+id/lvTravelMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_margin_top"
+            android:layout_marginBottom="@dimen/card_view_margin_top"
+
+            android:divider="@color/colorAccent"
+            android:dividerHeight="1px"
+            />
+
+```
+
+!!! ''Adapter Java Code''
+```java
+class TravelModeAdapter extends BaseAdapter {
+    private ArrayList<TravelModeItem> itemArray = null;
+    private LayoutInflater inflater;
+
+    static class ViewHolder{
+        // TODO need modify
+        TextView mode;
+        ImageView img;
+    }
+
+    public TravelModeAdapter(ArrayList<TravelModeItem> itemArray, Context context) {
+        this.itemArray = itemArray;
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    @Override
+    public int getCount() {
+        return itemArray.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return itemArray.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+
+        if (convertView == null) {
+            // add a new view
+            holder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.travel_mode_item, null);
+            holder.mode = convertView.findViewById(R.id.tvTravelModeMethod);
+            holder.img = convertView.findViewById(R.id.ivTravelModeIcon);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        holder.mode.setText(itemArray.get(position).mode);
+        holder.img.setImageResource(itemArray.get(position).resid);
+        return convertView;
+    }
+
+    public void refresh(ArrayList<TravelModeItem> itemArray) {
+		this.itemArray= itemArray;
+		notifyDataSetChanged();
+	}
+
+}
+
+```
+
+!!! ''`MainActivity` Java Code'':
+```java
+        TravelModeAdapter travelModeAdapter = new TravelModeAdapter(itemArray, this);
+        lvTravelMode.setAdapter(travelModeAdapter);
+        lvTravelMode.setOnItemClickListener(onClickListView);       //指定事件 Method
+
+private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            TravelModeAdapter.ViewHolder holder = (TravelModeAdapter.ViewHolder) view.getTag();
+            holder.img.setImageResource(itemArray.get(position).resIdSel);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    dismiss();
+                }
+            }, 200);
+        }
+    };
+```
+

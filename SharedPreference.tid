@@ -1,0 +1,24 @@
+created: 20190610061300414
+modified: 20190619023714533
+tags: AndroidSystem
+title: SharedPreference
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* 會產生XML來存取資料以Key-Value方式(本篇介紹)
+* /data/data/package-name/shared-prefs
+* 不僅能當作全域變數來使用，也能當簡易型資料庫來使用，因為他不會因為關閉APP而造成資料流失。
+* 建立 : `context.getPreferences(int mode)`
+* 建立 : `context.getSharedPreferences(String name, int mode)`
+** `MODE_APPEND`
+** `MODE_MULTI_PROCESS`
+** `MODE_PRIVATE` : 只有此程式可以存取
+** `MODE_WORLD_READABLE` : 其它程式也可以讀取 ( API level 17 中被拋棄了)
+** `MODE_WORLD_WRITEABLE` : 其它程式可以寫入  ( API level 17 中被拋棄了)
+
+* 儲存or修改 `sharedPreferences.edit().putString("Name", "Devin").apply();`
+* 移除 `sharedPreferences.editor.remove("Age").commit();`
+* 取得 `sharedPreferences.getString("Name", "Not Value");`
+
+!! 參考資料 :
+* [[SharedPreferences 偏好設定|http://rx1226.pixnet.net/blog/post/316853994-%5Bandroid%5D-12-1-sharedpreferences-%E5%81%8F%E5%A5%BD%E8%A8%AD%E5%AE%9A]]

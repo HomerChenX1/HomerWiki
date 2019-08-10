@@ -1,0 +1,76 @@
+created: 20190528060900689
+modified: 20190528063911658
+tags: AndroidSystem
+title: HandlerThread
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+
+* HandlerThread整合了Thread、Looper和MessageQueue。
+* 做完事情他不會自動關閉，而是變成一個idle (閒置) 的狀態
+* Thread-safe, only one thread
+
+!! 參考資料 :
+
+* [[http://givemepass-blog.logdown.com/posts/296790-how-to-use-handlerthread]]
+
+!!! ''Initialize:''
+
+* startup `HandlerThread`
+
+```java
+HandlerThread handlerThread = new HandlerThread("HandlerThreadName");
+handlerThread.start();
+
+HandlerThread handlerThread = new HandlerThread(String name, int priority)
+handlerThread.start();
+```
+
+* startup Handler : for message
+
+```java
+Handler mHandler = new Hanlder(handlerThread.getLooper()){
+    public void handleMessage(Message msg){
+        super.handleMessage(msg);
+        switch(msg.what){
+        case 1:
+            Logger.e("message receive");
+        break;
+                }
+    }
+}
+```
+
+* startup Handler : for the long time execution
+
+```java
+new Hanlder(handlerThread.getLooper()).post(new Runnable(){
+    public void run(){
+       //長時間任務
+    }
+});
+```
+
+!!! ''Reset:''
+
+* 將Queue內的訊息清空, 除了已經送出去的Message或者正在執行的Message
+
+```java
+mHandlerThread.removeCallbackAndMessages(null);
+```
+
+!!! ''Termination(終止):''
+
+```java
+public void stopHandlerThread(HandlerThread handlerThread){
+       handlerThread.quit();
+       handlerThread.interrupt();
+   }
+   //或者直接在handler上面
+
+   handler.post(new Runnable(){
+       public void run(){
+           Looper.myLooper.quit();
+       }
+   })
+```

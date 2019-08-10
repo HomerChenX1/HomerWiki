@@ -1,0 +1,18 @@
+created: 20190515050341358
+modified: 20190515051406718
+tags: AndroidSystem
+title: RemoteService
+type: text/vnd.tiddlywiki
+
+特徵 :
+
+* 遠程服務有自己的獨立進程，不會受到其它進程的影響
+* 可以被其它進程復用，提供公共服務
+* 具有很高的靈活性
+* 佔用系統資源較多
+* use AIDL（Android Interface Definition Language）, 
+
+參考資料:
+
+* [[https://blog.csdn.net/guolin_blog/article/details/9797169]]
+* [[https://www.jianshu.com/p/4a83becd758e]]

@@ -1,0 +1,15 @@
+created: 20190619035545085
+modified: 20190619062931876
+tags: AndroidUI
+title: TableLayout
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* `TableLayout `->
+** AndroidGallery
+** GridLayout ->
+*** [[RecyclerView|AndroidRecyclerView]] `GridLayoutManager`
+
+!! 參考資料 :
+* [[TableLayout(表格佈局)|http://www.runoob.com/w3cnote/android-tutorial-tablelayout.html]]
+

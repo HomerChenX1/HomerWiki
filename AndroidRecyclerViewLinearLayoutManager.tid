@@ -1,0 +1,244 @@
+created: 20190617061855055
+modified: 20190618012909010
+tags: AndroidUI
+title: AndroidRecyclerViewLinearLayoutManager
+type: text/vnd.tiddlywiki
+
+!! 特徵 : 
+* AndroidRecyclerView
+* use `LayoutManager`
+* use `ItemTouchHelper.Callback` for
+** swipe to delete
+** drag to move
+* if want to use drag, do not used `LongClick`
+
+!! 參考資料 :
+* [[Android RecyclerView Swipe To Delete And Undo|https://www.journaldev.com/23164/android-recyclerview-swipe-to-delete-undo]]
+
+!!! ''Sample code'':
+```java
+public class MainActivity extends AppCompatActivity {
+
+    private TextView textView;
+
+    private ArrayList<String> myDataset = null;
+    private MyAdapter myAdapter;
+    private RecyclerView myRecyclerView;
+    private ItemTouchHelper.Callback myCallback;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        textView = findViewById(R.id.textView);
+
+        // setup LinearLayoutManager
+        myRecyclerView = (RecyclerView) findViewById(R.id.list_view);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        myRecyclerView.setLayoutManager(layoutManager);
+        // setup adaptor
+        createDataSnap();
+        myAdapter = new MyAdapter(myDataset);
+        myRecyclerView.setAdapter(myAdapter);
+        // setup swipr
+        setItemTouchHelperCallback();
+    }
+
+    private void setItemTouchHelperCallback() {
+        myCallback = new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP|ItemTouchHelper.DOWN,
+                ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+
+            // For drag function
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
+                Collections.swap(myDataset,fromPosition,toPosition);
+                myAdapter.notifyItemMoved(fromPosition, toPosition);
+                return true;
+            }
+
+            @Override
+            public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
+                return 0.7f;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                myDataset.remove(position);
+                myAdapter.notifyItemRemoved(position);
+                // Swipe from left to right
+                if (direction == ItemTouchHelper.LEFT)
+                    textView.setText("Swipe LEFT: item " + position);
+                // Swipe from right to left
+                if (direction == ItemTouchHelper.RIGHT)
+                    textView.setText("Swipe RIGHT: item " + position);
+            }
+
+            // old method, new methos is onChildDraw(), 每次View Holder的狀態變成拖拽( ACTION_STATE_DRAG )
+            // 或者滑動( ACTION_STATE_SWIPE )的時候被調用
+            @Override
+            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                // We only want the active item
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    if (viewHolder instanceof MyAdapter.ViewHolder) {
+                        MyAdapter.ViewHolder itemViewHolder =
+                                (MyAdapter.ViewHolder) viewHolder;
+                        itemViewHolder.onItemSelected();
+                    }
+                }
+                super.onSelectedChanged(viewHolder, actionState);
+            }
+
+            // old method, new methos is onChildDraw(), 在一個view被拖拽然後被放開的時候被調用，
+            // 同時也會在滑動被取消或者完成ACTION_STATE_IDLE )的時候被調用
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+                
+                if (viewHolder instanceof MyAdapter.ViewHolder) {
+                    MyAdapter.ViewHolder itemViewHolder =
+                            (MyAdapter.ViewHolder) viewHolder;
+                    itemViewHolder.onItemClear();
+                }
+            }
+        };
+        //
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(myCallback);
+        mItemTouchHelper.attachToRecyclerView(myRecyclerView);
+    }
+
+    private void createDataSnap() {
+        if (myDataset == null)
+            myDataset = new ArrayList<>();
+        else myDataset.clear();
+
+        for(int i = 0; i < 20; i++){
+            myDataset.add(Integer.toString(i));
+        }
+    }
+
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private List<String> mData;
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            public TextView mTextView;
+
+            public ViewHolder(View v) {
+                super(v);
+                mTextView = (TextView) v.findViewById(R.id.info_text);
+            }
+
+            public void onItemSelected() {
+                itemView.setBackgroundColor(Color.LTGRAY);
+            }
+
+            public void onItemClear() {
+                itemView.setBackgroundColor(0);
+            }
+        }
+
+        public MyAdapter(List<String> data) {
+            mData = data;
+        }
+
+        // 現有的 ViewHolder 不夠用，要求 Adapter 產生一個新的ViewHolder
+        @Override
+        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item, parent, false);
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
+
+        // 重用之前產生的 ViewHolder，把特定位置的資料連結上去準備顯示
+        @Override
+        public void onBindViewHolder(ViewHolder holder, final int position) {
+            holder.mTextView.setText(mData.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Toast.makeText(MainActivity.this, "Item " + position + " is clicked.", Toast.LENGTH_SHORT).show();
+                    textView.setText("Item " + position + " is clicked.");
+                }
+            });
+
+            // if use ItemTouchHelper, do not use setOnLongClickListener because could not distinguish
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    textView.setText("Item " + position + " is long clicked.");
+                    return true;
+                }
+            });
+        }
+
+        //  Adapter 自己才知道如何儲存資料，所以它自己也才知道該怎麼數有多少資料
+        @Override
+        public int getItemCount() {
+            return mData.size();
+        }
+    }
+}
+
+```
+
+!!! ''item.xml''
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <ImageView
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/img"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/flower"
+        android:layout_margin="5dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_toRightOf="@id/img"
+        android:id="@+id/info_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="24sp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:textColor="#000000" />
+</RelativeLayout>
+```
+
+!!! ''activity_main.xml''
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:text="TextView" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_view"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
+```

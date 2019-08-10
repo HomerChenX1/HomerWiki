@@ -1,0 +1,67 @@
+created: 20190623074423931
+modified: 20190630133516477
+tags: [[Servers' setup]]
+title: MantisBugTracker
+type: text/vnd.tiddlywiki
+
+!! Notice:  Run wampserver64 before run mantis, or the database is wrong. I can not fix it. `C:\wamp64\wampmanager.exe 最高權限`
+
+!! Prepare:
+* OS: Windows 7 SP
+* WAMPS : 3.1.7 64bit
+** use `MariaDb`, not `MySQL`
+*** PHP 7.2.14
+* Mantis Bug Tracker : 2.21.1
+
+!! Steps
+* Download `MantisBT`
+* Extract the release to mantisbt and move to `C:\wamp64\www\docs` -> `C:\wamp64\www\docs\mantisbt`
+* md `C:\wamp64\bin\mariadb\mariadb10.3.12\data\bugtracker`  (seem not necessary)
+* in Chrome, `http://localhost:8080/mantisbt/admin/install.php`
+* 點擊安裝頁面最下面的“Create”進入Mantis登錄頁面
+** 初始管理員用戶名為 `administrator`，密碼為 `root`， Mantis安裝完成。
+* Login 地址：`http://mantisserver/mantisbt/login_page.php`
+* 註冊地址：`http://mantisserver/mantisbt/signup_page.php`
+
+!! 設定中文化
+* 請將 `config_inc.php` 增加一行
+** `$g_default_language = 'chinese_traditional';`
+
+!! 設定郵件用Gmail寄送, not try
+* 編輯` php.ini`
+```php
+;extension=php_openssl.dll拿掉註解;
+```
+
+* 請將 `config_inc.php` 
+```php
+$g_smtp_username             = 'gmail帳號@gmail.com';
+$g_smtp_password              = 'gmail密碼';
+$g_smtp_connection_mode  = 'ssl';
+$g_smtp_port                      = 465;
+$g_administrator_email       = 'gmail帳號@gmail.com';
+$g_webmaster_email          = 'gmail帳號@gmail.com';
+$g_from_name                   = '寄件者名稱';
+$g_from_email                   = 'gmail帳號@gmail.com';
+$g_return_path_email        = 'gmail帳號@gmail.com';
+
+$g_phpMailer_method = PHPMAILER_METHOD_SMTP;
+$g_smtp_host = 'smtp.gmail.com';
+
+
+$g_use_phpMailer = ON; #使用 PHPMailer 发送邮件
+$g_phpMailer_path ='.\core\phpmailer'; #PHPMailer 的存放路径
+$g_phpMailer_method = 2;  #PHPMailer 以 SMTP 方式发送 Email
+
+```
+
+* 如何修改頁面標題及Logo信息
+
+C:\wamp64\bin\apache\apache2.4.37\bin\php.ini
+
+
+!! 參考資料:
+* [[Windows平台搭建Mantis服務器|https://blog.csdn.net/cupid0051/article/details/80782836]]
+* [[設定郵件用Gmail寄送|http://no2don.blogspot.com/2017/09/mantis-v251-gmailwoffwoff2.html?m=1]]
+* [[Mantis設定mail|http://lungbutterfly.blogspot.com/2015/10/mantismail.html?m=1]]
+

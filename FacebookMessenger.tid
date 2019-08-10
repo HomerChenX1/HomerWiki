@@ -1,0 +1,32 @@
+created: 20190610045442370
+modified: 20190610045729851
+tags: AndroidSystem
+title: FacebookMessenger
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+
+
+
+```java
+    void openFbMessenger(){
+        Intent intent;
+        String [] uriFb = new String[] {"com.facebook.katana", "com.facebook.orca"};
+        boolean isMessengerOK = false;
+
+        for (String uri : uriFb) {
+            try {
+                getContext().getPackageManager().getPackageInfo(uri, 0);
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb-messenger://user/1554100744723520"));
+                startActivity(intent);
+                isMessengerOK = true;
+                break;
+            } catch (PackageManager.NameNotFoundException e) {
+            }
+        }
+        if (!isMessengerOK) {
+            intent =  new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.facebook.com/pg/PickMeUpIDEEEStudio/"));
+            startActivity(intent);
+        }
+    }
+```

@@ -1,0 +1,63 @@
+created: 20190612085554735
+modified: 20190624055521889
+tags: Java Firebase AndroidSystem
+title: FirebaseCrashlytics
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* Notice : crash 時在 Android 中寫入資料, 下次再 run 到時才 `Crashlytics` 上傳
+* To avoid slowing down your app, Crashlytics limits logs to 64kB. Crashlytics deletes older log entries if a session's logs go over that limit.
+* Proguard or Dexguard config file:
+** add `-keepattributes *Annotation*`  Keep Crashlytics annotations
+
+** add `-keepattributes SourceFile,LineNumberTable`   Keep file names/line numbers
+** add `-keep public class * extends java.lang.Exception`  Keep custom exceptions (opt)
+** add `-keep class com.crashlytics.** { *; }`
+** add `-dontwarn com.crashlytics.**`
+** remove `-printmapping mapping.txt`  通常不加
+
+
+```xml
+buildscript {
+    repositories {
+       maven {
+            url 'https://maven.fabric.io/public'
+        }
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'io.fabric.tools:gradle:1.29.0'
+    }
+}
+```
+
+!!! `build.gradle (app)`
+```xml
+apply plugin: 'io.fabric'
+buildTypes {
+        debug{
+             ext.alwaysUpdateBuildId = false
+        }
+}
+
+dependencies {
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+}
+```
+
+!!! proguard-rules.pro
+```xml
+-keepattributes *Annotation*                      // Keep Crashlytics annotations
+-keepattributes SourceFile,LineNumberTable        // Keep file names/line numbers
+-keep public class * extends java.lang.Exception  // Keep custom exceptions (opt)
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+```
+
+!! 參考資料 :
+* [[Firebase Crashlytics Sdk接入流程（Android）|https://blog.csdn.net/xingchenxuanfeng/article/details/86659491]]
+* [[Customize your Firebase Crashlytics crash reports|https://firebase.google.com/docs/crashlytics/customize-crash-reports?platform=android]]
+* [[Firebase Crashlytics|https://ithelp.ithome.com.tw/articles/10197520]]
+* UncaughtExceptionHandler
+* [[Android Firebase接入（三）--Firebase 崩潰日誌報告（Crashlytics）|https://www.itread01.com/content/1545573260.html]]

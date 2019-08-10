@@ -1,0 +1,126 @@
+created: 20190509035403612
+modified: 20190510035122041
+tags: AndroidUI
+title: AndroidRoundDialogue
+type: text/vnd.tiddlywiki
+
+包函 : 
+
+* Number Picker
+* Round Dialogue
+* Resize the Dialogue
+
+在 drawable 中加入 dialog_bg.xml :
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid
+        android:color="@color/white"/>
+    <corners
+        android:radius="30dp" />
+    <padding
+        android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp" />
+</shape>
+```
+
+在 layout中加入 dialog_number_picker.xml :
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical" >
+
+    <NumberPicker
+            android:id="@+id/np_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/NumberPickerText"
+            android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background"
+            android:text="取消" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_background"
+            android:text="好" />
+    </LinearLayout>
+</LinearLayout>
+```
+
+Java code 加入
+
+```java
+        private void showInputDialog() {
+        Context context = getActivity();
+        final View item = LayoutInflater.from(context).inflate(R.layout.dialog_number_picker, null);
+
+        NumberPicker np = item.findViewById(R.id.np_picker);
+        int minTime = 1;
+        np.setMinValue(minTime);
+        LocationReporter.getRef().setWillArriveInSecondsFreeVersion(minTime*60);
+        np.setMaxValue(60);
+
+        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int numPrev, int numNow) {
+                LocationReporter.getRef().setWillArriveInSecondsFreeVersion(numNow*60);
+            }
+        });
+
+        Button btnOk = item.findViewById(R.id.btn_ok);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // do your code
+                LocationReporter.getRef().getAlertDialog().dismiss();
+                LocationReporter.getRef().setAlertDialog(null);
+            }
+        });
+
+        Button btnCancel = item.findViewById(R.id.btn_cancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // do your code
+                LocationReporter.getRef().getAlertDialog().dismiss();
+                LocationReporter.getRef().setAlertDialog(null);
+            }
+        });
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        dialogBuilder.setView(item);
+        final AlertDialog alertDialog= dialogBuilder.create();
+        LocationReporter.getRef().setAlertDialog(alertDialog);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        // Log.d("DebugDialog", "x:" + point.x + " y:" + point.y);
+        alertDialog.getWindow().setLayout((int) (point.x * 0.8), (int) (point.y * 0.8));
+    }
+```

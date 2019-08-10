@@ -1,0 +1,48 @@
+created: 20190515044312206
+modified: 20190515051710873
+tags: AndroidSystem
+title: ForegroundService
+type: text/vnd.tiddlywiki
+
+參考資料:
+
+* [[https://www.jianshu.com/p/5505390503fa]]
+
+
+For BindService: 
+
+* App call : bindService()
+* Service java code:
+
+```java
+public class MyService extends Service {
+ 
+	public static final String TAG = "MyService";
+ 
+	private MyBinder mBinder = new MyBinder();
+ 
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		Notification notification = new Notification(R.drawable.ic_launcher,
+				"有通知到来", System.currentTimeMillis());
+		Intent notificationIntent = new Intent(this, MainActivity.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+				notificationIntent, 0);
+		notification.setLatestEventInfo(this, "这是通知的标题", "这是通知的内容",
+				pendingIntent);
+		startForeground(1, notification); // why 1 : can be any value except 0
+		Log.d(TAG, "onCreate() executed");
+	}
+ 
+	.........
+ 
+}
+```
+
+For StartService : 
+
+* Android 8.0引入了一種全新的方法，即  Context.startForegroundService()，以在前台啟動新服務。其他用 startService()
+** 在系統創建服務後，應用有五秒的時間來調用該服務的  startForeground() 方法以顯示新服務的用戶可見通知
+** 如果應用在此時間限制內未調用  startForeground()，則係統將停止服務並聲明此應用為  ANR。
+** 為了正常流程考慮，一般會將startFroeground() 加到onStartCommand() 中

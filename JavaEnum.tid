@@ -1,0 +1,31 @@
+created: 20190620014050606
+modified: 20190620015342025
+tags: Java
+title: JavaEnum
+type: text/vnd.tiddlywiki
+
+!!! 從 ordinal 傳回 enum
+```java
+public enum MsgEnum {
+    Success, LoginParent, SetParentAuthObj;
+
+    private static Map<Integer, MsgEnum> aMap = null;
+
+    public static MsgEnum getMsgEnum(int ord){
+        if (aMap == null) {
+            aMap = new HashMap<>();
+            for (MsgEnum item : MsgEnum.values())
+                aMap.put(item.ordinal(), item);
+        }
+        return aMap.get(ord);
+    }
+}
+
+// Or
+int ordinal = Success.ordinal()
+MsgEnum value = MsgEnum.values()[ordinal];
+
+// Or better
+String s = Success.name()
+MsgEnum value = MsgEnum.valueOf(s);
+```

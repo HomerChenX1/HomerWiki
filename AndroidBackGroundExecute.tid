@@ -1,0 +1,44 @@
+created: 20190515021433562
+modified: 20190515063012480
+tags: AndroidSystem
+title: AndroidBackGroundExecute
+type: text/vnd.tiddlywiki
+
+參考資料:
+
+* [[http://givemepass.blogspot.com/2015/10/service.html]]
+* [[https://www.jianshu.com/p/95ec2a23f300]]
+
+本來該由 Services 來執行, 但目前幾乎都失去功能.
+
+* StartService : used as forever service
+* BindService : for RPC within APP in multi-thread mode
+* ForegroundService
+* IntentService
+** JobIntentService : 優先使用
+* RemoteService
+* [[Application is cleared from Recent app list. Or clear memory]]
+
+必須在 使用 Service 的 APP 的 `AndroidManifest.xml` 中宣告:
+
+```xml
+</application>
+    <service android:name=".MyService" />
+</application>
+```
+
+建議如下:
+
+* 非確保一定要執行的任務
+** [ThreadPoolExecutor[https://www.ewdna.com/2011/11/java-thread-pool.html]]
+** Jetpack WorkManager
+* 馬上需要執行的任務
+** 比較重要的又時間緊迫的任務
+*** ForegroundService
+** 確保可以被執行但是又可以接受延期執行的任務
+*** Jetpack WorkManager
+*** 當SDK ≥ 26的時候，採用JobScheduler來執行任務
+*** 當SDK<26的時候，採用IntentService/JobIntentService來執行任務
+*** AlarmManager : 此 package 自身 bug 很多, 盡量少使用
+*** BroadcastReceiver
+**** WakefulBroadcastReceiver

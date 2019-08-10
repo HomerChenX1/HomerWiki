@@ -1,0 +1,102 @@
+created: 20190529021418463
+modified: 20190530045534738
+tags: AndroidSystem
+title: AndroidHandler
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* 最大作用就是線程的切換
+* one AndroidThread has one Looper, one MessageQueue and one or more handlers
+* message flow
+** 將AndroidMessage送往MessageQueue
+** MessageQueue 負責保存Message, 必要時排序
+** Looper : 當Message處理完畢後, 會將Message發送給Handler
+*** AndroidLooper
+** handler 接收Looper丟出來的Message
+* 在子線程使用Handler前一定要先為子線程創建Looper，創建的方式是直接調用Looper.prepare()方法
+* 創建一個Handler對象而沒有給它指定它的Looper，那麼它默認會使用當前線程的Looper, 通常是 UI thread
+* 當我們在子線程使用Handler時，如果Handler不再需要發送和處理消息，那麼一定要退出子線程的消息輪詢。
+** `Looper.myLooper().quit();`
+** `Looper.myLooper().quitSafely();`
+* 如果是把handler相關的內容宣告成activity的內部類別，那一定要宣告成static inner class, prevent memory leak
+* 在Android源碼中Handler一般是定義成protect
+
+!! 參考資料 :
+* [[http://hsingjungchen.blogspot.com/2017/07/androidhandlerthreadui.html]]
+* [[https://juejin.im/post/5910533dac502e006cfe01cd]]
+* [[http://givemepass-blog.logdown.com/posts/296606-how-to-use-a-handler]]
+
+!!! ''在子線程創建Handler:''
+
+```java
+Handler handler;
+
+new Thread(new Runnable() {
+
+        @Override
+        public void run() {
+            // initialize looper
+            Looper.prepare();
+
+            // initialize handler
+            handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                // handle messages, and working in this thread
+                }
+           };
+
+           // startup infinitely looping
+           Looper.loop();
+       }
+   }).start();
+```
+
+!!! ''用指定的Looper來創建Handler:''
+
+```java
+    new Thread(new Runnable() {
+        // initialize looper. Not necessary because looper of UI thread is exist
+        // Looper.prepare();
+
+        @Override
+        public void run() {
+            // get UI thread looper
+            Looper looper = Looper.getMainLooper();
+            //  use UI thread looper to initialize handler
+            handler = new Handler(looper) {
+                @Override
+                public void handleMessage(Message msg) {
+                //  handle messages, and working in UI thread
+                }
+            };
+
+           // startup infinitely looping
+           //  Not necessary because looper of UI thread is looping
+           // Looper.loop();
+
+        }
+    }).start();
+```
+
+!!! ''發送消息:''
+```java
+mHandler.post(new Runnable());
+mHandler.sendMessage(msg);
+mHandler.sendEmptyMessage(what); 
+```
+
+!!! ''延時發送消息:''
+
+```java
+public final boolean sendMessageDelayed(Message msg, long delayMillis)
+public final boolean postDelayed(Runnable r, long delayMillis);
+```
+
+!!! ''定時發送消息:''
+
+```java
+public boolean sendMessageAtTime(Message msg, long uptimeMillis);
+public final boolean postAtTime(Runnable r, long uptimeMillis);
+public final boolean postAtTime(Runnable r, Object token, long uptimeMillis);
+```

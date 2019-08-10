@@ -1,0 +1,39 @@
+created: 20190510080517968
+modified: 20190515100657436
+tags: Firebase
+title: FireBase
+type: text/vnd.tiddlywiki
+
+!! ''Firebase Realtime Database:''
+參考資料 :
+
+* FirebaseDatabase
+
+!! ''Firebase Storage :''
+特徵 :
+
+* no directory, so need to store path into a Databse to booking the infomatios.
+* 一定要宣告成
+** outer class 
+** or static inner class
+
+參考資料 :
+
+* [[ https://ironglion.com/archives/firebase-cloud-storage/]]
+
+
+
+!! ''Firebase Cloud Messaging : FCM''
+
+* New receiver only need 1 service, not two.
+* New sender needs to use Http V1 API
+* But there are some problems of Http V1 API in iOS.
+
+參考資料 :
+
+* [[http://jasonchiucc.github.io/2016/07/11/firebase-tutorial-cloud-messaging/]]
+* [有些舊 [http://jasonchiucc.github.io/2016/07/11/firebase-tutorial-cloud-messaging/]]
+* FcmHttpV1Sender
+*[Legacy HTTP sender example 1 [https://www.quora.com/How-do-you-send-a-push-notification-with-Firebase-in-Java]]
+* [Legacy HTTP sender example 2 [http://developine.com/how-to-send-firebase-push-notifications-from-app-server-tutorial/]]
+

@@ -1,0 +1,49 @@
+created: 20190510054004453
+modified: 20190510060149741
+tags: DesignPattern
+title: Chain
+type: text/vnd.tiddlywiki
+
+
+```java
+interface CallBackIntf {
+    Object callBackFunc(Object input);
+    // { return null; }
+}
+```
+
+A simple example for Chaining.
+
+```java
+interface ChainIntf {
+    void startUp(Object msg);
+    void shutDown(int errCode, Map<String, Object> params);
+}
+
+class ChainNext implements ChainIntf {
+    Chain nextCmd = null;
+    Object msg = null;
+
+    ChainNext () { }
+
+    ChainNext(Chain nextCmd) {
+        this.nextCmd = nextCmd;
+    }
+
+    void startUp(Object msg) { 
+        this.msg = msg;
+        shutDown(0, new HashMap<String, Object>());
+    }
+
+    void shutDown(int errCode, Map<String, Object> params) {
+         // if (nextCmd != null) nextCmd.startUp(msg);
+         if (nextCmd != null)
+             new Handler().postDelayed(new Runnable(){
+                    @Override
+                   public void run() {
+                        nextCmd.startUp(msg)
+                   }
+             }, 200);
+    }
+}
+```

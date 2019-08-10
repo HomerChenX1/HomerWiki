@@ -1,0 +1,46 @@
+created: 20190626035653500
+modified: 20190626071425566
+tags: Java
+title: JavaDoc
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* Tools -> Generate `JavaDoc` -> Other command line arguments
+** `-encoding utf-8 -charset utf-8`
+
+!! Template for class
+```plain
+<p>project_name</p>
+<p>文件名稱：file_name </p>
+Description
+@see
+
+@since
+@version 1.0
+@author Homer 
+<p>update [序號] [日期YYYY- MM-DD] [更改描述] [變更描述] </p>
+```
+
+!! Template for methods
+```plain
+Description
+@param
+@return
+@exception
+@see
+@since
+@author 
+<p>UpdateDate：[序號] [日期YYYY -MM-DD] [更改描述] [變更描述] </p>
+```
+
+!! Template for getter and setters
+```plain
+get bare_field_name
+
+set bare_field_name
+```
+
+!! 參考資料 :
+* [[unmappable character for encoding MS950|https://chshman310222.pixnet.net/blog/post/174134316-%5Bjava%5D-%E9%8C%AF%E8%AA%A4%E8%A7%A3%E6%B1%BA:-unmappable-character-for-encoding-ms950]]
+* [[JavaDoc生成API詳解|https://blog.csdn.net/fanxiaobin577328725/article/details/52658781]]
+* [[Java文檔註釋|http://www.runoob.com/java/java-documentation.html]]

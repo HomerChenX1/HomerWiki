@@ -1,0 +1,25 @@
+created: 20190515061330894
+modified: 20190515100852148
+tags: AndroidSystem
+title: JobIntentService
+type: text/vnd.tiddlywiki
+
+特徵 :
+
+* Android強制開發者使用 JobScheduler 作業替換後台服務的意思，使用jobIntentService就可以比較方便的使用JobScheduler這個工具。
+* 處理對用戶可見的任務時，應用將被置於白名單中，後台應用將被置於一個臨時白名單中並持續數分鐘。位於白名單中時，應用可以無限制地啟動服務，並且其後台服務也可以運行。
+** 處理一條高優先級Firebase 雲消息傳遞(FCM) 消息。
+** 接收廣播，例如短信/彩信消息。
+** 從通知執行PendingIntent。
+* bindService不受後台限制
+* android 8.0以下被當作普通的Intent使用startSerivce()啟動service來執行
+* 8.0以上任務被作為job用jobScheduler.enqueue()方法來分發
+* JobService使用的handler使用的是主線程的Looper
+* 需要添加android.permission.WAKE_LOCK權限，JobIntentService處理了亮屏/鎖屏，因此要此權限。
+* 註冊JobintentService也是service
+
+參考資料:
+
+* [[https://www.twblogs.net/a/5b8b23102b717718832d90fb]]
+* [[https://blog.csdn.net/Houson_c/article/details/78461751]]
+* [[https://www.jianshu.com/p/378819c21bde]]

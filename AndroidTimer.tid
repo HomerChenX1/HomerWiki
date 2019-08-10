@@ -1,0 +1,63 @@
+created: 20190515073706733
+modified: 20190515095539864
+tags: Java AndroidSystem
+title: AndroidTimer
+type: text/vnd.tiddlywiki
+
+特徵 :
+
+* 即在固定的每隔一段時間執行某一個任務。
+* Timer就是一個線程，使用schedule方法完成對`TimerTask`的調度
+* 多個`TimerTask`可以共用一個Timer，也就是說Timer對象調用一次schedule方法就是創建了一個線程
+* 使用Timer的cancel()停止操作
+* 當然同一個Timer執行一次cancel()方法後，`所有Timer線程都被終止`。
+* use ScheduledExecutorService replaced Timer 以減少Thread耗損
+* 如果是把`TimerTask`相關的內容宣告成activity的內部類別，那一定要宣告成static inner class, prevent memory leak
+* need a `handler` to process UI
+
+參考資料:
+
+* [[https://www.jianshu.com/p/c8e5ec204096?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation]]
+* [[https://blog.csdn.net/zuolongsnail/article/details/8168689]]
+* [[CountDownTimer]]
+* [[AlarmManager]]
+
+
+```java
+void onCreate(){
+    Timer timer = new Timer(true);
+    timer.schedule(new MyTimerTask(), 1000, 1000);
+}
+void onDestroy(){
+    if ( timer != null ) {
+        // purge() will remove TimerTask then induce GC
+        timer.purge();  // not necessary
+        timer.cancel();
+    }
+}
+```
+
+```java
+//true 说明这个timer以daemon方式运行（优先级低，程序结束timer也自动结束） 
+java.util.Timer timer = new java.util.Timer(true);
+ 
+TimerTask task = new TimerTask() {
+   public void run() {
+   //每次需要执行的代码放到这里面。   
+   }   
+};
+ 
+//以下是几种调度task的方法：
+ 
+//time为Date类型：在指定时间执行一次。
+timer.schedule(task, time);
+ 
+//firstTime为Date类型,period为long，表示从firstTime时刻开始，每隔period毫秒执行一次。
+timer.schedule(task, firstTime, period);   
+ 
+//delay 为long类型：从现在起过delay毫秒执行一次。
+timer.schedule(task, delay);
+ 
+//delay为long,period为long：从现在起过delay毫秒以后，每隔period毫秒执行一次。
+timer.schedule(task, delay, period);
+```
