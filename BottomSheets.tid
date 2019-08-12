@@ -1,0 +1,96 @@
+created: 20190801042916273
+modified: 20190801074135498
+tags: AndroidUI
+title: BottomSheets
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* Persistent Bottom Sheet : 為主畫面的一份部內容，默認被隱藏，只會顯示出一部分的內容，其高度elevation與主畫面為同一級別，簡單來說，此類型與另一項最大的區別，是在 BottomSheets 全部展開時，主畫面仍可以操作。
+** `app:behavior_hideable="false"`
+* Modal Bottom Sheet : 通常用來取代menu或是dialog，此類型擁有比主畫面更高的高度elevation，也就是說，它並不是與主畫面處於同一級，而是像覆蓋在主畫面之上，與另一類最大的不同，就是他會阻止使用者與主畫面交互行為。
+** `app:behavior_hideable="true"`
+* Bottom Sheets Behavior是`CoordinatorLayout`的子類，所以在添加到主畫面時，務必注意主畫面的`ViewGroup`是否為`CoordinatorLayout`。
+* `behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);`
+* `behavior.setState(BottomSheetBehavior.STATE_EXPANDED);`
+
+!! 參考資料:
+
+!!! bottom_sheet.xml
+* `<include layout="@layout/bottom_sheet" />` in activity_test_cooridnate_layout.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grey_2"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="24dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior" >
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_fish" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_dove" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_cow" />
+</LinearLayout>
+```
+
+!!! Java Code
+```java
+private void findViewsBottomSheets() {
+        bottomSheet = coordinatorLayout.findViewById(R.id.bottom_sheet);
+        behavior = BottomSheetBehavior.from(bottomSheet);
+        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch(newState){
+                    case STATE_COLLAPSED:  //關閉Bottom Sheets,顯示peekHeight的高度，默認是0
+                        //behavior.setPeekHeight(0);
+                        //behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        //behavior.isHideable();
+                        break;
+
+                    case STATE_DRAGGING: // 用戶拖拽Bottom Sheets時的狀態
+                        break;
+
+                    case STATE_SETTLING: //當Bottom Sheets view釋放時記錄的狀態。
+                        break;
+
+                    case STATE_EXPANDED: //當Bottom Sheets 展開的狀態
+                        break;
+
+                    case STATE_HIDDEN: // 當Bottom Sheets 隱藏的狀態
+                        break;
+                }
+
+            }
+        });
+    }
+```
+
+
+

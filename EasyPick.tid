@@ -1,0 +1,19 @@
+created: 20190708010827328
+modified: 20190708011541340
+tags: [[Servers' setup]]
+title: EasyPick
+type: text/vnd.tiddlywiki
+
+!! Android Request for Requirement
+* action in school side or parent side
+* action in normal mode or engineering mode
+* use production database or debug database
+* model : View `ViewModel `Controller and Model
+
+!! Android Merge for checkout
+* test item is closed : inTest
+* code length < 30 lines
+* code check
+** onCreate, onCreatView, onActivityCreated <-> onDestroy
+** onStart <-> onStop
+** onResume <-> onPause

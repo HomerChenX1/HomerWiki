@@ -1,5 +1,5 @@
 created: 20190510060304229
-modified: 20190614074614768
+modified: 20190805093008118
 tags: Volley
 title: Volley
 type: text/vnd.tiddlywiki
@@ -28,8 +28,9 @@ type: text/vnd.tiddlywiki
 * CA 證書有問題
 ** `SSLHandshakeException`
 ** `CertificateException`
-** `CertPathValidatorException
-`
+** `CertPathValidatorException`
+
+!!! `ClearText solution:`
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:targetSandboxVersion="1"
@@ -55,6 +56,7 @@ type: text/vnd.tiddlywiki
 * [[Android 8: Cleartext HTTP traffic not permitted|https://stackoverflow.com/questions/45940861/android-8-cleartext-http-traffic-not-permitted]]
 * [[Volley的使用詳解|https://www.itread01.com/articles/1488530335.html]]
 * [[Volley支持https的3種方法小結|https://blog.csdn.net/lintax/article/details/69761913]]
+* [[Android App兼容8.0和9.0|https://blog.csdn.net/wxz1179503422/article/details/83031724]]
 
 !! example for `JsonObjectRequest` :
 
@@ -124,16 +126,31 @@ class DigestStringRequest extends StringRequest {
     }
 
     /**
-     *  for POST/PUT method
+     *  for POST/PUT method, if Content-type is not set
      * @return
      * @throws AuthFailureError
      */
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
-        Map<String, String> map = new HashMap<String, String>();
+        // Map<String, String> map = new HashMap<String, String>();
         // map.put("paraString", requestJson.toString());  // for AJAX
+
+        Gson gson = new Gson();
+        Map<String, String> map = gson.fromJson(inJsonString, Map.class);
         return map;
     }
+
+    // need to set content-type, for example : json
+   @Override
+   public String getBodyContentType() {
+       return "application/json";
+   }
+   // need to set content-type
+   @Override
+   public byte[] getBody() throws AuthFailureError {
+       return inJsonString.getBytes();
+   }
+
 }
 ```
 
@@ -182,6 +199,8 @@ class Restful implements Chain {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.e(TAG, volleyError.getMessage(),volleyError);
+                        byte[] htmlBodyBytes = volleyError.networkResponse.data;
+                        Log.e(TAG, new String(htmlBodyBytes), volleyError);
                         errCode = 1;
                         shutDown(errCode, null);
                     }

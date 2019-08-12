@@ -1,0 +1,115 @@
+created: 20190731023053969
+modified: 20190731025104149
+tags: AndroidUI
+title: DrawerLayout
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* Theme must changed in `AndroidManifest`
+* `DrawerLayout` 扮演的是一個Window最外層的佈局
+** Notice : `DrawerLayout` includes `Toolbar`
+* 它允許有交互的"drawer"view在Window垂直的兩個邊緣被拉出
+* 使用android:layout_gravity屬性的start|end值可以控制子view作為Drawer被放置在左邊或者右邊
+
+
+!! 參考資料:
+* [[DrawerLayout最簡單的使用,沒有更多的內容|https://www.jianshu.com/p/bee72137430d]]
+* [[DrawerLayout的openDrawer()和closeDrawer()方法|https://www.cnblogs.com/Cc1231/p/5208444.html]]
+
+!!! ''Gradle''
+```xml
+    implementation 'com.android.support:appcompat-v7:28+'
+    implementation 'com.android.support:design:28+'
+```
+
+!!! ''Style/Theme''
+```xml
+    <style name="DrawerStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+```
+
+!!! ''`AndroidManifest`''
+```xml
+<activity android:name=".TestDrawerActivity"
+            android:theme="@style/DrawerStyle" />
+```
+
+!!! ''Layout''
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestDrawerActivity" >
+
+    <!-- Notice : DrawerLayout includes Toolbar -->
+    <!-- The main content view -->
+    <RelativeLayout
+        android:background="@color/windowBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- android:background="@color/colorPrimary, not "?attr/colorPrimary" -->
+        <android.support.v7.widget.Toolbar
+            android:layout_alignParentTop="true"
+            android:id="@+id/toolbar"
+
+            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:background="@color/colorPrimary"
+            android:elevation="6dp"
+            app:title="TestDrawerActivity"
+            app:subtitle="SubTitle"
+            app:titleTextColor="@android:color/white"
+            app:subtitleTextColor="@android:color/holo_orange_light"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+
+            />
+    </RelativeLayout>
+    <!-- The navigation drawer -->
+    <!-- layout_gravity determines the direction of drawer -->
+    <RelativeLayout
+        android:layout_gravity="start"
+        android:background="@color/btnSolid"
+        android:layout_width="200dp"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_gravity="end"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="200dp"
+        android:layout_height="match_parent" />
+</android.support.v4.widget.DrawerLayout>
+```
+
+!!! ''Java Code''
+```java
+public class TestDrawerActivity extends AppCompatActivity {
+    DrawerLayout drawerLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_drawer);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        toolbar.setNavigationIcon(R.drawable.icons8_menu_64);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(Gravity.START);
+            }
+        });
+    }
+}
+```

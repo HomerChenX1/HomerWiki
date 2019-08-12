@@ -1,0 +1,139 @@
+created: 20190801010956481
+modified: 20190801033718922
+tags: AndroidUI
+title: ViewDragHelper
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* support Drag and move
+* use a `ViewGroup `as Darg-and-move Area
+* select childViews to drag
+* the over-rided `ViewGroup`/Layout must be a single public class, or will get `ClassNotFoundException`
+** `public class VDHLayout extends LinearLayout`
+** inner static class will not work : `public static class VDHLayout extends LinearLayout` 
+* AppbarLayout、CollapsingToolbarLayout、DrawerLayout 其實用此完成
+* 移動的邊界進行控制是指ViewGroup的4個邊界
+
+!! 參考資料:
+* [[Android ViewDragHelper完全解析自定義ViewGroup神器|https://blog.csdn.net/lmj623565791/article/details/46858663]]
+* [[自定義viewGroup+ViewDragHelper： 仿探探主頁卡片式滑動,層疊佈局|https://blog.csdn.net/verzqli/article/details/54235857]]
+
+!!! Original `ViewGroup`/Layout
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UI.TestViewDragHelperActivity">
+
+    <ImageView
+        android:id="@+id/ivCat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_cat0"
+        android:background="@color/navigationBarColor"
+        android:contentDescription="Cat"/>
+
+    <ImageView
+        android:id="@+id/ivDog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_dog3"
+        android:background="@color/grey_1"
+        android:contentDescription="Dog"/>
+
+    <ImageView
+        android:id="@+id/ivCow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_cow"
+        android:background="@color/btnSolid"
+        android:contentDescription="Cow"/>
+</LinearLayout>
+```
+
+!!! Java code
+```java
+/**
+ *  ViewGroup/Layout must be a single public class,
+ *  or will get ClassNotFoundException
+ */
+public class VDHLayout extends LinearLayout
+{
+    private ViewDragHelper mDragger;
+
+    public VDHLayout(Context context, AttributeSet attrs)
+    {
+        super(context, attrs);
+        mDragger = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
+
+            // return ture則表示可以捕獲該view，你可以根據傳入的第一個view參數決定哪些可以捕獲
+            @Override
+            public boolean tryCaptureView(View child, int pointerId) { return true; }
+
+            // 對child移動的邊界進行控制，left , top 分別為即將移動到的位置
+            @Override
+            public int clampViewPositionHorizontal(View child, int left, int dx) {
+                return left;
+            }
+
+            @Override
+            public int clampViewPositionVertical(View child, int top, int dy) {
+                return top;
+            }
+        });
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        return mDragger.shouldInterceptTouchEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        mDragger.processTouchEvent(event);
+        return true;
+    }
+}
+```
+
+!!! Original `ViewGroup`/Layout
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.runningtrial.UI.VDHLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UI.TestViewDragHelperActivity">
+
+    <ImageView
+        android:id="@+id/ivCat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_cat0"
+        android:background="@color/navigationBarColor"
+        android:contentDescription="Cat"/>
+
+    <ImageView
+        android:id="@+id/ivDog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_dog3"
+        android:background="@color/grey_1"
+        android:contentDescription="Dog"/>
+
+    <ImageView
+        android:id="@+id/ivCow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_cow"
+        android:background="@color/btnSolid"
+        android:contentDescription="Cow"/>
+</com.example.runningtrial.UI.VDHLayout>
+```

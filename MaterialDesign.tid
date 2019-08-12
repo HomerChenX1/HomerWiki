@@ -1,0 +1,22 @@
+created: 20190731051743601
+modified: 20190808015326779
+tags: MaterialDesign AndroidUI
+title: MaterialDesign
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* UI components 
+** BottomSheets
+* [[顏色|https://wcc723.gitbooks.io/google_design_translate/style-color.html]]
+* Styles
+** `android:style/Theme.Material`：預設的樣式，暗色樣式
+** `android:style/Theme.Material.Light`：亮色樣式
+** `android:style/Theme.Material.Light.DarkActionBar`：亮色樣式搭配暗色的功能表
+
+!! 參考資料:
+* [[MaterialDesign: Android Buttons|http://nickcode4fun.net/2018/01/12/MaterialDesign-Android-Buttons/]]
+* [[Google Material Design|https://wcc723.gitbooks.io/google_design_translate/animation-authentic-motion.html]]
+* [[A directory of essential design tools and resources|https://design.google/resources/]]
+* [[Material Design - Theme 與 Transition|http://www.codedata.com.tw/mobile/android-tutorial-the-6th-class-material-design-theme-transition/]]
+* [[Material Design Patterns 教學|https://blog.30sparks.com/material-design-patterns-tutorial/]]
+

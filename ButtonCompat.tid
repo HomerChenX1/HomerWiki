@@ -1,0 +1,38 @@
+created: 20190808021914862
+modified: 20190808032457112
+tags: MaterialDesign AndroidUI
+title: ButtonCompat
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* 浮動式的按鈕 FAB：一種圓形按鈕，按下去時有具有墨水散開的反應以及升降的效果
+** 佔 10% or only one
+** 如果這個動作並不會改變，但又仍然需要容易的操作，那麼請使用永久性的頁尾按鈕。
+* 凸起式的按鈕 Rasied Button：一種典型的按鈕，按下去時具有墨水散開的反應以及升降的效果
+** 佔 20~30%
+** dark color : Normal: Color 500, Hover: Color 600, Pressed: Color 700, Disabled: 10% #ccc
+* 扁平式的按鈕 Flat Button：一種一般的按鈕，按下去時具有墨水散開的反應，但是沒有升降的效果
+** 對話框上使用主要的油墨式的按鈕以防止太多層次
+** 工具列，對話框和彈出區塊
+** dark color : Hover: 20% #999, Pressed: 40% #999, Disabled: 10% #999
+** light color : Hover: 15% #ccc, Pressed: 25% #ccc, Disabled: 10% #ccc
+* Spinner
+
+
+!! 參考資料:
+* [[按鈕|https://wcc723.gitbooks.io/google_design_translate/components-buttons.html]]
+* [[對話框|https://wcc723.gitbooks.io/google_design_translate/components-dialogs.html]]
+
+```xml
+    <dimen name="md_button_margin_bottom">16dp</dimen>
+    <dimen name="md_button_margin_right">16dp</dimen>
+    <dimen name="md_flat_button_height">36dp</dimen>
+    <dimen name="md_flat_button_width_min">88dp</dimen>
+    <dimen name="md_rasie_button_height">48dp</dimen>
+    <dimen name="md_fab_height_default">56dp</dimen>
+    <dimen name="md_fab_height_min">40dp</dimen>
+    <dimen name="md_fab_default_height_inner">24dp</dimen>
+    <dimen name="md_spinner_padding_top">16dp</dimen>
+    <dimen name="md_spinner_padding_start">24dp</dimen>
+    <dimen name="md_spinner_padding_stop">16dp</dimen>
+```

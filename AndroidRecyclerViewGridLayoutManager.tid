@@ -1,6 +1,6 @@
 created: 20190619074540362
-modified: 20190620013156406
-tags: AndroidUI
+modified: 20190808033020196
+tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewGridLayoutManager
 type: text/vnd.tiddlywiki
 
@@ -12,6 +12,7 @@ type: text/vnd.tiddlywiki
 * [[使用 RecyclerView|https://julianchu.net/2016/03/13-recyclerview.html]]
 * [[RecyclerView的拖動和滑動第二部分：拖塊，Grid以及自定義動畫|http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0724/3219.html]]
 * [[Material Design Patterns 教學 (4) - RecyclerView|https://blog.30sparks.com/material-design-4-recyclerview/]]
+* [[網格|https://wcc723.gitbooks.io/google_design_translate/components-grids.html]]
 
 !!! `MainActivity.java`
 

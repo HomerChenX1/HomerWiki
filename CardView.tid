@@ -1,0 +1,33 @@
+created: 20190808015231893
+modified: 20190808021633002
+tags: MaterialDesign AndroidUI
+title: CardView
+type: text/vnd.tiddlywiki
+
+
+!! 特徵 :
+* 包含高度可變長度的內容（比如：意見內容）
+* 需要顯示超過三行的文字，否則不會在清單裡 (ListView, RecyclerView)
+* 需要顯示更多文字來描述圖片，否則不會在網格列表裡 (GridView, RecyclerView)
+* 主要的內容的位置通常在卡片的頂部。使用層次的結構引導使用者的注意獲取卡片裡重要的資訊
+* 輔助性的操作明確的指出使用圖示，文本，UI控制項是通常放置在卡片的底部。
+* 溢出菜單（可選）通常被放置在卡片的右上角，但是假設放的位置可以增加內容的佈局及可讀性，那麼它也可以被放在右下角
+* 卡片集合的第一個位置位於集合的左上角，並且從左到右，從上到下。
+* 卡片集只能垂直滾動。超過最大高度被截斷並且不滾動
+* Card : 可以有許多操作, 可以被關閉以及重新排列.
+* Brick : 有正方形的四角, 無法有超過兩個以上的操作.
+
+!! 參考資料:
+* [[卡片|https://wcc723.gitbooks.io/google_design_translate/components-cards.html]]
+
+```xml
+    <dimen name="md_card_radius">2dp</dimen>
+    <!--name="md_card_text" 14sp-->
+    <dimen name="md_card_text">16sp</dimen>
+    <dimen name="md_card_title">24sp</dimen>
+    <dimen name="md_card_btn_text">14sp</dimen>
+    <dimen name="md_card_btn_text_tracking">10sp</dimen>
+    <dimen name="md_card_padding">8dp</dimen>
+    <dimen name="md_card_margin">8dp</dimen>
+    <dimen name="md_card_text_space">16dp</dimen>
+```

@@ -1,5 +1,5 @@
 created: 20190515060412269
-modified: 20190515061041496
+modified: 20190731050352357
 tags: AndroidSystem
 title: JobScheduler
 type: text/vnd.tiddlywiki
@@ -17,3 +17,4 @@ type: text/vnd.tiddlywiki
 參考資料:
 
 * [[https://ithelp.ithome.com.tw/articles/10160470]]
+* [[Job scheduler|http://nickcode4fun.net/2017/10/21/Android-Job%20scheduler/]]

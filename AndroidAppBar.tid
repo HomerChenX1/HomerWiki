@@ -1,5 +1,5 @@
 created: 20190617071321419
-modified: 20190624085117683
+modified: 20190731034143343
 tags: AndroidUI
 title: AndroidAppBar
 type: text/vnd.tiddlywiki
@@ -13,7 +13,8 @@ type: text/vnd.tiddlywiki
 * 從Android 3.0（API級別11）開始，使用默認主題的所有Activity都將`ActionBar`作為`AppBar`
 * `ToolBar`在運行Android 2.1（API級別7）或更高版本的設備上提供`MaterialDesign`體驗
 * `ActionBar`不支持`MaterialDesign`，除非設備正在運行Android 5.0（API級別21）或更高版本。
-
+* ToolbarExample
+** `import android.support.v7.widget.Toolbar;`
 
 
 !! 參考資料:

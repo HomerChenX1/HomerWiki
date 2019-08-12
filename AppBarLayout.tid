@@ -1,0 +1,78 @@
+created: 20190801065105649
+modified: 20190801101723625
+tags: AndroidUI
+title: AppBarLayout
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* `AppBarLayout`顧名思義，就是設計在導航欄(Toolbar)、頂部頁籤欄(`TabLayout`)一起使用，來達成一些Material Design風格的一些滑動交互效果。
+* 本質上是一個垂直的`LinearLayout`，不過為了實現滑動交互的效果，因此嚴重依賴於 CoordinatorLayout
+* 同時要求Child明確的設置各自的`AppBarLayout.ScrollingViewBehavior`，
+** 在代碼中可以使用setScrollFlags(int)方法
+** 在佈局中可以使用app:layout_scrollFlags屬性。必須使用`AppBarLayout.LayoutParams`中已經定義好的五個常量：
+*** SCROLL_FLAG_SCROLL
+*** SCROLL_FLAG_ENTER_ALWAYS
+*** SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED
+*** SCROLL_FLAG_EXIT_UNTIL_COLLAPSED
+*** SCROLL_FLAG_SNAP
+* `AndroiManifest `: 
+** `<activity android:name=".UI.TestAppBarLayoutActivity"  android:theme="@style/AppTheme.NoActionBar" />`
+* 其實只需 XML 變更
+
+!! 參考資料:
+* [[Android AppBarLayout|http://nickcode4fun.net/2018/02/07/MaterialDesign-Android-AppBarLayout/]]
+* [[Material Design Patterns 教學 (5) - AppBarLayout|https://blog.30sparks.com/material-design-5-appbarlayout/]]
+
+!!! Layout : `activity_test_app_bar_layout.xml`
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UI.TestAppBarLayoutActivity"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            app:layout_scrollFlags="scroll"
+            android:text="Before Toolbar" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways"
+
+            android:elevation="6dp"
+            app:title="TestAppBarLayout"
+            app:titleTextColor="@android:color/white"
+            app:subtitle="SubTitle"
+            app:subtitleTextColor="@android:color/holo_green_light"
+            app:logo="@drawable/icons8_puffin_bird_48" >
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
+    <include layout="@layout/bottom_sheet" />
+</android.support.design.widget.CoordinatorLayout>
+```
+

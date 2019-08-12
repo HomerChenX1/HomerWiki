@@ -1,5 +1,5 @@
 created: 20190515024803232
-modified: 20190515044130742
+modified: 20190805071945553
 tags: AndroidSystem
 title: StartService
 type: text/vnd.tiddlywiki
@@ -16,12 +16,16 @@ type: text/vnd.tiddlywiki
 * startService() -> bindService() ->unbindService() -> stopService()
 ** 可以使用服務中的方法
 ** 適用於希望服務能夠在後台長期運行，只要不stopService就不停止，也可以讓Activity調用服務中的方法。
+* in the same App, startService will always call to the same startService instance
+** not try in different App
+* in the same App, bindService will always call to the same starteService instance
+* startService/bindService will call to the startService which the previous App issues.
 
-Lifecycle:
+!!! Lifecycle:
+* `onCreate() -> onStartCommand() -> onDestroy()`
 
 |! | !App | !Service |
-|! 1| startService()| |
-|! 2| | onCreate()|
+|! 3| | onCreate() |
 |! 4| startService()| |
 |! 5 | | onStartCommand()|
 |! 3 | | onBind()|
@@ -30,8 +34,8 @@ Lifecycle:
 |! 8 | | stopSelf()|
 |! 9 | | onDestroy()|
 
-Startup
+!!! Startup
 
-Send data in : ???
+!!! Send data in : Intent from startService()
 
-Send data out : use BroadcastReceiver for output.
+!!! Send data out : use BroadcastReceiver for output.

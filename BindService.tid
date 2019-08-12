@@ -1,5 +1,5 @@
 created: 20190515030603240
-modified: 20190515054953278
+modified: 20190805051227767
 tags: AndroidSystem
 title: BindService
 type: text/vnd.tiddlywiki
@@ -12,8 +12,13 @@ type: text/vnd.tiddlywiki
 ** 只要 bindService 過即使 unbindService，我們卻依舊可以調用服務中的方法。
 * 當一個 App 要使用別人的 Service 時，是在它自己 App 的 `AndroidManifest.xml` 中的 uses-permission 作宣告。
 * 只有Activity、Service 和 ContentProvider 可以綁定到服務，無法從 BroadcastReceiver 綁定到服務
+* 開啟後此 Service 便與調用者一起存活或是退出，也就是說，調用該服務的 activity 一退出， Service 的運行也會一起終止。
+* activity 可以透過 IBinder 物件取得 Service 物件，直接操作 Service 內各個 public 的 method。
 
-Lifecycle:
+Lifecycle:  
+
+* `onCreate() -> onBind() -> onUnbind() -> onDestroy()`
+* `onCreate() -> onBind() -> onUnbind() -> onBind() -> onUnbind() ->onDestroy()`
 
 |! | !App1 | !App2 | !Service1 | !Service1 |
 |! 1| bindService()| | | |
@@ -28,13 +33,140 @@ Lifecycle:
 |! 10| | | onUnbind()| |
 |! 11| | | onDestroy()| |
 
-Startup : use bindService() get IBinder
+!!! Service java code
+```java
 
-Send data in/out :  使用 IBinder call functions inside Service. Not good example!
+public class TestServices extends Service {
+    String TAG = getClass().getSimpleName();
+    public TestServicesBinder myBinder = new TestServicesBinder();
 
-`IBinder service;
-LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
-            mService = binder.getService();
-mService = binder.getService();
-mService.removeLocationUpdates()
-`
+    // 綁定此 Service 的物件
+    public class TestServicesBinder extends Binder {
+        public TestServices getService() {
+            return TestServices.this;
+        }
+    }
+
+    public TestServices() {
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, " onStartCommand");
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        // throw new UnsupportedOperationException("Not yet implemented");
+        Log.d(TAG, "onBind");
+        return myBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        // return super.onUnbind(intent);
+        Log.d(TAG, "onUnbind");
+        return super.onUnbind(intent);  // or return false
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+        Log.d(TAG, "onRebind");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
+    // Service 測試用的 Method
+    public void doTest(){
+        Log.d(TAG, "doTest!");
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+    }
+}
+
+```
+
+!!! Activity java code
+```java
+
+public class TestServicesActivity extends AppCompatActivity {
+    String TAG = getClass().getSimpleName();
+    boolean isBound;
+    private TestServices testServices;
+    Button btnTestServiceBindReady;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_services);
+        btnTestServiceBindReady = findViewById(R.id.btnTestServiceBindReady);
+        btnTestServiceBindReady.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doTests();
+            }
+        });
+        doBindService();
+    }
+
+    void doBindService() {
+        if (!isBound) {
+            Intent intent = new Intent(this, TestServices.class);
+            bindService(intent, serviceCon, Context.BIND_AUTO_CREATE);
+            isBound = true;
+            Log.d(TAG, "doBindService");
+        }
+    }
+
+    void doUnbindService() {
+        if (isBound) {
+            unbindService(serviceCon);
+            isBound = false;
+            Log.d(TAG, "doUnbindService");
+        }
+    }
+
+    private ServiceConnection serviceCon = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder binder) {
+            testServices = ((TestServices.TestServicesBinder) binder).getService();
+            Log.d(TAG, "onServiceConnected: " + className);
+            doTests();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName className) {
+            testServices = null;
+            Log.d(TAG, "onServiceDisconnected: " + className);
+        }
+    };
+
+    void doTests(){
+        // how to make sure service is ready??
+        // need an async call back
+        testServices.doTest();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        doUnbindService();  //necessry because service is async behavior.
+    }
+}
+
+```

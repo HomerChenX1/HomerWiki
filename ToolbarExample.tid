@@ -1,0 +1,281 @@
+created: 20190731025249580
+modified: 20190731031352821
+tags: AndroidUI
+title: ToolbarExample
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* AndroidAppBar
+* NavigationView
+* SearchView
+
+
+!! 參考資料:
+
+
+!!! Layout
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/windowBackground"
+    tools:context=".TestAppBarActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tbTestApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        android:background="?attr/colorPrimary"
+        android:elevation="6dp"
+        app:title="TestAppBarActivity"
+        app:subtitle="SubTitle"
+        app:titleTextColor="@android:color/white"
+        app:subtitleTextColor="@android:color/holo_orange_light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        />
+    <!--app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+
+    <android.support.design.widget.NavigationView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:visibility="gone"
+        android:id="@+id/navigation_view"
+        android:layout_width="240dp"
+        android:layout_gravity="start|start"
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        app:menu="@menu/drawer"
+        app:headerLayout="@layout/header_layout" />
+
+
+</LinearLayout>
+```
+
+!!! Layout: header_layout
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff454"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_teddy_bear" />
+</LinearLayout>
+
+```
+
+!!! Menu: drawer
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_1"
+            android:icon="@drawable/ic_dog0"
+            android:checked="true"
+            android:title="@string/navigation_item_1"/>
+        <item
+            android:id="@+id/navigation_item_2"
+            android:icon="@drawable/ic_dog1"
+            android:title="@string/navigation_item_2"/>
+    </group>
+
+    <item
+        android:id="@+id/navigation_subheader"
+        android:title="@string/navigation_subheader">
+        <menu>
+            <item
+                android:id="@+id/navigation_sub_item_1"
+                android:icon="@drawable/ic_dog2"
+                android:title="@string/navigation_sub_item_1"/>
+            <item
+                android:id="@+id/navigation_sub_item_2"
+                android:icon="@drawable/ic_dog3"
+                android:title="@string/navigation_sub_item_2"/>
+        </menu>
+    </item>
+
+</menu>
+```
+
+!!! Menu: favorite
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/action_favorite"
+        android:icon="@mipmap/ic_launcher_round"
+        android:title="Favorite"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_settings"
+        android:title="Settings"
+        app:showAsAction="never" />
+
+</menu>
+```
+
+!!! Java Code
+```java
+public class TestAppBarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    NavigationView navigationView;
+    boolean navigationViewOn = false;
+    SearchView searchView=null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_test_app_bar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbTestApp);
+        setSupportActionBar(toolbar);
+
+        navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        toolbar.setNavigationIcon(R.drawable.icons8_menu_64);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toast.makeText(v.getContext(), "NavigationIcon", Toast.LENGTH_SHORT).show();
+
+                if (navigationViewOn) {
+                    navigationViewOn = false;
+                    navigationView.setVisibility(View.GONE);
+                } else {
+                    navigationViewOn = true;
+                    navigationView.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+        toolbar.setLogo(R.drawable.icons8_puffin_bird_48);
+        // toolbar.setSubtitle("Subtitle");
+
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(queryListener);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //开始搜索的时候，设置显示搜索页面
+                // mVpContent.setCurrentItem(1);
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                //关闭搜索按钮的时候，设置显示默认页面
+                // mVpContent.setCurrentItem(0);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                Toast.makeText(getBaseContext(), "Setting", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_favorite:
+                // User chose the "Favorite" action, mark the current item
+                // as a favorite...
+                Toast.makeText(getBaseContext(), "Favorite", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.app_bar_search:
+                Toast.makeText(getBaseContext(), "Search", Toast.LENGTH_SHORT).show();
+
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // return : true to display the item as the selected item
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        // Handle navigation view item clicks here.
+        int id = menuItem.getItemId();
+        switch (id) {
+            case R.id.navigation_item_1:
+                Toast.makeText(getApplicationContext(), "navigation_item_1 is clicked", Toast.LENGTH_SHORT).show();
+                navigationViewOn = false;
+                navigationView.setVisibility(View.GONE);
+                return true;
+            case R.id.navigation_item_2:
+                Toast.makeText(getApplicationContext(), "navigation_item_2 is clicked", Toast.LENGTH_SHORT).show();
+                navigationViewOn = false;
+                navigationView.setVisibility(View.GONE);
+                // return true;
+                break;
+            case R.id.navigation_sub_item_1:
+                Toast.makeText(getApplicationContext(), "navigation_sub_item_1 is clicked", Toast.LENGTH_SHORT).show();
+                navigationViewOn = false;
+                navigationView.setVisibility(View.GONE);
+                return true;
+            case R.id.navigation_sub_item_2:
+                Toast.makeText(getApplicationContext(), "navigation_sub_item_2 is clicked", Toast.LENGTH_SHORT).show();
+                navigationViewOn = false;
+                navigationView.setVisibility(View.GONE);
+                // return true;
+                break;
+        }
+        return false;
+    }
+
+    final private android.support.v7.widget.SearchView.OnQueryTextListener queryListener =
+            new android.support.v7.widget.SearchView.OnQueryTextListener() {
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            //在文字改变的时候回调，query是改变之后的文字
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            //文字提交的时候哦回调，newText是最后提交搜索的文字
+            // mSearchFragment.setSearchStr(query);
+            return false;
+        }
+    };
+}
+
+```

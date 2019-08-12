@@ -1,0 +1,18 @@
+created: 20190731034300957
+modified: 20190731043205251
+tags: AndroidUI
+title: DrawerLayoutActivity
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+
+!! 參考資料:
+* [[Android側滑選單DrawerLayout及NavigationView的使用|https://tpu.thinkpower.com.tw/tpu/articleDetails/655]]
+* [[Android Navigation Drawer(一)|http://nickcode4fun.net/2017/12/30/MaterialDesign-Android-Navigation-Drawer(%E4%B8%80)/]]
+
+!!! `AndroidManifest`
+```xml
+<activity
+    android:theme="@style/AppTheme.NoActionBar">
+</activity>
+```

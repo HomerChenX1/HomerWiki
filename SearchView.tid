@@ -1,0 +1,13 @@
+created: 20190731031002747
+modified: 20190731034037699
+tags: AndroidUI
+title: SearchView
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* ToolbarExample
+* not completely verified
+* `import android.support.v7.widget.SearchView;`
+
+!! 參考資料:
+* [[如何使用Toolbar-Search|https://givemepass.blogspot.com/2015/10/toolbar-search.html]]

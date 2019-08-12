@@ -1,6 +1,6 @@
 created: 20190614093128076
-modified: 20190620012410763
-tags: AndroidUI
+modified: 20190808033520865
+tags: MaterialDesign AndroidUI
 title: AndroidRecyclerView
 type: text/vnd.tiddlywiki
 
@@ -13,6 +13,7 @@ type: text/vnd.tiddlywiki
 ** `GridLayoutManager` : AndroidRecyclerViewGridLayoutManager
 ** `StaggeredGridLayoutManager`
 * XML layout : `CoordinatorLayout` is better
+* AndroidChips
 
 !! 參考資料:
 * [[如何使用RecyclerView|http://givemepass.blogspot.com/2015/12/recyclerview.html]]
@@ -22,5 +23,6 @@ type: text/vnd.tiddlywiki
 * [[Android RecyclerView Swipe To Delete And Undo|https://www.journaldev.com/23164/android-recyclerview-swipe-to-delete-undo]]
 * [[簡單實現RecyclerView項目拖動效果|https://tpu.thinkpower.com.tw/tpu/articleDetails/795]]
 * [[RecyclerView.Adapter：全能notify解決方案|https://zhuanlan.zhihu.com/p/22170152]]
+* [[清單|https://wcc723.gitbooks.io/google_design_translate/components-lists.html]]
 
 

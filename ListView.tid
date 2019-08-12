@@ -1,15 +1,17 @@
 created: 20190628071552497
-modified: 20190628101041832
-tags: AndroidUI
+modified: 20190808033432243
+tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
 
 !! 特徵 :
 * `ListView` 本身 scrollable, 不需要 `ScrollView`
+* AndroidChips
 
 !! 參考資料 :
 * [[ListView 進階用法 BaseAdapter|http://learnexp.tw/%E3%80%90android%E3%80%91listview-%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95-baseadapter/]]
 * [[實作 Android ListView|https://julianchu.net/2015/09/26-implement-listview.html]]
+* [[清單|https://wcc723.gitbooks.io/google_design_translate/components-lists.html]]
 
 !!! ''XML code'' :
 ```xml

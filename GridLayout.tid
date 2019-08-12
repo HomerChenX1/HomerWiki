@@ -1,6 +1,6 @@
 created: 20190619040639229
-modified: 20190619061852026
-tags: AndroidUI
+modified: 20190808032840238
+tags: MaterialDesign AndroidUI
 title: GridLayout
 type: text/vnd.tiddlywiki
 
@@ -21,3 +21,4 @@ type: text/vnd.tiddlywiki
 !! 參考資料 :
 * [[Creating a fancy chat settings using GridLayout|http://androidbox.me/using-gridlayout-to-display-icons-and-text/]]
 * [[使用v7.widget.GridLayout做九宮格|https://blog.csdn.net/u011511368/article/details/51910944]]
+* [[網格|https://wcc723.gitbooks.io/google_design_translate/components-grids.html]]

@@ -1,0 +1,13 @@
+created: 20190731030828802
+modified: 20190731032940079
+tags: AndroidUI
+title: NavigationView
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* ToolbarExample
+* `implementation 'com.android.support:design:28+'`
+
+!! 參考資料:
+* [[如何使用NavigationView|https://givemepass.blogspot.com/2015/11/navigationview.html]]
+* [[撰寫NAVIGATION VIEW(側選單)父類別，應用在所需要的ACTIVITY|https://solinariwu.blogspot.com/2017/02/android-navigation-viewactivity.html]]

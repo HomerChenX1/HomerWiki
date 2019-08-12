@@ -1,0 +1,23 @@
+created: 20190807074929928
+modified: 20190807075921587
+tags: Java
+title: JavaConcurrentObject
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+
+
+!! 參考資料:
+
+!!! `AtomicBoolean`
+```java
+import java.util.concurrent.atomic.AtomicBoolean;
+private static AtomicBoolean exists = new AtomicBoolean(false);
+
+    if (exists.compareAndSet(false, true)){
+        // enter the critical section
+        exists.set(false);
+    } else {
+        Log.d("Homer", "busy, and given up");
+    }
+```

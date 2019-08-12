@@ -1,0 +1,140 @@
+created: 20190731074258656
+modified: 20190801071622075
+tags: AndroidUI
+title: CoordinatorLayout
+type: text/vnd.tiddlywiki
+
+!! 特徵 :
+* 大部分使用場景中都搭配AppbarLayout、CollapsingToolbarLayout、`Toolbar`來使用
+* 是一個“加強版”的 `FrameLayout`
+** 當作根佈局
+** 當作主要容器，協調一個或多個子View行為
+* `CoordinatorLayout`使用核心就是Behaviors，透過Behaviors可以執行你訂製的動作
+* Behaviors中，有兩種角色
+** Dependency指的是Behaviors依賴的View : 動作源頭
+** Child指的是要執行Behaviors動作的子View : 跟隨動作源頭
+* ViewDragHelper
+
+!! 參考資料:
+* [[Android CoordinatorLayout|http://nickcode4fun.net/2018/02/05/MaterialDesign-Android-CoordinatorLayout/]]
+
+!!! Layout
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.TestCoordinateLayoutActivity">
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_button_2"
+        android:background="@color/btnSolid"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="end"
+        app:layout_behavior="com.example.runningtrial.UI.ButtonBehavior" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/appCompBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_button_1"
+        android:background="@color/btnSolid"
+        android:layout_gravity="start"
+        android:textColor="@android:color/white" />
+
+</android.support.design.widget.CoordinatorLayout>
+```
+
+!!! Java Code
+```java
+public class TestCoordinateLayoutActivity extends AppCompatActivity {
+    int windowwidth;
+    int windowheight;
+    AppCompatButton btn1;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_coordinate_layout);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        windowheight = metrics.heightPixels;
+        windowwidth  = metrics.widthPixels;
+
+        btn1 = findViewById(R.id.appCompBtn);
+        // enable drag and move
+        btn1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // which contains btn1 : CoordinatorLayout
+                CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) btn1.getLayoutParams();
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_UP:
+                        btn1.performClick();
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        int x_cord = (int) event.getRawX();
+                        int y_cord = (int) event.getRawY();
+
+                        if (x_cord > windowwidth) {
+                            x_cord = windowwidth;
+                        }
+                        if (y_cord > windowheight) {
+                            y_cord = windowheight;
+                        }
+
+                        layoutParams.leftMargin = x_cord - 25;
+                        layoutParams.topMargin = y_cord - 75;
+
+                        btn1.setLayoutParams(layoutParams);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+}
+
+class ButtonBehavior extends CoordinatorLayout.Behavior<Button> {
+    public ButtonBehavior(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    public boolean layoutDependsOn(@NonNull CoordinatorLayout parent, @NonNull Button child, @NonNull View dependency) {
+        // 判斷 child 是否依賴 Dependency
+        // 返回 false 表示 child 不依賴 Dependency
+        // return super.layoutDependsOn(parent, child, dependency);
+        return dependency instanceof AppCompatButton;
+    }
+
+    @Override
+    public boolean onDependentViewChanged(@NonNull CoordinatorLayout parent, @NonNull Button child, @NonNull View dependency) {
+        // child 具體要執行的行為
+        // 當 Dependency 發生變化時(位置、寬、高等)會執行此方法
+        // 返回 true 表示 child 要作出相應的變化，否則 false
+        // return super.onDependentViewChanged(parent, child, dependency);
+        int top = dependency.getTop();
+        setPosition(child, top);
+        return true;
+    }
+
+    private void setPosition(View view, int y) {
+        CoordinatorLayout.MarginLayoutParams layoutParams = (CoordinatorLayout.MarginLayoutParams)view.getLayoutParams();
+        layoutParams.topMargin = y;
+        view.setLayoutParams(layoutParams);
+    }
+}
+
+```

@@ -1,6 +1,6 @@
 created: 20190617061855055
-modified: 20190618012909010
-tags: AndroidUI
+modified: 20190808033155504
+tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewLinearLayoutManager
 type: text/vnd.tiddlywiki
 
@@ -14,6 +14,7 @@ type: text/vnd.tiddlywiki
 
 !! 參考資料 :
 * [[Android RecyclerView Swipe To Delete And Undo|https://www.journaldev.com/23164/android-recyclerview-swipe-to-delete-undo]]
+* AndroidChips
 
 !!! ''Sample code'':
 ```java

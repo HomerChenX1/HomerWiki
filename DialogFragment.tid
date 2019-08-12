@@ -1,21 +1,34 @@
 created: 20190628081623988
-modified: 20190628083658143
-tags: AndroidUI
+modified: 20190808032856140
+tags: MaterialDesign AndroidUI
 title: DialogFragment
 type: text/vnd.tiddlywiki
 
 !! 特徵 :
-* DialogFragment裡的onCreateView和onCreateDIalog 2個方法
+* `DialogFragment`裡的`onCreateView`和`onCreateDIalog `2個方法
 ** onCreateView可以用來創建自定義Dialog
 *** 用於 layout 複雜時
 ** onCreateDIalog 可以用Dialog來創建系統原生Dialog
-
-
+* 關閉標題欄
+** `getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE)`
+** `getDialog().setContentView(view);`
+** or `setStyle(DialogFragment.STYLE_NO_TITLE, R.style.CustomDialog);`
+* 窗口顯示的主頁背景色為透明
+**`getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));`
+* 不可取消
+** `getDialog().setCancelable(false);`
+* 點擊外部不消失
+** `getDialog().setCanceledOnTouchOutside(false);`
+* 全屏對話框中，確認及取消動作在畫面的頂部。
+** 確認動作是在螢幕的右上角，並使用正確的描述用語，像是"存檔"、"送出"、"增加"、"分享"、"更新"、"建立"(原文:“save”, “send”, “add”, “share”, “update”, or “create”)。
+* 別使用模糊的詞像是"完成"、"好"、"關閉"(原文: “done” or “ok” or “close” )來表示確認動作。這些都與"X"的語意太相近了，且結果沒什麼不同。
 
 !! 參考資料 :
 * [[DialogFragment 創建對話框|https://blog.csdn.net/lmj623565791/article/details/37815413]]
 * [[可浮在Activity之上的DialogFragment(1)|https://ithelp.ithome.com.tw/articles/10156146]]
 * [[Android Fragment 的使用，一些你不可不知的注意事项|http://yifeng.studio/2016/12/15/android-fragment-attentions/]]
+* [[Android必知必會 - DialogFragment使用總結|https://likfe.com/2016/10/27/dialog-fragment/]]
+* [[對話框|https://wcc723.gitbooks.io/google_design_translate/components-dialogs.html]]
 
 !!!'' in `MainActivity` Java Code''
 ```java
@@ -25,5 +38,102 @@ if (mDialogFragment == null) {
 Dialog mDialog = SampleDialogFragment.getDialog();
 if (mDialog==null || !mDialog.isShowing()) {
 	mDialogFragment.show(getSupportFragmentManager(), FRAGMENT_TAG_SAMPLE);
+}
+```
+
+!!! in `DialogFragment`
+```java
+public class TravelModeFragment extends DialogFragment {
+    TextView tvTravelCountdown;
+    ListView lvTravelMode;
+    ArrayList<TravelModeItem> itemArray = new ArrayList<>();
+    TravelModeAdapter travelModeAdapter;
+    int countDown = 5;
+    boolean modeSelected = false;
+
+    public TravelModeFragment() {
+        // Required empty public constructor
+        if (itemArray.size() == 0) {
+            itemArray.add(new TravelModeItem("汽車", R.mipmap.ico_transport_car_unselected, R.mipmap.ico_transport_car_selected));
+            itemArray.add(new TravelModeItem("機車", R.mipmap.ico_transport_scooter_unselected, R.mipmap.ico_transport_scooter_selected));
+            itemArray.add(new TravelModeItem("腳踏車", R.mipmap.ico_transport_bike_unselected, R.mipmap.ico_transport_bike_selected));
+            itemArray.add(new TravelModeItem("走路", R.mipmap.ico_transport_walk_unselected, R.mipmap.ico_transport_walk_selected));
+        }
+    }
+
+    public static TravelModeFragment newInstance() {
+        TravelModeFragment fragment = new TravelModeFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        View view = inflater.inflate(R.layout.dialog_travel_mode, container);
+        tvTravelCountdown = view.findViewById(R.id.tvTravelCountdown);
+        tvTravelCountdown.setText(String.valueOf(countDown));
+        lvTravelMode= view.findViewById(R.id.lvTravelMode);
+
+        // LayoutInflater lvInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        travelModeAdapter = new TravelModeAdapter(itemArray, inflater, 1);
+        lvTravelMode.setAdapter(travelModeAdapter);
+        lvTravelMode.setOnItemClickListener(onClickListView);       //指定事件 Method
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setCountDown(TravelModeFragment.this);
+    }
+
+    private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+            modeSelected = true;
+            // int idx = travelModeAdapter.getDefSelect() - parent.getFirstVisiblePosition();
+            // parent.getChildAt(idx);
+            travelModeAdapter.setDefSelect(position);
+            travelModeAdapter.refresh(itemArray);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Log.d("TravelMode", "select " + itemArray.get(position).mode);
+                    dismiss();
+                }
+            }, 300);
+        }
+    };
+
+    private void setCountDown(TravelModeFragment instance){
+        if (modeSelected)
+            return;
+        if (instance.countDown > 0) {
+            instance.countDown--;
+            instance.tvTravelCountdown.setText(String.valueOf(countDown));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setCountDown(TravelModeFragment.this);
+                }
+            }, 1000);
+        } else {
+            if (instance.countDown == 0)
+                // Toast.makeText(getContext(), "select 0", Toast.LENGTH_SHORT);
+                Log.d("TravelMode", "select " + itemArray.get(travelModeAdapter.getDefSelect()).mode);
+                // dismiss();
+        }
+    }
 }
 ```

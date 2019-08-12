@@ -1,0 +1,10 @@
+created: 20190703045230481
+modified: 20190703045552318
+tags: [[Servers' setup]]
+title: PHP
+type: text/vnd.tiddlywiki
+
+!! 安裝
+`choco install php --force --package-parameters='"/ThreadSafe ""/InstallDir:C:\PHP"""'`
+
+* 有bug 安裝到 `C:\tools\php73`
