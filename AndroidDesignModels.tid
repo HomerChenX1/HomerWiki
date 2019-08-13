@@ -1,0 +1,46 @@
+created: 20190812042146147
+modified: 20190812074950310
+tags: Java AndroidSystem
+title: AndroidDesignModels
+type: text/vnd.tiddlywiki
+
+!! Design models is MVVM
+* M : `Model`
+** almost execution is background thread
+** for data storage , persistence or temporary 
+*** servers : SQL, noSQL, media Servers and etc.
+** communicate with different thread/process/server
+*** ContentProvider
+*** RemoteService
+* V : `Views`
+** for UI, major XML
+** XML files, data-binding
+** use data-binding to communicate with `ViewModel`
+* VM : `ViewModel`
+** controll the `Views`. The execution time of `ViewModel` must as short as possible to prevent `ANR`.
+** the major UI display is XML. `ViewModel` is a helper.
+** `ViewModel` will communicate with `BusinessController`
+*** major execution is main thread
+*** partial execution is background thread
+* C : `Controller`, separated as
+** `ViewController `: as same as `ViewModel`
+** `BusinessController`
+*** `BusinessController` will communicate with `ViewModel`
+*** `BusinessController` will communicate with `DAO/DO in Model` 
+*** major execution is background thread
+*** partial execution is main thread
+
+!! Running Sequence:
+# [[Views|AndroidView]]
+# data binder
+# [[ViewModel|AndroidViewModel]]
+# [[BusinessController|AndroidController]]
+# [[BusinessModel|AndroidModel]]
+# [[SystemModel|AndroidModel]]
+
+
+!! 參考資料:
+* AndroidModel
+* AndroidView
+* AndroidViewModel
+* AndroidController

@@ -1,0 +1,10 @@
+created: 20190812025943882
+modified: 20190812030103566
+tags: AndroidSystem
+title: ContentProvider
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* ANR : `ContentProvider`超時：`ContentProvider`的發佈在10s內沒進行完。
+
+!! 參考資料:

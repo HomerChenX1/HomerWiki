@@ -1,0 +1,14 @@
+created: 20190812075805250
+draft.of: AndroidViewModel
+draft.title: AndroidViewModel
+modified: 20190812080323444
+tags: Java AndroidUI
+title: Draft of 'AndroidViewModel'
+type: text/vnd.tiddlywiki
+
+*  in `UI` thread
+* 主要由 Activities 和 Fragments 組成
+* Execution time is as short as possible because `ANR`
+
+
+!! 參考資料:

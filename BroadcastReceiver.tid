@@ -1,5 +1,5 @@
 created: 20190515063455328
-modified: 20190619063620002
+modified: 20190812031659810
 tags: AndroidSystem
 title: BroadcastReceiver
 type: text/vnd.tiddlywiki
@@ -8,6 +8,7 @@ type: text/vnd.tiddlywiki
 
 * 系統級的全範圍通知
 * onReceive的生命週期大約只有十秒，超過會產生ANR，因此不要在這邊做太複雜的事情，可以啟動一個Service後，靠Service去執行一些較花時間的動作。
+** ANR : BroadcastQueue Timeout：在執行前台廣播（BroadcastReceiver）的onReceive()函數時10秒沒有處理完成，後台為60秒。
 * sendBroadcast (Intent intent) : 不會回傳任何值，也不能打斷broadcast的傳輸
 * sendOrderedBroadcast() : 
 ** 有序廣播是一種同步執行的廣播
@@ -30,12 +31,14 @@ type: text/vnd.tiddlywiki
 ** ACTION_TIME_TICK – 系統固定每一分鐘發送一次這個廣播事件。
 ** ACTION_DATE_CHANGED、ACTION_TIME_CHANGED – 改變系統的日期與時間的時候發送的廣播事件。
 
+
 !! 參考資料:
 
 * [[http://aiur3908.blogspot.com/2015/05/android-broadcastreceiver.html]]
 * [[https://ithelp.ithome.com.tw/articles/10157973]]
 * [[https://www.jianshu.com/p/f348f6d7fe59]]
 * [[https://developer.android.com/reference/android/content/Intent.html#ACTION_BATTERY_LOW]]
+* [[Android Broadcast廣播機制分析|http://gityuan.com/2016/06/04/broadcast-receiver/]]
 
 !!! 在`AndroidManifest.xml`加入這個 receiver。
 

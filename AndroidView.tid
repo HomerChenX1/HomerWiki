@@ -1,0 +1,27 @@
+created: 20190812052713857
+modified: 20190812053856704
+tags: Java AndroidUI
+title: AndroidView
+type: text/vnd.tiddlywiki
+
+!! Views : 
+* use XML if possible
+* data binding
+** 聲明式的數據和命令的綁定在MVVM模式中就是通過它完成的
+** 雙向綁定 : View的變動，自動反映在`ViewModel`
+* packages :
+** Design support library v4 and v7
+** android `DataBinding `v2
+** `ButterKnight`
+
+!! 設計原則
+* display size
+* display dpi
+* theme/color
+* layout
+* UI components
+
+
+!! 參考資料:
+* AndroidDisplay
+* MaterialDesign

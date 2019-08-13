@@ -1,0 +1,39 @@
+created: 20190812050103959
+modified: 20190812075038405
+tags: Java AndroidSystem
+title: AndroidModel
+type: text/vnd.tiddlywiki
+
+!! Model : 
+* base on DAO/DO
+* `SystemModel`
+** execute in main thread
+** package:
+*** `Firebase`
+** 設計原則
+*** execution time is as short as possible
+**** use Dagger2 to implement
+*** after access complete, transfer result set to background IO thread
+
+* `BusinessModel`
+** execute in background IO thread
+** packages
+*** android `LiveData`
+**** Android `Room`: ORM for `SQLite3`
+**** `MySQL`
+**** `RxJava2`
+***** `Volly`
+***** `OkHttp`
+***** android `DownloadManager`
+** 設計原則
+*** split the design to DAO/DO styles
+**** use Dagger2 to implement
+*** split DAO/DO to Spring/Java beans styles
+**** use Dagger2 to implement
+* DAO : Data Access Object
+** DAO接口：把對數據庫的所有操作定義成抽象方法，可以提供多種實現。
+** DAO 實現類：針對不同數據庫給出DAO接口定義方法的具體實現。
+** 實體類：用於存放與傳輸對像數據。
+** 數據庫連接和關閉工具類：避免了數據庫連接和關閉代碼的重複使用，方便修改。
+
+!! 參考資料:

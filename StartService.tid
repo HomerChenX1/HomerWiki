@@ -1,5 +1,5 @@
 created: 20190515024803232
-modified: 20190805071945553
+modified: 20190812025254893
 tags: AndroidSystem
 title: StartService
 type: text/vnd.tiddlywiki
@@ -20,6 +20,7 @@ type: text/vnd.tiddlywiki
 ** not try in different App
 * in the same App, bindService will always call to the same starteService instance
 * startService/bindService will call to the startService which the previous App issues.
+* ANR : 服務超時：background service 在200秒內沒有執行完畢。
 
 !!! Lifecycle:
 * `onCreate() -> onStartCommand() -> onDestroy()`
