@@ -1,5 +1,5 @@
 created: 20190812052713857
-modified: 20190812053856704
+modified: 20190813060029330
 tags: Java AndroidUI
 title: AndroidView
 type: text/vnd.tiddlywiki
@@ -9,7 +9,8 @@ type: text/vnd.tiddlywiki
 * data binding
 ** 聲明式的數據和命令的綁定在MVVM模式中就是通過它完成的
 ** 雙向綁定 : View的變動，自動反映在`ViewModel`
-* packages :
+
+!! Packages :
 ** Design support library v4 and v7
 ** android `DataBinding `v2
 ** `ButterKnight`

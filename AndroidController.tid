@@ -1,0 +1,27 @@
+created: 20190813054933344
+modified: 20190813060416812
+tags: Java AndroidSystem
+title: AndroidController
+type: text/vnd.tiddlywiki
+
+* Controller is divided as `ViewController` and `BusinessController`
+* `ViewController` is as same as AndroidViewModel
+* the following is `BusinessController`
+* works in Service + Activity + Fragments
+** partial time in UI/Main thread.
+*** Execution time is as short as possible because `ANR`
+** major time in background thread.
+
+!! 設計原則
+* split the controller to Spring/Java beans styles
+** use Dagger2 to implement UML class/object diagram
+* facade pattern for every subsystems' frontend
+
+!! Packages
+* android `dagger2`
+* `Eventbus` 3
+* Android `Handler/Looper`
+* Jetpack `Sharing`
+
+!! 參考資料:
+* [[Programming]]
