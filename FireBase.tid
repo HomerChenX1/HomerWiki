@@ -1,5 +1,5 @@
 created: 20190510080517968
-modified: 20190515100657436
+modified: 20190814045734277
 tags: Firebase
 title: FireBase
 type: text/vnd.tiddlywiki
@@ -28,6 +28,8 @@ type: text/vnd.tiddlywiki
 * New receiver only need 1 service, not two.
 * New sender needs to use Http V1 API
 * But there are some problems of Http V1 API in iOS.
+* [[FirebaseInstanceIdService is deprecated|https://medium.com/android-school/firebaseinstanceidservice-is-deprecated-50651f17a148]]
+* [[FirebaseMessagingService Crashes on Android O due to background execution limits|https://stackoverflow.com/questions/46117554/firebasemessagingservice-crashes-on-android-o-due-to-background-execution-limits]]
 
 參考資料 :
 
