@@ -1,0 +1,18 @@
+created: 20190812030523009
+modified: 20190812031228777
+tags: AndroidSystem
+title: AndroidANR
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* ANR全稱：Application Not Responding，也就是應用程序無響應。'
+* 四個條件都可以造成ANR發生：
+** `InputDispatching Timeout`：5秒內無法響應屏幕觸摸事件或鍵盤輸入事件
+** `BroadcastQueue Timeout`：在執行前台廣播（`BroadcastReceiver`）的`onReceive()`函數時10秒沒有處理完成，後台為60秒。
+** 服務超時：前台服務20秒內，後台服務在200秒內沒有執行完畢。
+** `ContentProvider`超時：`ContentProvider`的發佈在10s內沒進行完。
+* 盡量避免在主線程（UI線程）中作操作。
+* 耗時操作就放在子線程中。
+
+!! 參考資料:
+*[[Android ANR：原理分析及解決辦法|https://www.jianshu.com/p/388166988cef]]

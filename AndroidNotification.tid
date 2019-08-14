@@ -1,6 +1,6 @@
 created: 20190802025103557
-modified: 20190802100526195
-tags: 
+modified: 20190813072055860
+tags: AndroidSystem
 title: AndroidNotification
 type: text/vnd.tiddlywiki
 
@@ -9,3 +9,4 @@ type: text/vnd.tiddlywiki
 
 !! 參考資料:
 * [[Android 如何顯示通知訊息(Notifications)|https://magiclen.org/android-notifications/]]
+* [[android show notification with a popup on top of any application|https://stackoverflow.com/questions/29949501/android-show-notification-with-a-popup-on-top-of-any-application]]

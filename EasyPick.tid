@@ -1,6 +1,6 @@
 created: 20190708010827328
-modified: 20190708011541340
-tags: [[Servers' setup]]
+modified: 20190814093205805
+tags: Projects [[Servers' setup]]
 title: EasyPick
 type: text/vnd.tiddlywiki
 
@@ -9,6 +9,18 @@ type: text/vnd.tiddlywiki
 * action in normal mode or engineering mode
 * use production database or debug database
 * model : View `ViewModel `Controller and Model
+** 0900123666  pwd:123456
+* 欣聯測試帳號我們改成
+** 0900123777  pwd:123456
+*** s000001_c000000_O100000003
+** 0900123888  pwd:123456
+*** s000001_c000000_O100000001
+
+!! modify Auth
+* delete auth schools/parents
+* modify idAndName
+* build new auth
+
 
 !! Android Merge for checkout
 * test item is closed : inTest

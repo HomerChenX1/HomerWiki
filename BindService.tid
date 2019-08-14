@@ -1,5 +1,5 @@
 created: 20190515030603240
-modified: 20190805051227767
+modified: 20190812025230048
 tags: AndroidSystem
 title: BindService
 type: text/vnd.tiddlywiki
@@ -14,6 +14,7 @@ type: text/vnd.tiddlywiki
 * 只有Activity、Service 和 ContentProvider 可以綁定到服務，無法從 BroadcastReceiver 綁定到服務
 * 開啟後此 Service 便與調用者一起存活或是退出，也就是說，調用該服務的 activity 一退出， Service 的運行也會一起終止。
 * activity 可以透過 IBinder 物件取得 Service 物件，直接操作 Service 內各個 public 的 method。
+* ANR : 服務超時：background service 在200秒內沒有執行完畢。
 
 Lifecycle:  
 

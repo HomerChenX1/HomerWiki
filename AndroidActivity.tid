@@ -1,5 +1,5 @@
 created: 20190610051609949
-modified: 20190624080459979
+modified: 20190812025745155
 tags: AndroidUI
 title: AndroidActivity
 type: text/vnd.tiddlywiki
@@ -8,6 +8,7 @@ type: text/vnd.tiddlywiki
 * onSaveInstanceState方法最大的缺點就是不靠譜
 ** 因為onSaveInstanceState和onResotreInstanceState不是每次都能被系統調用，因為應用可能在調用onRestoreInstanceState方法之前應用就被結束了
 * Android推薦在onPause方法中使用`SharedPreference`保存狀態
+* ANR : `InputDispatching Timeout`：5秒內無法響應屏幕觸摸事件或鍵盤輸入事件
 
 !!! `ActivityBasic.java`
 ```java

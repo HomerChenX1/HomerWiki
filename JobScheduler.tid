@@ -1,11 +1,10 @@
 created: 20190515060412269
-modified: 20190731050352357
+modified: 20190814023054393
 tags: AndroidSystem
 title: JobScheduler
 type: text/vnd.tiddlywiki
 
-特徵 :
-
+!! 特徵 :
 * 使用時機 :
 ** app在運作的時候不需要讓使用者知道的情況(也就是背景運作)
 ** 當使用者正在充電的時候喚起app做事
@@ -14,7 +13,6 @@ type: text/vnd.tiddlywiki
 ** 裝置閒置時
 ** 限定某個時間結束前再完成即可
 
-參考資料:
-
+!! 參考資料:
 * [[https://ithelp.ithome.com.tw/articles/10160470]]
 * [[Job scheduler|http://nickcode4fun.net/2017/10/21/Android-Job%20scheduler/]]

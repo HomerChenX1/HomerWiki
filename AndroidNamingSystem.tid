@@ -1,39 +1,10 @@
 created: 20190708011731831
-modified: 20190806073459443
+modified: 20190813060657554
 tags: AndroidSystem
 title: AndroidNamingSystem
 type: text/vnd.tiddlywiki
 
-!! Limits:
-* all controller / model will write to Spring bean format
-** `class Controller extends POJO`
-*** `class POJO`
-**** 提供一個默認的無參構造函數。
-***** `public POJO() { }`
-**** 不能有extend
-**** 可能有一系列可讀寫屬性。
-*****所有屬性都必須是private 。 (Java bean)
-*****All Properties/Fields must be private / protected。 (Spring bean)
-**** 可能有一系列的getter或setter方法。
-***** 所有外部訪問必須通過setter、getter
-***** getter 非必須。setter 為必須。(Spring bean)
-**** 需要被序列化並且實現了Serializable 接口。 (沒有網路傳輸時為非必須)
-**** 必須寫toString方法 (for Debugger) or Builder design pattern
-*** `class Controller`
-**** POJO operated methods except getters/setters
-**** strategy method such as Queue, Sort or others
-**** Asynchronous chaining methods
-**** Standard callback methods
-** POJO -> Java bean format
-*** pure data model
-** Controller -> Spring bean format
-* every method is no longer larger than 40 lines excluding comments 
-* total methods of a class will be not larger than 50 excluding getters/setters
-** if over, use composite/aggregation design pattern to replace inheritance
-
 !! 參考資料:
-* [[Composite 模式 : 樹狀結構的設計模式|http://puremonkey2010.blogspot.com/2011/09/oo-composite.html]]
-* [[(原創) association,aggregation,composition有什麼差別? (OO) (UML) (C/C++)|https://www.cnblogs.com/oomusou/archive/2007/02/20/652899.html]]
 
 !! View
 * `TextView `: tv , `ImageView`: iv

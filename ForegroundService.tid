@@ -1,10 +1,13 @@
 created: 20190515044312206
-modified: 20190805093201110
+modified: 20190812025044342
 tags: AndroidSystem
 title: ForegroundService
 type: text/vnd.tiddlywiki
 
-參考資料:
+!! 特徵 :
+* ANR: 服務超時：`ForegroundService `: 20秒內
+
+!! 參考資料:
 
 * [[https://www.jianshu.com/p/5505390503fa]]
 * [[Android App兼容8.0和9.0|https://blog.csdn.net/wxz1179503422/article/details/83031724]]

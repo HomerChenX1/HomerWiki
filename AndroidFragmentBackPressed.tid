@@ -1,9 +1,8 @@
 created: 20190715093317441
-modified: 20190715093529572
-tags: 
+modified: 20190813072128586
+tags: AndroidSystem AndroidUI
 title: AndroidFragmentBackPressed
 type: text/vnd.tiddlywiki
-
 
 !! 參考資料 :
 * [[兩步搞定Fragment返回鍵|https://www.jianshu.com/p/fff1ef649fc0|https://www.jianshu.com/p/fff1ef649fc0]]

@@ -1,0 +1,66 @@
+created: 20190813051329787
+modified: 20190813054832092
+tags: Java AndroidUI
+title: AndroidViewModel
+type: text/vnd.tiddlywiki
+
+*  Running in UI thread
+* Execution time is as short as possible because `ANR`
+* build by Activities and Fragments
+* communication between `View `and `ViewModel`
+** android `DataBinding V2`
+** `ButterKnight`
+* communication between Activities and Fragments
+** Activity to Activity
+*** data
+**** Bundle
+***** startActivity
+***** startActivityForResult
+**** singleton memory (`DataWarehouse`)
+**** sharedPref
+**** files
+*** messaging
+**** broadcast sticky message
+**** Eventbus Sticky
+** Activity to Fragment
+*** Data : put data in Activity
+**** `getActivity().ActivityData`
+**** singleton memory (`DataWarehouse`)
+*** messaging
+**** new Fragment().FragmentMethod()
+**** broadcast message
+**** Eventbus
+** Fragment to Activity
+*** Data : put data in Activity
+**** `getActivity().ActivityData`
+**** singleton memory (`DataWarehouse`)
+*** messaging
+**** Activity put a callback to Fragment,
+***** fragment call `Activity.callBack();`
+**** broadcast message
+**** Eventbus
+** Fragment to Fragment
+*** Data : put data in Activity
+**** `getActivity().ActivityData`
+**** singleton memory (`DataWarehouse`)
+*** messaging
+**** broadcast message
+**** Eventbus
+* Navigate within Activities and Fragments
+** android jetpack `navigation`
+* communicate with Controller
+** Eventbus
+** Android `ViewModel`
+** Android `LiveData`
+
+!! Packages
+* `Activity `+ `Fragments`
+* Android `ViewModel`
+* Android `LiveData`
+* Android `Paging`
+** `CursorAdaptor`
+* Android `Slices`
+
+!! 參考資料:
+* AndroidActivity
+* AndroidFragment

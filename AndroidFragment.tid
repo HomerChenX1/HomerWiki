@@ -1,5 +1,5 @@
 created: 20190605015946869
-modified: 20190715093525857
+modified: 20190812025837111
 tags: AndroidUI
 title: AndroidFragment
 type: text/vnd.tiddlywiki
@@ -60,6 +60,7 @@ type: text/vnd.tiddlywiki
 ** Fragment 之間通信 :  通過 Activity 作為中介，不要的 Fragment 之間直接通信。
 * onBackPressed
 ** [[兩步搞定Fragment返回鍵|https://www.jianshu.com/p/fff1ef649fc0|https://www.jianshu.com/p/fff1ef649fc0]]
+* ANR : `InputDispatching Timeout`：5秒內無法響應屏幕觸摸事件或鍵盤輸入事件
 
 !! 參考資料 :
 * [[https://xiazdong.github.io/2017/06/15/android-fragment/]]
