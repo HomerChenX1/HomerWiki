@@ -1,5 +1,5 @@
 created: 20190529053930914
-modified: 20190813091443397
+modified: 20190815043212207
 tags: Git
 title: GitLocal
 type: text/vnd.tiddlywiki
@@ -13,8 +13,12 @@ type: text/vnd.tiddlywiki
 ** `git checkout`
 ** `modified a little bit`
 ** `commit and push`
+* git reset
+** git reset --hard HEAD~ 等於 ~1 回復到上一個提交版本
+** git reset --hard HEAD~2
 
 !! 參考資料 :
+* [[Git: 讓你的代碼回到過去，git reset 與 git revert 的用處|https://medium.com/@bigheadboy/%E8%AE%93%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A2%BC%E5%9B%9E%E5%88%B0%E9%81%8E%E5%8E%BB-git-reset-%E8%88%87-git-revert-%E7%9A%84%E7%94%A8%E8%99%95-6ba4b7545690]]
 
 !!! ''建立 Empty Local Repository:''
 
