@@ -1,0 +1,38 @@
+created: 20190815072415721
+modified: 20190815101330173
+tags: AndroidSystem
+title: AndroidFingerPrint
+type: text/vnd.tiddlywiki
+
+SHA1 Fingerprint
+
+* Getting Android Debug Keystore SHA1 Fingerprint:
+** find where keytool.exe is. `C:\Program Files\Java\jdk1.8.0_201\bin`
+** find debug.keystore : `C:\Users\Homer\.android\debug.keystore`
+
+```plain
+cd C:\Program Files\Java\jdk1.8.0_201\bin
+keytool -list -v -keystore "C:\Users\Homer\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+pause
+```
+* MD5:  38:29:33:D6:39:45:65:8D:8C:A0:DA:93:F1:F2:29:EA
+* SHA1: BB:F3:8B:34:0C:14:9A:6C:CE:4C:28:E1:FC:0C:FE:52:9A:FF:1E:95
+* SHA256: B3:4F:BB:B0:04:4B:74:FA:A9:22:83:00:FE:31:3E:E3:3C:95:C4:41:D5:49:89:60:1D:8E:B1:57:32:82:6A:BA
+
+* Google Photo API :
+** client id : 675637306805-jrqvpc54s5kdhmkm2k2svhrij47ove19.apps.googleusercontent.com
+
+* 名稱
+** HomerPhoto
+* 已授權的 JavaScript 來源
+** http://localhost	
+** http://localhost:5000	
+** https://runningtrial-3b562.firebaseapp.com	
+** https://runningtrial-3b562.web.app
+* 已授權的重新導向 URI
+** https://runningtrial-3b562.firebaseapp.com/__/auth/handler	
+** https://runningtrial-3b562.web.app/__/auth/handler
+
+!! 參考資料 :
+* [[Obtaining SHA1 Fingerprint from Android Keystore|https://www.truiton.com/2015/04/obtaining-sha1-fingerprint-android-keystore/]]
+* [[開啟 Google Oauth2 Authorizing API requests 功能|http://cloverhsc.blogspot.com/2018/05/google-oauth2-authorizing-api-requests.html]]

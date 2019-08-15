@@ -1,5 +1,5 @@
 created: 20190528060900689
-modified: 20190528063911658
+modified: 20190815051419157
 tags: AndroidSystem
 title: HandlerThread
 type: text/vnd.tiddlywiki
@@ -36,7 +36,7 @@ Handler mHandler = new Hanlder(handlerThread.getLooper()){
         case 1:
             Logger.e("message receive");
         break;
-                }
+        }
     }
 }
 ```
