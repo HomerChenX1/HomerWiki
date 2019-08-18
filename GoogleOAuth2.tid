@@ -1,0 +1,25 @@
+created: 20190818144233869
+modified: 20190818150200757
+tags: Java
+title: GoogleOAuth2
+type: text/vnd.tiddlywiki
+
+* [[source code|https://github.com/ddewaele/LatitudeOAuth2Sample]]
+* [[Best way to use Google APIs using OAuth 2.0 on Android|https://stackoverflow.com/questions/6966965/best-way-to-use-google-apis-using-oauth-2-0-on-android]]
+* [[OAuth 2.0 for Mobile & Desktop Apps|https://developers.google.com/identity/protocols/OAuth2InstalledApp]]
+* [[google/google-api-java-client-samples|https://github.com/google/google-api-java-client-samples/tree/master/plus-cmdline-sample]]
+* [[Authorizing and Using REST APIs|https://developers.google.com/android/guides/http-auth]]
+* [[Using OAuth 2.0 with the Google API Client Library for Java|https://developers.google.com/api-client-library/java/google-api-java-client/oauth2]]
+* [[Using OAuth 2.0 with the Google API Client Library for Java|https://developers.google.com/api-client-library/java/google-api-java-client/oauth2]]
+
+* google-oauth-client-1.30.1.jar
+
+* google-http-client-1.31.0.jar
+* google-http-client-android-1.31.0.jar
+* gson-2.8.5.jar
+* jackson-core-2.9.5.jar
+* jsr305-3.0.2.jar
+* protobuf-java-3.6.1.jar
+
+* ?? google-oauth-client-java6
+* ?? google-oauth-client-jetty 1.30.1
