@@ -1,0 +1,16 @@
+created: 20190821142824737
+modified: 20190821145116724
+tags: AndroidSystem
+title: GoogleApi
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+# All including in Google Play Service -> [[Accessing Google APIs|https://developers.google.com/android/guides/api-client]]
+## 要訪問不需要API授權的服務，請獲取服務的客戶端對象的實例，並將其傳遞給當前Context或當前 Activity。
+## [[訪問Google API|https://developers.google.com/android/guides/setup]]
+# not including in Google Play Service
+## OAuth2 + REST API
+## OAuth2 -> replace by `Google SignIn Service`
+## [[授權和使用REST API|https://developers.google.com/android/guides/http-auth]]
+
+!! 參考資料:
