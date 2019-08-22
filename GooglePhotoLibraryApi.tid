@@ -1,0 +1,10 @@
+created: 20190821073008451
+modified: 20190821104545649
+tags: AndroidSystem
+title: GooglePhotoLibraryApi
+type: text/vnd.tiddlywiki
+
+* [[https://github.com/erickogi/AndroidGooglePhotosApi.git]]
+* [[Integrating Google Sign-In into your web app|https://developers.google.com/identity/sign-in/web/sign-in]]
+* [[https://console.developers.google.com/apis/credentials?project=runningtrial-3b562&hl=zh-tw]]
+* [[Google API Console|https://console.developers.google.com/apis/dashboard?project=runningtrial-3b562&authuser=0]]

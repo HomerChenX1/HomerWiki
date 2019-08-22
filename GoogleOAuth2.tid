@@ -1,5 +1,5 @@
 created: 20190818144233869
-modified: 20190818150200757
+modified: 20190821092743418
 tags: Java
 title: GoogleOAuth2
 type: text/vnd.tiddlywiki
@@ -23,3 +23,11 @@ type: text/vnd.tiddlywiki
 
 * ?? google-oauth-client-java6
 * ?? google-oauth-client-jetty 1.30.1
+
+https://www.pingidentity.com/en/company/blog/2016/03/10/using_appauth_to_enable_your_apps_with_mobile_sso.html
+
+https://github.com/pingidentity/android-appauth-sample-application
+
+
+* [[OAuth2 and Google OAuth Playground|https://medium.com/@turhan.oz/oauth2-and-google-oauth-playground-550757f9355f]] , 用 Google翻譯, 翻譯成中文, 初步功能測試
+* [[USING APPAUTH TO ENABLE YOUR APPS WITH MOBILE SSO|https://www.pingidentity.com/en/company/blog/2016/03/10/using_appauth_to_enable_your_apps_with_mobile_sso.html]] , AppAuth Demo code

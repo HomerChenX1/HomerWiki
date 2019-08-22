@@ -1,0 +1,27 @@
+created: 20190820050308654
+modified: 20190820082212004
+tags: AndroidSystem
+title: AndroidGoogleSignIn
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+* need to fill `OAuth 同意畫面`
+** 應用程式標誌 
+** 支援電子郵件 
+
+!! 參考資料:
+* [[Google Sign-In Android Example-Tutorial|https://androidclarified.com/google-signin-android-example/]]
+* [[Integrating Google Sign-In into Your Android App|https://stackoverflow.max-everyday.com/2016/08/google-sign-in/]]
+* [[Willy's Fish教學筆記』Android 如何讓自己的 App 整合 Google Sign In SDK，實作 login 功能教學|http://willy2016.pixnet.net/blog/post/157253786-willy%27s-fish%E6%95%99%E5%AD%B8%E7%AD%86%E8%A8%98%E3%80%8Fandroid-%E5%A6%82%E4%BD%95%E8%AE%93%E8%87%AA%E5%B7%B1%E7%9A%84-app-]]
+* [[Google signin returns 12500, 12501 error code|http://developerextensions.com/help/230-Google-signin-returns-12500,-12501-error-code-]]
+
+!!! gradle(app)
+```xml
+    // Dependency for Google Sign-In
+    implementation 'com.google.android.gms:play-services-auth:17+'
+
+    // Dependencies for the REST API example
+    implementation 'com.google.api-client:google-api-client:1+'
+    implementation 'com.google.api-client:google-api-client-android:1.22.0'
+    implementation 'com.google.apis:google-api-services-people:v1-rev139-1.22.0'
+```
