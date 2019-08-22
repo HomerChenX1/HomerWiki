@@ -1,5 +1,5 @@
 created: 20190528060900689
-modified: 20190815051419157
+modified: 20190822020425704
 tags: AndroidSystem
 title: HandlerThread
 type: text/vnd.tiddlywiki
@@ -29,7 +29,7 @@ handlerThread.start();
 * startup Handler : for message
 
 ```java
-Handler mHandler = new Hanlder(handlerThread.getLooper()){
+Handler mHandler = new Handler(handlerThread.getLooper()){
     public void handleMessage(Message msg){
         super.handleMessage(msg);
         switch(msg.what){
