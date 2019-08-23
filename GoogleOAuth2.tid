@@ -1,5 +1,5 @@
 created: 20190818144233869
-modified: 20190821092743418
+modified: 20190823090101256
 tags: Java
 title: GoogleOAuth2
 type: text/vnd.tiddlywiki
@@ -10,24 +10,15 @@ type: text/vnd.tiddlywiki
 * [[google/google-api-java-client-samples|https://github.com/google/google-api-java-client-samples/tree/master/plus-cmdline-sample]]
 * [[Authorizing and Using REST APIs|https://developers.google.com/android/guides/http-auth]]
 * [[Using OAuth 2.0 with the Google API Client Library for Java|https://developers.google.com/api-client-library/java/google-api-java-client/oauth2]]
-* [[Using OAuth 2.0 with the Google API Client Library for Java|https://developers.google.com/api-client-library/java/google-api-java-client/oauth2]]
-
-* google-oauth-client-1.30.1.jar
-
-* google-http-client-1.31.0.jar
-* google-http-client-android-1.31.0.jar
-* gson-2.8.5.jar
-* jackson-core-2.9.5.jar
-* jsr305-3.0.2.jar
-* protobuf-java-3.6.1.jar
-
-* ?? google-oauth-client-java6
-* ?? google-oauth-client-jetty 1.30.1
 
 https://www.pingidentity.com/en/company/blog/2016/03/10/using_appauth_to_enable_your_apps_with_mobile_sso.html
 
 https://github.com/pingidentity/android-appauth-sample-application
 
-
+* [[old, but useful|http://vito-note.blogspot.com/2015/04/google-oauth-20.html]]
+* [[使用Google API與建立憑證的步驟|http://jdev.tw/blog/4705/google-api-credentials]]
+* [[開啟 Google Oauth2 Authorizing API requests 功能|http://cloverhsc.blogspot.com/2018/05/google-oauth2-authorizing-api-requests.html]]
 * [[OAuth2 and Google OAuth Playground|https://medium.com/@turhan.oz/oauth2-and-google-oauth-playground-550757f9355f]] , 用 Google翻譯, 翻譯成中文, 初步功能測試
 * [[USING APPAUTH TO ENABLE YOUR APPS WITH MOBILE SSO|https://www.pingidentity.com/en/company/blog/2016/03/10/using_appauth_to_enable_your_apps_with_mobile_sso.html]] , AppAuth Demo code
+* [[servlet : 使用Google OAuth 2.0 存取Google API|http://blog.kenyang.net/2012/09/15/google-oauth-20-google-api]]
+* [[10分鐘理解OAuth和facebook登入原理|https://gigenchang.wordpress.com/2014/01/26/10%E5%88%86%E9%90%98%E7%90%86%E8%A7%A3oauth%E5%92%8Cfacebook%E7%99%BB%E5%85%A5%E5%8E%9F%E7%90%86/]]

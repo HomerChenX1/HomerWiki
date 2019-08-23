@@ -1,5 +1,5 @@
 created: 20190619014807385
-modified: 20190619063113719
+modified: 20190823081753920
 tags: AndroidSystem
 title: AndroidApplication
 type: text/vnd.tiddlywiki
@@ -48,5 +48,11 @@ public class GlobalApplication extends Application {
 ```xml
 <application
          android:name ="GlobalApplication" > 
+</application>
+
+<application
+         // for large or lots pictures or videos
+         android:hardwareAccelerated="true"
+         android:largeHeap="true" > 
 </application>
 ```

@@ -1,5 +1,5 @@
 created: 20190731051743601
-modified: 20190808015326779
+modified: 20190823041448408
 tags: MaterialDesign AndroidUI
 title: MaterialDesign
 type: text/vnd.tiddlywiki
@@ -19,4 +19,4 @@ type: text/vnd.tiddlywiki
 * [[A directory of essential design tools and resources|https://design.google/resources/]]
 * [[Material Design - Theme 與 Transition|http://www.codedata.com.tw/mobile/android-tutorial-the-6th-class-material-design-theme-transition/]]
 * [[Material Design Patterns 教學|https://blog.30sparks.com/material-design-patterns-tutorial/]]
-
+* [[MDC : Material Design Components|https://developer.android.com/reference/com/google/android/material/packages]]

@@ -1,10 +1,47 @@
 created: 20190821073008451
-modified: 20190821104545649
+modified: 20190823050720646
 tags: AndroidSystem
 title: GooglePhotoLibraryApi
 type: text/vnd.tiddlywiki
 
-* [[https://github.com/erickogi/AndroidGooglePhotosApi.git]]
-* [[Integrating Google Sign-In into your web app|https://developers.google.com/identity/sign-in/web/sign-in]]
-* [[https://console.developers.google.com/apis/credentials?project=runningtrial-3b562&hl=zh-tw]]
+!! 參考資料:
+* [[官方文件|https://developers.google.com/photos/library/guides/get-started-java]]
+* [[官方 pure java sample code, not Android|https://github.com/google/java-photoslibrary]]
+* [[舊的 Android sample code , Kotlin|https://github.com/erickogi/AndroidGooglePhotosApi.git]]
+* [[Class definitions, Javadoc style|https://google.github.io/java-photoslibrary/1.3.0/overview-summary.html]]
+
 * [[Google API Console|https://console.developers.google.com/apis/dashboard?project=runningtrial-3b562&authuser=0]]
+
+!!! gradle(app) : `very very important`
+```xml
+    // for LocalServerReceiver and AuthorizationCodeInstalledApp
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.29.0'
+    implementation 'com.google.oauth-client:google-oauth-client-java6:1.29.0'
+
+    // io.grpc.ManagedChannelProvider$ProviderNotFoundException:
+    implementation ('io.grpc:grpc-protobuf:1.21.0'){
+        exclude group: 'org.apache.httpcomponents', module:'httpclient'
+    }
+    implementation ('io.grpc:grpc-stub:1.21.0'){
+        exclude group: 'org.apache.httpcomponents', module:'httpclient'
+    }
+    implementation ('io.grpc:grpc-okhttp:1.21.0'){
+        exclude group: 'org.apache.httpcomponents', module:'httpclient'
+    }
+
+    // induce java.lang.AbstractMethodError: abstract method "boolean com.google.api.gax.rpc.TransportChannelProvider.needsCredentials()"
+    // implementation ('com.google.api:gax:1.48.0'){
+        // exclude group: 'org.apache.httpcomponents', module:'httpclient'
+    // }
+
+    implementation 'com.google.api-client:google-api-client:1.30.2'
+    implementation('com.google.api-client:google-api-client-android:1.26.0') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    // photo library api
+    implementation('com.google.photos.library:google-photos-library-client:1.4.0'){
+        // if collision, enable exclude
+        // exclude group: 'org.apache.httpcomponents', module:'httpclient'
+    }
+
+```
