@@ -1,0 +1,38 @@
+created: 20190827054636779
+modified: 20190827085822803
+tags: MongoDb [[Servers' setup]]
+title: MongoDb
+type: text/vnd.tiddlywiki
+
+!! IDE : Mongo Plugin
+* [[安利兩個MongoDB 可視化工具|https://cloud.tencent.com/developer/article/1187911]]
+!! Web Gui : NoSqlClient
+* [[Nosqlclient (formerly Mongoclient)|https://github.com/nosqlclient]]
+* [[都在找MongoDB的可視化管理工具，我想你可以看看|https://kknews.cc/code/qlooqjy.html]]
+
+
+!! 參考資料:
+* [[都在找MongoDB的可視化管理工具，我想你可以看看|https://kknews.cc/code/qlooqjy.html]]
+* [[10個頂級Mongodb GUI工具，以圖形方式管理資料庫|https://kknews.cc/code/vrv38gq.html]]
+
+
+```plain
+Meteor has been installed!
+
+To get started fast:
+
+  $ meteor create ~/my_cool_app
+  $ cd ~/my_cool_app
+  $ meteor
+
+
+Or see the docs at:
+
+  https://docs.meteor.com
+
+***************************************
+Environment Vars (like PATH) have changed. Close/reopen your shell to
+ see the changes (or in powershell/cmd.exe just type `refreshenv`).
+ The install of meteor was successful.
+  Software installed to 'C:\Users\Homer\AppData\Local'
+```
