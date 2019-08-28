@@ -1,12 +1,12 @@
 created: 20190827054636779
-modified: 20190827085822803
-tags: MongoDb [[Servers' setup]]
+modified: 20190828044120631
+tags: NotComplete MongoDb [[Servers' setup]]
 title: MongoDb
 type: text/vnd.tiddlywiki
 
 !! IDE : Mongo Plugin
 * [[安利兩個MongoDB 可視化工具|https://cloud.tencent.com/developer/article/1187911]]
-!! Web Gui : NoSqlClient
+!! Web Gui : ~NoSqlClient
 * [[Nosqlclient (formerly Mongoclient)|https://github.com/nosqlclient]]
 * [[都在找MongoDB的可視化管理工具，我想你可以看看|https://kknews.cc/code/qlooqjy.html]]
 
@@ -35,4 +35,13 @@ Environment Vars (like PATH) have changed. Close/reopen your shell to
  see the changes (or in powershell/cmd.exe just type `refreshenv`).
  The install of meteor was successful.
   Software installed to 'C:\Users\Homer\AppData\Local'
+```
+
+!!! Enter Proxy Server
+* open git Bash console
+```bash
+ssh root@210.61.12.127
+6M94Qpv9p8OnzwTGJ56
+
+screen -r
 ```

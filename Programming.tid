@@ -1,6 +1,6 @@
 created: 20190808052007864
-modified: 20190808055843686
-tags: Java DesignPattern AndroidSystem
+modified: 20190828052018871
+tags: NotComplete Java DesignPattern AndroidSystem
 title: Programming
 type: text/vnd.tiddlywiki
 
@@ -27,6 +27,7 @@ type: text/vnd.tiddlywiki
 !! 參考資料:
 * [[Composite 模式 : 樹狀結構的設計模式|http://puremonkey2010.blogspot.com/2011/09/oo-composite.html]]
 * [[(原創) association,aggregation,composition有什麼差別? (OO) (UML) (C/C++)|https://www.cnblogs.com/oomusou/archive/2007/02/20/652899.html]]
+* [[決戰 OOAD 系列（一）：使用 UML 分析的黃金三角|http://gelis-dotnet.blogspot.com/2018/01/ooad-uml.html]]
 
 
 !! Java Classes

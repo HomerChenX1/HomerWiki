@@ -1,0 +1,18 @@
+created: 20190828034718179
+modified: 20190828080410929
+tags: NotComplete gRpc
+title: gRpc
+type: text/vnd.tiddlywiki
+
+* [[API 文件就是你的伺服器，REST 的另一個選擇：gRPC|https://yami.io/grpc/]]
+* [[ProtoBuf 與gRPC|https://yeasy.gitbooks.io/blockchain_guide/content/appendix/grpc.html]]
+* [[gRPC的那些事 - streaming|https://colobu.com/2017/04/06/dive-into-gRPC-streaming/]]
+* [[gRPC 官方文檔中文版 V1.0|https://doc.oschina.net/grpc?t=58008]]
+* [[怎麼看待谷歌的開源RPC 框架gRPC？|https://www.zhihu.com/question/30027669]]
+* [[將 HTTP/JSON 轉碼為 gRPC|https://cloud.google.com/endpoints/docs/grpc/transcoding?hl=zh-tw]]
+* [[我們為什麼從REST 轉向gRPC|https://www.infoq.cn/article/ye16SG5IdQi-vsIhs43E]]
+* [[Istio 基礎 — gRPC 負載均衡|https://medium.com/getamis/istio-%E5%9F%BA%E7%A4%8E-grpc-%E8%B2%A0%E8%BC%89%E5%9D%87%E8%A1%A1-d4be0d49ee07]]
+
+```plain
+我看有人進行了一些性能上的測試說是比Thrift要慢，其實不完全，我們一開始測試的時候Server端是放在OS X系統上的，運行起來的確慢很多，大約一次調用40ms上下，後來經過調查我們發現gRPC的同步調用與Nagle's algorithm會產生衝突，雖然gRPC在代碼中加入了TCP_NODELAY這個socketopt但在OS X中是沒有效果的。後來通過設定net.inet.tcp.delayed_ack = 0來解決，同樣我們在linux下也設置了net.ipv4.tcp_low_latency = 1，這樣在100M帶寬下一次同步調用的時間在500us以下。而且在實際應用中，我們通過streaming調用來解決大量重複數據傳輸的問題，而不是通過反复的同步調用來傳相同的數據，這樣一次寫入可以在5us左右。其實批量寫入一直都是一個很好的解決性能問題的方法，這在mongodb的新版mongo-cxx-driver也是必需的，同步調用也是非常緩慢。我感覺gRPC相對於Thrift可能有一些overhead比如http2.0頭，以及每次調用需要ack，但這個overhead應該可以忽略，我猜測Thrift也是底層採用批量寫入的方式或異步寫入而不需要那麼多的ack因此才會比較快吧。
+```

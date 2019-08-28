@@ -1,5 +1,5 @@
 created: 20190628081623988
-modified: 20190808032856140
+modified: 20190828100241047
 tags: MaterialDesign AndroidUI
 title: DialogFragment
 type: text/vnd.tiddlywiki
@@ -35,7 +35,7 @@ type: text/vnd.tiddlywiki
 if (mDialogFragment == null) {
 	mDialogFragment = SampleDialogFragment.newInstance();
 }
-Dialog mDialog = SampleDialogFragment.getDialog();
+Dialog mDialog = mDialogFragment .getDialog();
 if (mDialog==null || !mDialog.isShowing()) {
 	mDialogFragment.show(getSupportFragmentManager(), FRAGMENT_TAG_SAMPLE);
 }

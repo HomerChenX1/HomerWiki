@@ -1,6 +1,6 @@
 created: 20190510060304229
-modified: 20190805093008118
-tags: Volley
+modified: 20190828035516754
+tags: AndroidSystem Volley
 title: Volley
 type: text/vnd.tiddlywiki
 
@@ -284,4 +284,17 @@ class HTTPSTrustManager implements X509TrustManager {
 
 HTTPSTrustManager.allowAllSSL();
         DataConfig.getRef().setVolleyRequestQueue(Volley.newRequestQueue(mContext));
+```
+
+!!! How to disable Volley request from retrying?
+* 通常先試 `DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2`
+* 再試 `DefaultRetryPolicy.DEFAULT_MAX_RETRIES` 改為 0
+* 最後試 `stringRequest.setShouldCache(false);`
+
+```java
+        // stringRequest.setShouldCache(false);
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 ```
