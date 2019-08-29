@@ -1,0 +1,11 @@
+created: 20190829052258547
+modified: 20190829054431680
+tags: Java AndroidSystem
+title: AndroidMemoryLeak
+type: text/vnd.tiddlywiki
+
+* [[android之內存泄漏|https://kknews.cc/code/4v9naj3.html]]
+* [[Java 4種引用類型的深入理解|https://kknews.cc/code/knl2xjr.html]]
+* [[繼強引用，軟引用之後，弱引用來了，一起來看看java裡邊的弱引用|https://kknews.cc/code/9z3zyaq.html]]
+* how to check/solve
+* [[Java開發大型網際網路高級框架內存泄漏之JVM監控實戰原理|https://kknews.cc/code/nqj2rrg.html]]

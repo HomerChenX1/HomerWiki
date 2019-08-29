@@ -1,5 +1,5 @@
 created: 20190821073008451
-modified: 20190823050720646
+modified: 20190829051628377
 tags: AndroidSystem
 title: GooglePhotoLibraryApi
 type: text/vnd.tiddlywiki
@@ -8,7 +8,7 @@ type: text/vnd.tiddlywiki
 * [[官方文件|https://developers.google.com/photos/library/guides/get-started-java]]
 * [[官方 pure java sample code, not Android|https://github.com/google/java-photoslibrary]]
 * [[舊的 Android sample code , Kotlin|https://github.com/erickogi/AndroidGooglePhotosApi.git]]
-* [[Class definitions, Javadoc style|https://google.github.io/java-photoslibrary/1.3.0/overview-summary.html]]
+* [[Class definitions, Javadoc style|https://google.github.io/java-photoslibrary/1.4.0/]]
 
 * [[Google API Console|https://console.developers.google.com/apis/dashboard?project=runningtrial-3b562&authuser=0]]
 

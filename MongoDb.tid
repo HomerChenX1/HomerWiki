@@ -1,5 +1,5 @@
 created: 20190827054636779
-modified: 20190828044120631
+modified: 20190829051456304
 tags: NotComplete MongoDb [[Servers' setup]]
 title: MongoDb
 type: text/vnd.tiddlywiki
@@ -14,6 +14,7 @@ type: text/vnd.tiddlywiki
 !! 參考資料:
 * [[都在找MongoDB的可視化管理工具，我想你可以看看|https://kknews.cc/code/qlooqjy.html]]
 * [[10個頂級Mongodb GUI工具，以圖形方式管理資料庫|https://kknews.cc/code/vrv38gq.html]]
+* [[本書《 The Little MongoDB Book 》|https://www.kancloud.cn/thinkphp/the-little-mongodb-book/39134]]
 
 
 ```plain
