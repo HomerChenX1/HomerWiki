@@ -1,5 +1,5 @@
 created: 20190529053930914
-modified: 20190815043212207
+modified: 20190830101639531
 tags: Git
 title: GitLocal
 type: text/vnd.tiddlywiki
@@ -16,9 +16,14 @@ type: text/vnd.tiddlywiki
 * git reset
 ** git reset --hard HEAD~ 等於 ~1 回復到上一個提交版本
 ** git reset --hard HEAD~2
+* git pull，基本上git fetch緊隨其後git merge
+** 通常最好只是明確地使用fetch和merge命令，因為神奇的東西git pull往往會讓人感到困惑。
 
 !! 參考資料 :
 * [[Git: 讓你的代碼回到過去，git reset 與 git revert 的用處|https://medium.com/@bigheadboy/%E8%AE%93%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A2%BC%E5%9B%9E%E5%88%B0%E9%81%8E%E5%8E%BB-git-reset-%E8%88%87-git-revert-%E7%9A%84%E7%94%A8%E8%99%95-6ba4b7545690]]
+* [[使用標籤|https://gitbook.tw/chapters/tag/using-tag.html]]
+* GitLocalTag
+* GitLocalBranch
 
 !!! ''建立 Empty Local Repository:''
 
@@ -41,8 +46,9 @@ echo -e "\nFirst time need put pwd in URL. Another is unnecessary!"
 git clone -v http://homer:456789@127.0.0.1:8080/git/${proj_name}.git
 read -n1 -r -p "Press any key to continue..." key
 ```
+
 !!! ''上傳全新 資料目錄/Directory''
-* 在 Remote Repository 建立 upload,git
+* 在 Remote Repository 建立 upload.git
 * 如下
 ```bash
 read -p "Please input your project name:  " proj_name
@@ -57,4 +63,48 @@ git add --all
 git commit -m "daily backup"
 git push -u origin master
 read -n1 -r -p "Press any key to continue..." key
+```
+
+!!! ''產生 branch''
+```bash
+# List remote and local branch: -a, List remote branch: -r
+git branch -a
+read -n1 -r -p "Press any key to continue..." key
+read -p "Please input your project name:  " branch_name
+echo -e "\nYour branch name is: ${branch_name}"
+git checkout -b ${branch_name}
+git pull
+read -n1 -r -p "Press any key to continue..." key
+exit 0
+```
+
+!!! ''Merge from master to branch_name''
+```bash
+# List remote and local branch: -a, List remote branch: -r
+git branch -a
+read -n1 -r -p "Press any key to continue..." key
+read -p "Please input your project name:  " branch_name
+echo -e "\nYour branch name is: ${branch_name}"
+git checkout ${branch_name}"
+git pull
+read -n1 -r -p "Press any key to continue..." key
+
+git merge master
+read -n1 -r -p "Press any key to continue..." key
+exit 0
+```
+
+!!! ''After solved the conflict files, merge to master again''
+```bash
+# use status to make sure no conflict files
+git status
+read -n1 -r -p "Need to modify the unmerged files" key
+# add solved conflict files
+git add app/build.gradle
+git add app/src/main/java/com/ideeestudio/easypick/MainActivity.java
+git commit
+read -n1 -r -p "Press any key to continue..." key
+git push
+read -n1 -r -p "Press any key to continue..." key
+exit 0
 ```

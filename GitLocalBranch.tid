@@ -1,0 +1,29 @@
+created: 20190830082111994
+modified: 20190830104725575
+tags: Git
+title: GitLocalBranch
+type: text/vnd.tiddlywiki
+
+!! git branch 有關操作
+* 新增分支 : `git branch branch_name`
+** `git branch branch_name origin/branch_name`
+* 得到所有分支的簡易清單 : `git branch`
+** 注意 master 分支前面的 * 字元，它表示目前所檢出（checkout）的分支（換句話說，HEAD 指向這個分支)
+* 得到所有遠端分支的簡易清單 : `git branch -r`
+* 得到所有(遠端+近端)分支的簡易清單 : `git branch -a`
+* 使用 `git branch --merged` 來查看哪些分支已被合併到目前分支
+** 在這個列表中沒有被標記 * 的分支通常都可以用 `git branch -d` 刪除；
+* 切換分支 : `git checkout branch_name`
+** 如果要切換到某個分支，那個分支必要先存在，不然會發生錯誤
+** 新增同時切換分支 : `git checkout -b branch_name` , 等同  `git checkout -b branch_name origin/master`
+*** `git checkout -b local_branch_name origin/remote_branch_name`
+* 刪除分支 : `git branch -d `
+* 強制刪除分支 : `git branch -D `
+* 分支改名字 : `git branch -m new_branch_name old_branch_name`
+* 新增遠端分支 : `git push <remote> local_branch_name`
+** `git push origin local_branch_name:remote_branch_name`
+* 刪除遠端分支 : `git push origin --delete remote_branch_name`
+
+!! 參考資料 :
+* [[操作分支|https://backlog.com/git-tutorial/tw/reference/branch.html]]
+* GitLocalMerge

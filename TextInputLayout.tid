@@ -1,0 +1,33 @@
+created: 20190830060651536
+modified: 20190830064245215
+tags: AndroidUI
+title: TextInputLayout
+type: text/vnd.tiddlywiki
+
+!! 特徵:
+
+!! 參考資料:
+* [[如何使用TextInputLayout|https://givemepass.blogspot.com/2017/04/textinputlayout.html]]
+* [[Android EditText常用屬性功能彙總|https://codertw.com/android-%E9%96%8B%E7%99%BC/348870/]]
+* [[Android使用TextInputLayout建立登陸頁面|https://codertw.com/android-%E9%96%8B%E7%99%BC/335048/]]
+
+```xml
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:counterEnabled="true"
+        app:counterMaxLength="12"
+        android:id="@+id/tilPassword">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="13"
+            android:id="@+id/tietPassword"
+            android:textSize="22sp"
+            android:inputType="textPassword"
+            android:text="@string/kkbox_pwd"
+            android:hint="@string/text_prompt_password1" />
+    </android.support.design.widget.TextInputLayout>
+```

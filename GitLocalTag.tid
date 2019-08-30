@@ -1,0 +1,27 @@
+created: 20190830080744692
+modified: 20190830104624001
+tags: Git
+title: GitLocalTag
+type: text/vnd.tiddlywiki
+
+* git tag : 輕量標籤（lightweight tag)
+** 輕量標籤則是用來個人使用或是暫時標記用途
+** `git tag tag_name commit_hash` : 對某個 commit 加 tag
+** `git tag tag_name` : 對目前的 commit 加 tag
+* git tag : 有附註標籤（annotated tag
+** 有附註標籤主要用來做像是軟體版號之類的用途
+** `git tag -a tag_name commit_hash -m "Big Cats are comming"`
+* git tag 有關操作
+** 列出既有標籤 : `git tag -l`
+** 搜尋標籤 : `git tag -l 'v1.4.2.*'`
+** 顯示詳細資料 : `git show tag_name`
+** 刪除 Local 標籤 : `git tag -d tag_name`
+*** 如果是還沒有送到 remote Git repositories 上的，可以使用 git 指令刪除
+** 上傳標籤到遠端
+*** `git push origin tag_name`
+*** `git push origin --tags` : 利用 –tags 一次上傳上去
+** 刪除 Git repositories Tag 
+*** `git push --delete origin tag_name`
+
+!! 參考資料 :
+* [[使用標籤|https://gitbook.tw/chapters/tag/using-tag.html]]

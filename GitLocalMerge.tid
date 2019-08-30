@@ -1,0 +1,26 @@
+created: 20190830100350360
+modified: 20190830103012588
+tags: Git
+title: GitLocalMerge
+type: text/vnd.tiddlywiki
+
+!! git merge 有關操作:
+* Merge from current branch_name to current branch_name: 
+** `git merge from_branch_name`
+* 看衝突檔案
+** `git status`
+* 修正衝突檔案
+* 加入修正好的衝突檔案
+** `git add file_name`
+* `git commit`
+* `git push`
+
+!! 參考資料 :
+* [[分支和合併的基本用法|https://git-scm.com/book/zh-tw/v2/%E4%BD%BF%E7%94%A8-Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%92%8C%E5%90%88%E4%BD%B5%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95#r_basic_merging]]
+
+!!! ''merge from `hotfix` to `master`''
+```bash
+git checkout master
+git merge hotfix 
+git status
+```
