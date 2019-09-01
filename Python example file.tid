@@ -1,0 +1,84 @@
+created: 20190901123711649
+modified: 20190901123806255
+tags: Python
+title: Python example file
+type: text/vnd.tiddlywiki
+
+```python
+#--coding=etf8--
+
+""" module's document string
+Module's alias=conf for #import used
+"""
+
+#import python libraries
+
+#import third party libraries
+
+#import yourself libraries
+
+#constant definition
+CONSTANT_NAME
+
+global_variable
+
+#functions
+def func_name(param_name=default):
+    """ function's document string  
+         purpose definition
+         input definition
+         output/side_effect definition
+         return definition
+    """
+    local_variable
+    pass
+    return None 
+
+def func_name(vars):
+    pass
+
+def func_name(*var_tuple):
+    pass
+    
+def func_name(**var_dict):
+    pass
+
+def func_name( vars,*var_tuple, **var_dict):
+    pass
+
+#class definition
+class ClassName(BaseName0,BaseName1 ):
+    """ class's document string  """
+    __dict__ __class__ __methods__
+    #class property/attributes
+    class_attribute_name=0
+    
+    #static method
+    @staticmethod
+    def func_name(param_name):
+        """ function's document string  """
+         pass
+         
+    #instance attribute
+    self.attribute_name=1 #public
+    self._attribute_name=1 # ?? protected
+    self.__attribute_name=1 # private
+    
+    #instance method
+    def func_name(self,param_name):
+        """ function's document string  """
+         pass
+         
+    #class method
+    @classmethod
+    def func_name(cls,param_name):
+        """ function's document string  """
+         pass
+         
+    def classtest(cls): 
+        pass
+     classtest = classmethod(classtest) 
+
+
+#main function
+```

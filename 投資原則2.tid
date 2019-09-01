@@ -1,0 +1,35 @@
+created: 20190901124641460
+modified: 20190901125459927
+tags: NotComplete Invest
+title: 投資原則2
+type: text/vnd.tiddlywiki
+
+* 流動性 liquidity risk
+* 停損 和self.low比 停損價
+* 勝率 profitability return of investment winning odds(機率論)
+* 選股 Sharpe 中長線
+* 順勢選股 強者越強，弱者越弱 短線
+* 資金分配 股債 sp500/10年公債 算其kelly formula.  ^TNX
+* CBOE Interest Rate 10 Year T Notes
+* 資金分配 凱利公式 最佳化
+* 加碼和槓桿
+* 年化收益率/最大虧損值
+
+* `^AXSVTN` NYSE 7 10 YEAR TREASURY BOND INDEX
+* `^AXTEN` NYSE CURRENT 10 YEAR US TREASUR
+* `^FVX` Treasury Yield 5 Years
+* `^IDCOT7PR` ICE U.S. Treasury 7 - 10 Year P price return
+* `^IDCOT7TR`  ICE U.S. Treasury 7 - 10 Year T total return 
+* `^SPBDU10T` S&P / BG Cantor 7 10 Year U.S.
+* `^TYX`   Treasury Yield 30 Years
+* `^VXIEF`  CBOE 7-10 Year Treasury Bond ET
+
+
+
+
+
+
+
+
+
+

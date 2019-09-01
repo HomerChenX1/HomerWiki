@@ -1,0 +1,62 @@
+created: 20190901123226771
+modified: 20190901123359228
+tags: NotComplete UML Python
+title: PythonToUML
+type: text/vnd.tiddlywiki
+
+Python to UML
+  Epydoc -> graphViz -> UML ?2008
+  example 
+  http://epydoc.sourceforge.net/api/epydoc.apidoc.VariableDoc-class.html
+  
+  pyLint ->pyReverse -> graphViz -> UML 
+  PyNSource 
+  pyCharm 
+  Your Graphviz, UMLGraph or PlantUML
+  
+
+
+  Enterprise Architect : not free
+  Umbrello
+  vipera
+  ObjectDomain 
+  argoUML-python ?
+  GraphModels (django-command-extensions)
+  pywebuml java too
+  starUML
+
+
+UML to python
+  Enterprise Architect not free 
+  PyIdea: PyNSource UML & Patterns IDE for Python
+  DIA, and then install dia2code, it will generate from UML to code in python. I use it in PHP5 and Java . Code quality is the problem
+  Gaphor 
+  Umbrello
+  pyNSource
+  http://argouml-python.tigris.org/
+  
+UML tool
+ 
+
+Other
+  Topcoder UML toolautomatically generates code in only Java or C#
+
+Software UML and Network Designs:
+- Use case Diagram
+- Sequence Diagram
+- Class Diagram
+- State Diagram
+- ER Diagram
+- Data Flow Diagram
+- Network Diagram
+- ArchiMate
+
+Business Processes and Mind Maps:
+- Flowchart
+- BPMN
+- Organization Chart
+- Process Flow
+- Mind map
+- Feature List
+- Decision Tree
+- Visual Notes

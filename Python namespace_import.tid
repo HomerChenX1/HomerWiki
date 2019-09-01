@@ -1,0 +1,53 @@
+created: 20190901123945521
+modified: 20190901124022788
+tags: Python NotComplete
+title: Python namespace/import
+type: text/vnd.tiddlywiki
+
+Protocol type
+    procedure language:small program
+        data structure
+        algorithm/function
+    object oriental language:complicate programs
+        class
+            data member:attribites 
+            function member:methods
+            
+    functional language: for multiple processes or concurrency
+        map
+        reduce
+        
+Namespace
+    functions
+    class
+        attributes
+        methods
+            internal
+            private
+            static
+            public    
+    modules
+        int
+        float
+        complex
+        char
+        string
+        unicode
+        list
+        tuple
+        dictionary
+        set
+    package
+        __init__.py
+        modules
+
+Import usage:
+    import config
+    x=config.dict["key"]
+    
+    #suggest this
+    import config as cf
+    x=cf.dict["key"]
+    
+    from config import dict
+    x=dict["key"]

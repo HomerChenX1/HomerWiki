@@ -1,0 +1,104 @@
+created: 20190901124050494
+modified: 20190901124131035
+tags: Python NotComplete
+title: Python syntax
+type: text/vnd.tiddlywiki
+
+http://pydoing.blogspot.tw/2011/01/python-keyword.html?m=1
+
+http://pydoing.blogspot.tw/2011/01/python-operator.html?m=1
+
+
+Load/Store
+    class,def,lambda
+    from import,import as
+    global,nonlocal
+    set/tuple () (:)
+    list [] [:]
+    dictionary {} 
+    class.method
+    buffers 
+    \ 程式連接到下一行
+    # 替程式註解
+    def function_name():
+    class ClassName(BaseN0, BaseN1 ):
+    staticmethod() == @ staticmethod
+    classmethod() == @ classmethod
+    property() == @property
+    getattr(),setattr(),delattr(),hasattr()
+    open()
+    
+Sequence
+    del
+    with
+    print,format(),repr()
+    +,-,*,/, %,**,//
+    &,|,^,~,>>,<<
+    =, note:id() usually change
+    +=,-=,*=,/=, %=,**=,//= note:id() not change
+    &=,|=,^=,~=,>>=,<<=
+    abs(),divmod(),pow(),max(),min(),round()
+    all(),any(), sum(),reversed(),sorted(),
+    hash(),
+    input(),raw_input(),
+    int(),tuple(),float(),list(),set(),dict(),long(),
+    complex(), frozenset(),bytearray(),bool()
+    hex(),oct(),str(),bin(),
+    unichr(),unicode(),chr(),ord(),
+    dir(),id(),vars()==__dict__
+    ?eval(),?super(),?object()
+    len(),
+    locals(),globals(),
+
+Branch
+    False,True,None
+    is,in,and,or,not,
+    <,>,>=,<=,==,!=
+    if-else
+    if-elseif-else,
+    return,pass,
+    x=y if condition else z
+    isinstance(),basestring(),type()
+    issubclass(),callable(),
+    cmp(),hasattr(),file()
+    
+Loop
+    while -else :
+    for-in -else :
+    yield
+    continue,break
+    xx=[y for x in […] if condition else z]
+    enumerate(),zip(),
+    ?iter(),next(),slice()
+    range(),xrange(),slice()
+    
+Exception
+    try-except, try-finally
+    ?try-except-finally
+    assert errno errcode[]
+    raise class
+    raise exception (arg1, arg2, )
+    simulate goto
+        ExitLoop="out_loop"
+        try:
+            raise ExitLoop
+        except ExitLoop:
+            pass 
+    
+    
+    
+Functional language
+    filter(),map(),reduce()
+    
+
+
+PEP8
+    模組 (module) 名稱會用小寫英文單字 
+    CONSTANT_NAME
+    Public_name for external modules' used
+    variable_name
+    class ClassName.setUpNetwork 大寫駝峰型 (upper camel case)
+    class ClassName.set_up_network
+    def function_name
+    def functionName 小寫駝峰型 (lower camel case) 
+    一般來說，應避免使用單獨使用英文字母小寫 l 、大寫 O 、大寫 I 當成變數名稱，因為 l 與 I 容易與數字 1 搞混，而 O 容易與數字 0 混淆。
