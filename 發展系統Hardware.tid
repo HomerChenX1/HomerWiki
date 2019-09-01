@@ -1,0 +1,26 @@
+created: 20190901122010571
+modified: 20190901122110238
+tags: 發展系統
+title: 發展系統Hardware
+type: text/vnd.tiddlywiki
+
+發展系統
+Signal tree block diagram 
+  si test 
+Clock tree
+Power tree
+  frequency 1M 30M 100M 300M 1G 10G
+  board length x+y+z 
+  q=cdv=idt
+Ground tree
+   emi 
+   lighting
+Power on sequence
+  power good and power enable
+Reset sequence
+Rf tx gain budget
+Rf rx noise floor budget -173.8dbm/hz
+Thermal high-low cycle shock
+
+乾南，坤北，离东，坎西，兑东南，震东北，巽西南，艮西北。”
+　　“这是先天八卦！”

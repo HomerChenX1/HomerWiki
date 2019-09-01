@@ -1,0 +1,66 @@
+created: 20190901115828549
+modified: 20190901121700286
+tags: NotComplete 購物
+title: 網路
+type: text/vnd.tiddlywiki
+
+一注射/網路
+單左 雙右
+
+Ports
+ - ultravnc 5800/5900
+ - apache 8080
+ - others
+
+Nexus 7
+ - 防火牆無root
+ - webdav server ultimate(secure)
+ - ftpserver andreas liebig (no secure)
+ - ip攝像頭 pavel ?沒聲音
+aaa
+
+Webdav
+nexus7h:8091
+homer 123456
+
+Ftp
+ :1024,??8092
+ homer: (null)
+
+ip攝像頭:?
+
+C:/apache2
+NAd 515Bee與Marantz CD-5003
+Apache uninstall
+Cd apache2/bin
+httpd -k uninstall
+Httpd -k install -n "apache24"
+
+
+
+A137一
+
+洞洞鞋 布希鞋
+Native us10
+Crocs na
+Adidas
+Pony us11
+Puma
+
+ctk12181218
+新竹皇家時尚館 文昌街 ccilu
+
+樂天市場
+ tychen01@ms25.hinet.net
+ 0215homer 
+寶豐門市
+
+gregory的後背包，不僅好看，而且背負系統算是最頂尖 防撕耐磨，又輕且完全防水
+
+郵差包一定要具備一些特點，防水以及人字背帶還有反光設計
+CHROME GREGORY HEAD PORTER。CHROME跟GREGORY最頂級的郵差包都五千左右 
+ARC’TERYX 始祖鳥的Blade這款包~
+始祖鳥Blade 21的LEAF系列 (綠色 / ACU / Multicam 三色可選)
+是特地為軍警設計的電腦後背包 4000
+馬蓋先牌 臺灣品牌外銷美國 軍規設計 magforce 3000
+Post subject: mod_wsgi 3.4 Apache 2.4.3 Python 2.7
