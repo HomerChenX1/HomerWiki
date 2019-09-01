@@ -1,5 +1,5 @@
 created: 20190830082111994
-modified: 20190830104725575
+modified: 20190901081511537
 tags: Git
 title: GitLocalBranch
 type: text/vnd.tiddlywiki
@@ -27,3 +27,16 @@ type: text/vnd.tiddlywiki
 !! 參考資料 :
 * [[操作分支|https://backlog.com/git-tutorial/tw/reference/branch.html]]
 * GitLocalMerge
+
+!!! ''產生 branch''
+```bash
+# List remote and local branch: -a, List remote branch: -r
+git branch -a
+read -n1 -r -p "Press any key to continue..." key
+read -p "Please input your project name:  " branch_name
+echo -e "\nYour branch name is: ${branch_name}"
+git checkout -b ${branch_name}
+git pull
+read -n1 -r -p "Press any key to continue..." key
+exit 0
+```

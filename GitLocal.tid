@@ -1,5 +1,5 @@
 created: 20190529053930914
-modified: 20190830101639531
+modified: 20190901081552684
 tags: Git
 title: GitLocal
 type: text/vnd.tiddlywiki
@@ -8,14 +8,6 @@ type: text/vnd.tiddlywiki
 * major for the local repository
 * 如果想針對本來就存在的目錄進行版控，其實只要到那個目錄下執行 `git init` 指令即可
 * 只要把那個 `.git` 目錄移除，Git 就對這個目錄失去控制權了。
-* git revert
-** `git revert [unwant commit hash]`
-** `git checkout`
-** `modified a little bit`
-** `commit and push`
-* git reset
-** git reset --hard HEAD~ 等於 ~1 回復到上一個提交版本
-** git reset --hard HEAD~2
 * git pull，基本上git fetch緊隨其後git merge
 ** 通常最好只是明確地使用fetch和merge命令，因為神奇的東西git pull往往會讓人感到困惑。
 
@@ -63,48 +55,4 @@ git add --all
 git commit -m "daily backup"
 git push -u origin master
 read -n1 -r -p "Press any key to continue..." key
-```
-
-!!! ''產生 branch''
-```bash
-# List remote and local branch: -a, List remote branch: -r
-git branch -a
-read -n1 -r -p "Press any key to continue..." key
-read -p "Please input your project name:  " branch_name
-echo -e "\nYour branch name is: ${branch_name}"
-git checkout -b ${branch_name}
-git pull
-read -n1 -r -p "Press any key to continue..." key
-exit 0
-```
-
-!!! ''Merge from master to branch_name''
-```bash
-# List remote and local branch: -a, List remote branch: -r
-git branch -a
-read -n1 -r -p "Press any key to continue..." key
-read -p "Please input your project name:  " branch_name
-echo -e "\nYour branch name is: ${branch_name}"
-git checkout ${branch_name}"
-git pull
-read -n1 -r -p "Press any key to continue..." key
-
-git merge master
-read -n1 -r -p "Press any key to continue..." key
-exit 0
-```
-
-!!! ''After solved the conflict files, merge to master again''
-```bash
-# use status to make sure no conflict files
-git status
-read -n1 -r -p "Need to modify the unmerged files" key
-# add solved conflict files
-git add app/build.gradle
-git add app/src/main/java/com/ideeestudio/easypick/MainActivity.java
-git commit
-read -n1 -r -p "Press any key to continue..." key
-git push
-read -n1 -r -p "Press any key to continue..." key
-exit 0
 ```

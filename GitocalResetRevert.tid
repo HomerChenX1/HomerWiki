@@ -1,0 +1,16 @@
+created: 20190901081038472
+modified: 20190901081235673
+tags: Git
+title: GitocalResetRevert
+type: text/vnd.tiddlywiki
+
+* git reset
+** `git reset --hard HEAD~` 等於 ~1 回復到上一個提交版本
+** `git reset --hard HEAD~2 回復到上二個提交版本
+`
+* git revert
+** `git revert [unwant commit hash]`
+** `git checkout`
+** `modified a little bit`
+** `commit and push`
+
