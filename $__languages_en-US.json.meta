@@ -1,0 +1,12 @@
+author: Ben Webber
+core-version: >=5.0.0
+created: 20190902060239969
+dependents: $:/languages/en-GB
+description: English (US)
+modified: 20190902060239969
+name: en-US
+plugin-priority: 110
+plugin-type: language
+title: $:/languages/en-US
+type: application/json
+version: 5.1.20

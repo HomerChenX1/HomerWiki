@@ -1,5 +1,5 @@
 created: 20190820050308654
-modified: 20190823080801528
+modified: 20190902070614370
 tags: AndroidSystem
 title: AndroidGoogleSignIn
 type: text/vnd.tiddlywiki
@@ -8,6 +8,7 @@ type: text/vnd.tiddlywiki
 * need to fill `OAuth 同意畫面`
 ** 應用程式標誌  : max 120px * 120px : [[How to setup the OAuth consent screen in the Google Developers Console|https://mage2.pro/t/topic/266]]
 ** 支援電子郵件 
+* Pass this client ID to the requestIdToken or requestServerAuthCode method when you create the ~GoogleSignInOptions object.
 
 !! 參考資料:
 * [[官方文件|https://developers.google.com/identity/sign-in/android/start-integrating]]
