@@ -1,12 +1,12 @@
 created: 20190901123711649
-modified: 20190901123806255
-tags: Python
+modified: 20190902052157216
+tags: NotComplete Python
 title: Python example file
 type: text/vnd.tiddlywiki
 
-```python
-#--coding=etf8--
+* need to addtype hint, type annotation
 
+```python
 """ module's document string
 Module's alias=conf for #import used
 """
@@ -34,36 +34,44 @@ def func_name(param_name=default):
     pass
     return None 
 
+
 def func_name(vars):
     pass
+
 
 def func_name(*var_tuple):
     pass
     
+
 def func_name(**var_dict):
     pass
+
 
 def func_name( vars,*var_tuple, **var_dict):
     pass
 
+
 #class definition
-class ClassName(BaseName0,BaseName1 ):
+class ClassName(BaseName0,BaseName1):
     """ class's document string  """
-    __dict__ __class__ __methods__
+    # buildin internal variable : __dict__, __class__, __methods__
     #class property/attributes
     class_attribute_name=0
-    
+
+    def __init__(self):
+        #instance attribute
+        self.attribute_name=1 #public
+        self._attribute_name=1 # protected
+        self.__attribute_name=1 # private
+        super()  #  super means use virtual common base class
+        pass
+       
     #static method
     @staticmethod
     def func_name(param_name):
         """ function's document string  """
          pass
-         
-    #instance attribute
-    self.attribute_name=1 #public
-    self._attribute_name=1 # ?? protected
-    self.__attribute_name=1 # private
-    
+
     #instance method
     def func_name(self,param_name):
         """ function's document string  """
@@ -81,4 +89,7 @@ class ClassName(BaseName0,BaseName1 ):
 
 
 #main function
+if __name__ == '__main__':
+    # for Windows system
+    pass
 ```

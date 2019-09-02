@@ -1,0 +1,39 @@
+created: 20190901123945521
+modified: 20190902040732113
+tags: Python NotComplete
+title: PythonNamespace
+type: text/vnd.tiddlywiki
+
+
+!! Namespace
+* functions
+* class
+** privilege
+** attributes
+*** internal :  `__internal_used__`
+*** private : `__private_used`
+*** protected : `_protected_used`
+*** public : `public_used`
+*** `class_variable`
+** methods
+*** `class_method`
+*** `static_method`
+* modules
+* package
+```python
+    __init__.py
+    modules
+```
+
+!! Import usage:
+```python
+    import config
+    x=config.dict["key"]
+    
+    #suggest this
+    import config as cf
+    x=cf.dict["key"]
+    
+    from config import dict
+    x=dict["key"]
+```

@@ -1,0 +1,43 @@
+created: 20190902045714601
+modified: 20190902051211944
+tags: Python
+title: CodingStylePython
+type: text/vnd.tiddlywiki
+
+!! Coding style : PEP8 或 Google [[Snake case|https://en.wikipedia.org/wiki/Snake_case]]
+* 每層縮排使用 4 個空格
+* 每行的最大長度應限制在79個字元以內。
+** 在達成共同的協議下，可以把長度增加到100字元（就可以把長度增加到99字元），而docstrings和註解依舊是72字元限制。
+** 偏好使用反斜線斷行
+* 將最高層的function和class定義以兩個空白行分隔。
+* class中的function用一個空白行分隔
+** 在function中謹慎地使用空白行來表示邏輯上的分段
+* 發佈版的核心程式碼中應該始終使用UTF-8
+** UTF-8（在Python3中）的檔案不應該具有編碼的宣告
+* 操作符要和操作數在一起
+** `income = (gross_wages` <br />`          + taxable_interest`
+* 每行 import 只導入一個模組, 同一模組中的內容可以在同一行導入
+* import 分組及導入順序，每個分組之間用一行空行分隔
+# 標準庫 
+# 相關第三方庫 
+# 本地應用/庫的特殊導入
+* 推薦使用絕對導入，如：<br />`import mypkg.sibling` <br />`from mypkg import sibling` <br />`from mypkg.sibling import example` <br />
+* 應該避免使用 `from <module> import *`
+* 套件名和模組名 `module_name` 會用小寫英文單字
+* `class ClassName` : 大寫駝峰型 (upper camel case)
+* `except ExceptionName`  : 大寫駝峰型 (upper camel case)
+* function: `def function_name` 
+* `CONSTANT_NAME`
+* `variable_name`
+* `ClassName.attribute_name`
+* method name : `ClassName.method_name`
+* 一般來說，應避免使用單獨使用英文字母小寫 l 、大寫 O 、大寫 I 當成變數名稱，因為 l 與 I 容易與數字 1 搞混，而 O 容易與數字 0 混淆。
+* 字符串連接不要用 `a += b` 或者 `a = a + b`, 用 `.join()`
+* 跟 None 的比較用 `is` 和 `is not`，不要用 `==`
+* 自定義的異常類應該繼承至 `Exception `類，而非 `BaseException `類
+* 資源只適用於某個代碼段內，使用 with 或 try/finally 來確保能進行清理工作
+** `with conn.begin_transaction():` <br/>`    do_stuff_in_transaction(conn)`
+
+!! 參考資料 :
+* [[PEP8 PYTHON 編碼規範手冊|https://cflin.com/wordpress/603/pep8-python%E7%B7%A8%E7%A2%BC%E8%A6%8F%E7%AF%84%E6%89%8B%E5%86%8A]]
+* [[Python example file]]

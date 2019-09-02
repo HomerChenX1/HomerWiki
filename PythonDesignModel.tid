@@ -1,0 +1,49 @@
+created: 20190901123504983
+modified: 20190902053451904
+tags: NotComplete Python Invest
+title: PythonDesignModel
+type: text/vnd.tiddlywiki
+
+!! 簡化分類:
+* procedure language
+** small program
+** data structure
+*** int, float, complex, char, string, unicode, 
+*** list, tuple, dictionary, set
+** algorithm: function
+* object oriental language
+** complicate programs
+** class
+*** data member: attribites 
+*** function member: methods
+* functional language
+** for multiple processes or concurrency
+** map, reduce, filter. Some items in libraries.
+* `因為 GIL, python design 應該用 Multi-Processes 或 CoRoutines`
+* Web Application : `Flask`, `Django`
+
+!! Coding style : CodingStylePython
+
+!! Python example format : [[Python example file]]
+
+
+!! 參考資料 :
+* PythonNamespace
+* PythonSyntax
+* [[Python data type/structure]]
+* [[Python efficiency and coding style]]
+* PythonToUML
+* [[PythonInvest]]
+
+
+```plain
+Clear old/residual status
+Constructor/initiated
+Load
+Execution
+    sequential execution
+    branch
+    loop
+Store
+Destruction
+```
