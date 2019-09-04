@@ -1,0 +1,13 @@
+created: 20190904043508195
+modified: 20190904045004232
+tags: AndroidUI
+title: WebView
+type: text/vnd.tiddlywiki
+
+
+!! 參考資料:
+* [[Android WebView使用詳解及注意事項|https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/508317/]]
+* [[使用 Android Webview 建立 App|https://heavenchou.buddhason.org/node/333]]
+* [[如何使用 Webview 內嵌網頁，簡單的將網頁製作成 APP|https://spicyboyd.blogspot.com/2018/05/appandroid-webview-app.html]]
+* [[什麼是WebView以及如何測試它|https://kknews.cc/zh-tw/news/4z6v3qq.html]]
+* [[Android：最全面的Webview 詳解|https://blog.csdn.net/carson_ho/article/details/52693322]]
