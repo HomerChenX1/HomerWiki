@@ -1,5 +1,5 @@
 created: 20190830060651536
-modified: 20190830064245215
+modified: 20190905074023918
 tags: AndroidUI
 title: TextInputLayout
 type: text/vnd.tiddlywiki
@@ -10,6 +10,7 @@ type: text/vnd.tiddlywiki
 * [[如何使用TextInputLayout|https://givemepass.blogspot.com/2017/04/textinputlayout.html]]
 * [[Android EditText常用屬性功能彙總|https://codertw.com/android-%E9%96%8B%E7%99%BC/348870/]]
 * [[Android使用TextInputLayout建立登陸頁面|https://codertw.com/android-%E9%96%8B%E7%99%BC/335048/]]
+* [[How to know key presses in EditText|https://stackoverflow.com/questions/7117209/how-to-know-key-presses-in-edittext]]
 
 ```xml
     <android.support.design.widget.TextInputLayout

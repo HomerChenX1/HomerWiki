@@ -1,5 +1,5 @@
 created: 20190528053601421
-modified: 20190529041712435
+modified: 20190905073722586
 tags: Java AndroidSystem
 title: AndroidThread
 type: text/vnd.tiddlywiki
@@ -59,7 +59,7 @@ class 類別名稱 implements Runnable
 !!! ''Stop:''
 
 * 使用退出標誌，使線程正常退出，也就是當run方法完成後線程終止
-* 使用interrupt方法終止線程:  `mthread.stop();`
+* 使用interrupt方法終止線程:  `mthread.interrupt();`
 * 使用stop方法強行終止線程:  `mthread.stop();`
 ** 這個方法不推薦使用，因為stop和suspend、resume一樣，也可能發生不可預料的結果
 
