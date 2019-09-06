@@ -1,0 +1,11 @@
+created: 20190906011658323
+modified: 20190906012313127
+tags: Windows
+title: WinUtility
+type: text/vnd.tiddlywiki
+
+|! Unix | ! Windows | ! Parameters | |
+| grep | findstr | | |
+| grep | xcopy | `/D /K /E /Y /I /C /H` | 備份 |
+
+shutdown -s -f -t 300 -c "power off"

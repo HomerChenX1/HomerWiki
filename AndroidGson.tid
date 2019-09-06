@@ -1,0 +1,8 @@
+created: 20190906020349666
+modified: 20190906020655407
+tags: NotComplete AndroidSystem
+title: AndroidGson
+type: text/vnd.tiddlywiki
+
+* [[`@SerializedName`|https://www.jianshu.com/p/85c6ed9a259f]
+* [[Android中Gson解析json数据使用@SerializedName注解|https://www.jianshu.com/p/120f201c3319]]
