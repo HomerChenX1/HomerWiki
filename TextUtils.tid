@@ -1,0 +1,10 @@
+created: 20190909105142760
+modified: 20190909105348712
+tags: AndroidSystem
+title: TextUtils
+type: text/vnd.tiddlywiki
+
+
+!! 參考資料:
+* [[Android中的String.join的替代方法？|https://androidcookie.com/androidstring-join.html]]
+* [[android.text.TextUtils中的常用方法|https://blog.csdn.net/eyishion/article/details/51585266]]
