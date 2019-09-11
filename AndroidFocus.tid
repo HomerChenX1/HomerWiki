@@ -1,0 +1,12 @@
+created: 20190911021102668
+modified: 20190911021409729
+tags: NotComplete AndroidUI
+title: AndroidFocus
+type: text/vnd.tiddlywiki
+
+etCarLicenceNum.setOnFocusChangeListener(focusChangeListener);
+
+etCarBrand.addTextChangedListener(textWatcher);
+
+* `android:textCursorDrawable="@null"`
+* `android:backgroundTint="@android:color/background_light"`

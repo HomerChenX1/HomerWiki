@@ -1,5 +1,5 @@
 created: 20190812052713857
-modified: 20190813060029330
+modified: 20190911021729397
 tags: Java AndroidUI
 title: AndroidView
 type: text/vnd.tiddlywiki
@@ -26,3 +26,44 @@ type: text/vnd.tiddlywiki
 !! 參考資料:
 * AndroidDisplay
 * MaterialDesign
+
+```java
+void setListViewMaxHeight(Activity activity, ListView listView){
+        int availableHeight;
+        double ratio = 0.6;  // 0.6
+        //取得螢幕寬高密度
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Log.d("setListViewMaxHeight", "screenWidth: " + dm.widthPixels
+                +" screenHeight: " + dm.heightPixels );
+        availableHeight = (int) (dm.heightPixels * ratio);
+
+        ListAdapter mAdapter = listView.getAdapter();
+        if (mAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            View mView = mAdapter.getView(i, null, listView);
+
+            mView.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += mView.getMeasuredHeight();
+        }
+        totalHeight += (listView.getDividerHeight() * (mAdapter.getCount() - 1));
+        // Log.w("HEIGHT", String.valueOf(totalHeight));
+        if (totalHeight > availableHeight) {
+            // adjust the height
+            // Log.d("setListViewMaxHeight", "adjust the height");
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+//            params.height = totalHeight
+//                    + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
+            params.height = availableHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+        }
+}
+```

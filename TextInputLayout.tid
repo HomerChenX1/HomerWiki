@@ -1,10 +1,12 @@
 created: 20190830060651536
-modified: 20190905074023918
+modified: 20190911021400305
 tags: AndroidUI
 title: TextInputLayout
 type: text/vnd.tiddlywiki
 
 !! 特徵:
+* `android:textCursorDrawable="@null"`
+* `android:backgroundTint="@android:color/background_light"`
 
 !! 參考資料:
 * [[如何使用TextInputLayout|https://givemepass.blogspot.com/2017/04/textinputlayout.html]]
