@@ -1,13 +1,96 @@
 created: 20190807074929928
-modified: 20190807075921587
+modified: 20190916075209310
 tags: Java
 title: JavaConcurrentObject
 type: text/vnd.tiddlywiki
 
 !! 特徵:
+* Basic data structure : Compare and Swap.
+** [[AtomicBoolean|https://blog.csdn.net/wo541075754/article/details/51509586]]
+** ~AtomicInteger
+** ~AtomicLong
+** ~AtomicReference
+** ~AtomicStampedReference
+** ~AtomicIntegerArray
+** ~AtomicLongArray
+** ~AtomicReferenceArray
+* Queue
+** [[BlockingQueue|https://openhome.cc/Gossip/JavaGossip-V2/BlockingQueue.htm]]
+** ~ArrayBlockingQueue
+** ~DelayQueue
+** [[LinkedBlockingQueue|https://ithelp.ithome.com.tw/articles/10204636]]
+***屬於 Blocking (阻塞) 
+** ~ConcurrentLinkedQueue
+*** ~NonBlocking (非阻塞)
+** ~PriorityBlockingQueue
+** ~SynchronousQueue
+** ~BlockingDeque
+** ~LinkedBlockingDeque
+* Map
+** [[ConcurrentHashMap|https://blog.csdn.net/justloveyou_/article/details/72783008]]
+** ~ConcurrentNavigableMap
+* [[CountDownLatch|https://ithelp.ithome.com.tw/articles/10208081]]
+* ~CyclicBarrier
+* [[Semaphore|https://ithelp.ithome.com.tw/articles/10203988]]
+** 主要用來控制 Thread 最多能被用到的次數，如果超過 Semaphore 的設定次數的話就會等待其它的執行緒執行完成，在等待的 Thread 才能進入使用。
+** control the maximum excuting threads
+** other theads will be blocked
+* [[CopyOnWriteArrayList|https://ithelp.ithome.com.tw/articles/10204313]]
+** 可以解決同時讀寫 List 的問題
+** 當資料讀取的次數比寫入的次數還多的時侯
+
+
+
+* [[Exchanger|https://blog.csdn.net/andycpp/article/details/8854593]]
+** 可以在兩個線程之間交換數據，只能是2個線程，他不支持更多的線程之間互換數據
+** 適合的使用情境在 Producer-Consumer 模式
+* [[Executor|https://wiki.jikexueyuan.com/project/java-concurrency/executor.html]]
+** [[UML|https://stevenitlife.blogspot.com/2015/08/javautilconcurrent-executorservice.html]]
+** Executor interface
+*** 定義了一個方法execute（Runnable command），該方法接收一個Runable 實例，它用來執行一個任務，任務即一個實現了Runnable 接口的類
+** Executors
+*** 提供了一系列工廠方法用於創先線程池，返回的線程池都實現了~ExecutorService 接口
+** ~ThreadPool
+** ~ExecutorService interface
+*** 繼承自Executor 接口，它提供了更豐富的實現多線程的方法
+***提供了關閉自己的方法
+*** 以及可為跟踪一個或多個異步任務執行狀況而生成Future 的方法
+*** 可以調用~ExecutorService 的shutdown（）方法來平滑地關閉~ExecutorService，調用該方法後，將導致~ExecutorService 停止接受任何新的任務且等待已經提交的任務執行完成
+*** 生命週期包括三種狀態：運行、關閉、終止
+** Runnable interface : 沒有返回值
+** Future interface
+** Callable interface : 
+*** 有返回值
+*** Callable 的call()方法只能通過~ExecutorService 的submit(Callable task) 方法來執行，並且返回一個 Future，是表示任務等待完成的Future
+** ~ThreadPoolExecutor : 自定義線程池
+
+** ~CompletionService
+** [[ScheduledExecutorService|https://www.twle.cn/c/yufei/javatm/javatm-basic-executorservice.html]]
+* Fork and Join
+** [[ForkJoinPool|https://www.twle.cn/c/yufei/javatm/javatm-basic-forkjoin.html]]
+* Lock
+** [[Lock|https://blog.csdn.net/ghsau/article/details/7461369]]
+** ~ReadWriteLock
+** [[ReentrantLock|https://ithelp.ithome.com.tw/articles/10205898]]
+** ~ReentrantReadWriteLock
+*** 在沒有任何讀取或寫入鎖定時，才可以取得寫入鎖定，這可用於實現悲觀讀取（Pessimistic Reading）
+** ~StampedLock
+*** 支援樂觀讀取（Optimistic Reading）實作，也就是若讀取執行緒很多，寫入執行緒甚少的情況下，你可以樂觀地認為，寫入與讀取同時發生的機會甚少，因此不悲觀地使用完全的讀取鎖定，程式可以查看資料讀取之後，是否遭到寫入執行緒的變更，再採取後續的措施
+
 
 
 !! 參考資料:
+* [[java.util.concurrency - Java Concurrency Utilities|http://tutorials.jenkov.com/java-util-concurrent/atomicboolean.html]]
+* [[Java並發編程：CountDownLatch、CyclicBarrier和Semaphore|https://www.cnblogs.com/dolphin0520/p/3920397.html]]
+* [[HashMap? ConcurrentHashMap? 相信看完這篇沒人能難住你！|https://crossoverjie.top/2018/07/23/java-senior/ConcurrentHashMap/]]
+* [[如何在java中使用ConcurrentHashMap|https://yemengying.com/2015/11/06/%E3%80%90%E8%AF%91%E3%80%91%E5%A6%82%E4%BD%95%E5%9C%A8java%E4%B8%AD%E4%BD%BF%E7%94%A8ConcurrentHashMap/]]
+* [[Top 5 Concurrent Collections from JDK 5 and 6 Java Programmer Should Know|https://javarevisited.blogspot.com/2013/02/concurrent-collections-from-jdk-56-java-example-tutorial.html]]
+* [[Java並發編程中Exchanger的用法|https://blog.csdn.net/sinat_36246371/article/details/53873693]]
+* [[Java：Exchanger類的作用|https://www.itread01.com/content/1548300436.html]]
+* [[Java線程(八)：鎖對象Lock-同步問題更完美的處理方式|https://blog.csdn.net/ghsau/article/details/7461369]]
+* [[【JDK8】從 synchronized、Lock 到 StampedLock|https://openhome.cc/Gossip/CodeData/JDK8/StampedLock.html]]
+* [[使用 Executors 和 ExecutorService 啟動執行緒 (一)|https://ithelp.ithome.com.tw/articles/10207124?sc=iThelpR]]
+* [[使用 Exchanger Class 來交換 Thread 之間的資料|https://ithelp.ithome.com.tw/articles/10205277]]
 
 !!! `AtomicBoolean`
 ```java
