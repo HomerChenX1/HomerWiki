@@ -1,5 +1,5 @@
 created: 20190628071552497
-modified: 20190808033432243
+modified: 20190917050229621
 tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
@@ -110,3 +110,10 @@ private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItem
     };
 ```
 
+!!! ''Item checked'':
+```java
+@Override
+public View getView(int position, View convertView, ViewGroup parent) {
+   ((ListView)parent).setItemChecked(position, true);
+}
+```
