@@ -1,8 +1,18 @@
 created: 20190906020349666
-modified: 20190906020655407
+modified: 20190920083830281
 tags: NotComplete AndroidSystem
 title: AndroidGson
 type: text/vnd.tiddlywiki
 
-* [[`@SerializedName`|https://www.jianshu.com/p/85c6ed9a259f]
+
+```java
+gson.fromJson(jsonStr, classType);
+
+gson.toJson(instance);
+
+```
+
+!! 參考資料:
+* [[`SerializedName`|https://www.jianshu.com/p/85c6ed9a259f]
 * [[Android中Gson解析json数据使用@SerializedName注解|https://www.jianshu.com/p/120f201c3319]]
+* [[GSON 的基本程式語法教學|https://xnfood.com.tw/android-json-gson-2/]]

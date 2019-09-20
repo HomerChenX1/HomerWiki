@@ -1,5 +1,5 @@
 created: 20190619074540362
-modified: 20190808033020196
+modified: 20190920113048914
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewGridLayoutManager
 type: text/vnd.tiddlywiki
@@ -147,6 +147,7 @@ class MainRecyclerViewGridAdapter extends RecyclerView.Adapter<MainRecyclerViewG
 
     @Override
     public void onBindViewHolder(@NonNull MainRecyclerViewGridAdapter.ViewHolder holder, final int position) {
+// View itemView is bound on holder
         holder.gridImage.setImageResource(gridDataArray.get(position).gridResId);
         holder.gridText.setText(gridDataArray.get(position).gridText);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

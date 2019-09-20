@@ -1,5 +1,5 @@
 created: 20190617061855055
-modified: 20190808033155504
+modified: 20190920113252400
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewLinearLayoutManager
 type: text/vnd.tiddlywiki
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         // 重用之前產生的 ViewHolder，把特定位置的資料連結上去準備顯示
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
+            // View itemView is bound on holder
             holder.mTextView.setText(mData.get(position));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
