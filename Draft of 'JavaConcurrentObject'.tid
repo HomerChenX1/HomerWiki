@@ -1,7 +1,9 @@
 created: 20190807074929928
-modified: 20190924114701710
+draft.of: JavaConcurrentObject
+draft.title: JavaConcurrentObject
+modified: 20190924115948729
 tags: Java
-title: JavaConcurrentObject
+title: Draft of 'JavaConcurrentObject'
 type: text/vnd.tiddlywiki
 
 !! 特徵:
@@ -27,30 +29,39 @@ type: text/vnd.tiddlywiki
 **** 在沒有任何讀取或寫入鎖定時，才可以取得寫入鎖定，這可用於實現悲觀讀取（Pessimistic Reading）
 *** ~StampedLock
 **** 支援樂觀讀取（Optimistic Reading）實作，也就是若讀取執行緒很多，寫入執行緒甚少的情況下，你可以樂觀地認為，寫入與讀取同時發生的機會甚少，因此不悲觀地使用完全的讀取鎖定，程式可以查看資料讀取之後，是否遭到寫入執行緒的變更，再採取後續的措施
+** Map
+*** [[ConcurrentHashMap|https://blog.csdn.net/justloveyou_/article/details/72783008]]
+*** ~ConcurrentNavigableMap
+** [[CopyOnWriteArrayList|https://ithelp.ithome.com.tw/articles/10204313]]
+*** 可以解決同時讀寫 List 的問題
+*** 當資料讀取的次數比寫入的次數還多的時侯
 
+* [[Flow Control|https://popcornylu.gitbooks.io/java_multithread/content/sync/flow_control.html]]
+** `wait() notify()`
+** ~CyclicBarrier 
+*** 所有的threads都需要到達某著stage的時候，才繼續往下走。這概念就很像出遊的時候，大家會在一個地點集合，全員到齊了再一起出發的概念。
+** [[CountDownLatch|https://ithelp.ithome.com.tw/articles/10208081]]
+*** 每呼叫一次countdown()則倒數的counter就會減一，當一個thread去呼叫await()時，會一直卡在那邊，直到counter歸零為止，才會繼續往下走。
 
-* Queue
-** [[BlockingQueue|https://openhome.cc/Gossip/JavaGossip-V2/BlockingQueue.htm]]
-** ~ArrayBlockingQueue
-** ~DelayQueue
-** [[LinkedBlockingQueue|https://ithelp.ithome.com.tw/articles/10204636]]
-***屬於 Blocking (阻塞) 
-** ~ConcurrentLinkedQueue
-*** ~NonBlocking (非阻塞)
-** ~PriorityBlockingQueue
-** ~SynchronousQueue
-** ~BlockingDeque
-** ~LinkedBlockingDeque
-* Map
-** [[ConcurrentHashMap|https://blog.csdn.net/justloveyou_/article/details/72783008]]
-** ~ConcurrentNavigableMap
-* [[CountDownLatch|https://ithelp.ithome.com.tw/articles/10208081]]
-* ~CyclicBarrier
+* [[Message Passing|https://popcornylu.gitbooks.io/java_multithread/content/sync/message_passing.html]]
+** Queue
+*** [[BlockingQueue|https://openhome.cc/Gossip/JavaGossip-V2/BlockingQueue.htm]]
+*** ~ArrayBlockingQueue
+*** ~DelayQueue
+*** [[LinkedBlockingQueue|https://ithelp.ithome.com.tw/articles/10204636]]
+****屬於 Blocking (阻塞) 
+*** ~ConcurrentLinkedQueue
+**** ~NonBlocking (非阻塞)
+*** ~PriorityBlockingQueue
+*** ~SynchronousQueue
+*** ~BlockingDeque
+*** ~LinkedBlockingDeque
+** Pipe
+*** nio的版本
+*** Future and Completable Future
 
+* [[Pool|https://popcornylu.gitbooks.io/java_multithread/content/threadpool/basicpool.html]]
 
-* [[CopyOnWriteArrayList|https://ithelp.ithome.com.tw/articles/10204313]]
-** 可以解決同時讀寫 List 的問題
-** 當資料讀取的次數比寫入的次數還多的時侯
 
 
 
