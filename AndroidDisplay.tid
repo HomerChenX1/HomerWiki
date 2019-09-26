@@ -1,5 +1,5 @@
 created: 20190627012449465
-modified: 20190718021453112
+modified: 20190926101412857
 tags: AndroidUI
 title: AndroidDisplay
 type: text/vnd.tiddlywiki
@@ -61,6 +61,7 @@ type: text/vnd.tiddlywiki
 * [[icon handbook|https://iconhandbook.co.uk/reference/chart/android/]]
 * [[Android App支援多種不同螢幕規格的方式|https://magiclen.org/android-screen/]]
 * [[多分辨率適配常用目錄|https://wiki.jikexueyuan.com/project/android-actual-combat-skills/multi-resolution-adapting-common-directory.html]]
+* [[Android--獲取View的寬高的幾種方法|https://blog.csdn.net/HardWorkingAnt/article/details/77278811]]
 
 使用9-patch PNG圖片
 
@@ -75,4 +76,17 @@ Logger.e("screenWidth:" + dm.widthPixels + "  "
         + "density:" + dm.density + "  "
         + "scaledDensity:" + dm.scaledDensity + "  "
         + "dpi:" + dm.densityDpi);
+```
+
+!! [[Get height of a view in onCreate() method|https://blog.csdn.net/hardworkingant/article/details/77408329]]
+```java
+final LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
+final ViewTreeObserver observer= layout.getViewTreeObserver();
+observer.addOnGlobalLayoutListener(
+    new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+            public void onGlobalLayout() {
+                Log.d("Log", "Height: " + layout.getHeight());
+            }
+        });
 ```
