@@ -1,0 +1,9 @@
+created: 20190927054515725
+modified: 20190927054856533
+tags: AndroidSystem
+title: NetworkSecurityConfiguration
+type: text/vnd.tiddlywiki
+
+* [[網絡安全配置|https://developer.android.com/training/articles/security-config?hl=zh-cn]]
+* [[繞過Android 7.0+ 網絡安全配置|https://iacn.me/2018/03/14/network-security-configuration-newer-than-android-n/]]
+* [[Android P 中的網絡安全配置指南|https://www.4hou.com/technology/13149.html]]
