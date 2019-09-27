@@ -1,8 +1,19 @@
 created: 20190829020625108
-modified: 20190927022034524
+modified: 20190927055414694
 tags: AndroidSystem [[Servers' setup]]
 title: AndroidStudio
 type: text/vnd.tiddlywiki
+
+* setup Android Studio
+* assign the Displays: [[AndroidDisplay]]
+** display Normal : minimum size
+*** 4inch emulator: Nexus S
+** display Large: normal size
+*** 5inch emulator: Nexus 5X
+** display Large: normal size
+*** 7inch emulator: Nexus 7(2012)
+* design Theme 
+
 
 [[AndroidDesignModels]]
 
