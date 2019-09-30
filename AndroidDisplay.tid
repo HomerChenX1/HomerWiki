@@ -1,5 +1,5 @@
 created: 20190627012449465
-modified: 20190926101412857
+modified: 20190930072102022
 tags: AndroidUI
 title: AndroidDisplay
 type: text/vnd.tiddlywiki
@@ -62,6 +62,7 @@ type: text/vnd.tiddlywiki
 * [[Android App支援多種不同螢幕規格的方式|https://magiclen.org/android-screen/]]
 * [[多分辨率適配常用目錄|https://wiki.jikexueyuan.com/project/android-actual-combat-skills/multi-resolution-adapting-common-directory.html]]
 * [[Android--獲取View的寬高的幾種方法|https://blog.csdn.net/HardWorkingAnt/article/details/77278811]]
+* [[Down arrow by text|http://www.amp-what.com/unicode/search/triangle]]
 
 使用9-patch PNG圖片
 

@@ -1,5 +1,5 @@
 created: 20190610051609949
-modified: 20190812025745155
+modified: 20190930071527485
 tags: AndroidUI
 title: AndroidActivity
 type: text/vnd.tiddlywiki
@@ -55,3 +55,4 @@ public class ActivityBasic extends AppCompatActivity {
 
 !! 參考資料:
 * [[絕不丟失狀態的Activity 重建機制|https://juejin.im/post/5d03be376fb9a07eca697906]]
+* [[Reload activity in Android|https://stackoverflow.com/questions/3053761/reload-activity-in-android]]
