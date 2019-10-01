@@ -1,0 +1,18 @@
+created: 20191001073428010
+modified: 20191001075007610
+tags: AndroidUI AndroidSystem
+title: AndroidListenser
+type: text/vnd.tiddlywiki
+
+* [[Event Listeners|https://style77125tech.pixnet.net/blog/post/12136967-%5Bandroid%5D-event-listeners]]
+* [[應用程式與使用者的互動|http://www.codedata.com.tw/mobile/android-tutorial-the-2nd-class-3-interaction/]]
+
+|! | ! Event | ! Notice |
+|! 1| `View.OnClickListener` | 表示當使用者觸碰到某一個項目時。 |
+|! 2| `View.OnLongClickListener` | 當使用者觸碰到某一項目且按住不放時。 |
+|! 3 | `View.OnFocusChangeListener` | 表示移置項目上或移開到別的項目 |
+|! 4 | `View.OnKeyListener` | 表示當使用者按下或放開一個鑑。 |
+|! 5 | `View.OnTouchListener` | 表示當使用者完成一個觸碰事件的動作，包含螢幕放開、按下或是其他移動手勢。 |
+|! 6 | `View.OnCreateContextMenuListener` | 當一個`ContextMenu`被建立時。 |
+|! 7 | `AdapterView.OnItemClickListener` |  |
+|! 8 |  |  |

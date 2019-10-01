@@ -1,0 +1,19 @@
+created: 20191001071359507
+modified: 20191001073345773
+tags: AndroidUI
+title: AndroidLifeCycle
+type: text/vnd.tiddlywiki
+
+* `onBackPressed() -> onPause()`
+* `onRestoreInstanceSate()` only happened when `onSaveInstanceState()` really saves the bundle
+* [[The Android Lifecycle cheat sheet — part III : Fragments|https://medium.com/androiddevelopers/the-android-lifecycle-cheat-sheet-part-iii-fragments-afc87d4f37fd]]
+* [[Android onSaveInstanceState onRestoreInstanceState|https://www.journaldev.com/22621/android-onsaveinstancestate-onrestoreinstancestate]]
+
+!! Normal lifecycle
+{{life-cycle-good.png}}
+
+!! Normal lifecycle 2
+[img[normal_LC.png]]
+
+!! Rotate lifecycle 
+[img[rotate_LC.png]]
