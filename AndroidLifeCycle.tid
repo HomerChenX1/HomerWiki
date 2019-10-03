@@ -1,5 +1,5 @@
 created: 20191001071359507
-modified: 20191001073345773
+modified: 20191002030432753
 tags: AndroidUI
 title: AndroidLifeCycle
 type: text/vnd.tiddlywiki
@@ -8,6 +8,14 @@ type: text/vnd.tiddlywiki
 * `onRestoreInstanceSate()` only happened when `onSaveInstanceState()` really saves the bundle
 * [[The Android Lifecycle cheat sheet — part III : Fragments|https://medium.com/androiddevelopers/the-android-lifecycle-cheat-sheet-part-iii-fragments-afc87d4f37fd]]
 * [[Android onSaveInstanceState onRestoreInstanceState|https://www.journaldev.com/22621/android-onsaveinstancestate-onrestoreinstancestate]]
+* `onSaveInstanceState()` : 當你有任何需要暫存的資料時，直接在onSaveInstanceState()儲存即可。
+** 會在activity被銷毀之前執行
+** 有特別提到它不一定會被執行，只適合用來暫存UI畫面的資料
+** 如果需要儲存重要的資料，最好是在onPause()進行儲存。
+** 在onSaveInstanceState()儲存的bundle資料，會在onCreate()或是onRestoreInstanceState()時載入
+* `onRestoreInstanceState()`會在`onStart()`之後執行
+* or restart the APP
+** [[How to 'restart' an android application programmatically |https://stackoverflow.com/questions/15564614/how-to-restart-an-android-application-programmatically]]
 
 !! Normal lifecycle
 {{life-cycle-good.png}}
