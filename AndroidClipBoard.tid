@@ -1,0 +1,24 @@
+created: 20191004052313634
+modified: 20191004053533200
+tags: AndroidSystem
+title: AndroidClipBoard
+type: text/vnd.tiddlywiki
+
+
+!! 參考資料:
+* [[複製/剪貼板|http://tw.gitbook.net/android/android_clipboard.html]]
+* [[如何將文字複製到剪貼簿|https://givemepass.blogspot.com/2013/11/clipboard.html]]
+
+```java
+public void onClick(View v) {
+    ClipboardManager clipboard = (android.content.ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+    ClipData clip = android.content.ClipData.newPlainText("btnCodeCopy", tvCode.getText().toString().trim());
+    clipboard.setPrimaryClip(clip);
+}
+```
+
+```java
+ClipData abc = myClipboard.getPrimaryClip();
+ClipData.Item item = abc.getItemAt(0);
+String text = item.getText().toString();
+```

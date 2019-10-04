@@ -1,36 +1,39 @@
 created: 20190829020625108
-modified: 20190927055414694
+modified: 20191004082956502
 tags: AndroidSystem [[Servers' setup]]
 title: AndroidStudio
 type: text/vnd.tiddlywiki
 
-* setup Android Studio
+!! Setup Android Studio
+* setup it
+
+!! Design UI
 * assign the Displays: [[AndroidDisplay]]
-** display Normal : minimum size
-*** 4inch emulator: Nexus S
-** display Large: normal size
-*** 5inch emulator: Nexus 5X
-** display Large: normal size
-*** 7inch emulator: Nexus 7(2012)
-* design Theme 
+** display Normal : 
+*** minimum size : 4inch emulator: Nexus S
+*** default size : 5inch emulator: Nexus 5X
+** display Large:
+*** minimum size : 5inch emulator: Nexus 5X
+*** normal size : 7inch emulator: Nexus 7(2012)
 
+* design Theme : AndroidTheme
+* design Bitmap/Drawable/Vector
+** by tools : `Image Asset Studio` and `Vector Asset Studio`
 
-[[AndroidDesignModels]]
-
-[[Programming]]
-
-* Testing target: [[AndroidDisplay]]
-** display Normal : minimum size
-*** 4inch emulator: Nexus S
-** display Large: normal size
-*** 5inch emulator: Nexus 5X
-** display Large: normal size
-*** 7inch emulator: Nexus 7(2012)
-
-* program:
+!! Design Program
+* [[AndroidDesignModels]]
+* [[Programming]]
 ** Controller : handlerDo, in background thread
+*** or use `EventBus`
 ** ~ViewModel or ~ViewController : handlerUi
-
+* Analyze
+** infer nullity
+** inspect code
+** code cleanup
+* Code
+** Rearrange Code : Arrangement管理代碼中元素的順序。例如,大多數人喜歡保持在類的頂部聲明類成員,其次是構造函數,其次是getter和setter,等等。通過File ➤ Settings ➤ Code Style ➤ Java ➤ Arrangement，您可以編輯Arrangement的安排設置選項卡。在前面的部分中,您將構造函數的類。這不是通常他們在的地方。從主菜單Code ➤ Rearrange。你會注意到構造函數已經搬回其預期的位置——聲明部分的下面。Rearrange Code按照Arrangement的設置執行這種重排操作。
+** ** Reformat code ??
+* [[refactor|https://blog.csdn.net/zhuhai__yizhi/article/details/82656420]]
 
 !! 參考資料:
 * [[Android Studio Homepage|https://developer.android.com/studio/write/java8-support#disable_jack]]

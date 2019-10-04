@@ -1,0 +1,83 @@
+created: 20191004063932074
+modified: 20191004065404759
+tags: AndroidUI
+title: AndroidTheme
+type: text/vnd.tiddlywiki
+
+!! Global App theme : colors.xml
+* statusBarColor : usually not write here
+** need SDK21 and above,
+** need support v7
+
+```xml
+<color name="colorPrimaryDark">#eac086</color>
+<color name="colorPrimary">#ffcd94</color>
+<color name="windowBackground">#ffe0bd</color>
+<color name="navigationBarColor">#ffad60</color>
+<color name="colorAccent">#D81B60</color>
+<color name="textColorPrimary">#ffe39f</color>
+<color name="statusBarColor">#eac086</color>
+```
+
+!! App/Activity theme : styles.xml
+* statusBarColor : usually write here
+
+```xml
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_secondary</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:statusBarColor">@color/color_primary</item>
+    </style>
+</resources>
+```
+
+!! Toobar theme : styles.xml
+* disable APP toolbar 
+* then set their theme
+
+!!! Disable APP toolbar by `NoActionBar`
+```xml
+<resources>
+    ...
+     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+            <item name="colorAccent">@color/colorAccent</item>
+            <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+     </style>
+</resources>
+```
+
+!!! Disable APP toolbar by `windowActionBar` and `windowNoTitle`
+```xml
+<!-- Base application theme. -->
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/main_blue</item>
+    <item name="colorPrimaryDark">@color/dark_blue</item>
+    <item name="colorAccent">@color/main_blue</item>
+    <item name="android:navigationBarColor">@color/navigation_bar</item>
+    <!-- For toobar -->
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+
+    <item name="android:actionBarStyle">@style/MyActionBar</item>
+    <item name="actionBarStyle">@style/MyActionBar</item>
+    <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
+</style>
+```
+
+!!! Toolbar layout.xml
+```xml
+<android.support.v7.widget.Toolbar
+   android:id="@+id/toolbar
+   android:layout_width="match_parent"
+   android:layout_height="?attr/actionBarSize"
+   android:background="?attr/colorPrimary"
+   app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+```
+
+[img[theme_colors.png]]
