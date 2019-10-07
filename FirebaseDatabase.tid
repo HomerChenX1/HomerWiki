@@ -1,11 +1,10 @@
 created: 20190510095042019
-modified: 20190515100704133
+modified: 20191007105023673
 tags: Firebase
 title: FirebaseDatabase
 type: text/vnd.tiddlywiki
 
-特徵 :
-
+!! 特徵 :
 * 一定要宣告成
 ** outer class 
 ** or static inner class
@@ -14,8 +13,13 @@ type: text/vnd.tiddlywiki
 ** total public fields without getter/setter
 ** or total private fields with public getter/setter
 ** keep as Simple as possible
+* For generic getValue()
+```java
+GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+                    schoolBusName = dataSnapshot.getValue(t);
+```
 
-
+!!! Generic base class
 ```java
 class FbDbBasic {
     private String TAG = getClass().getSimpleName();

@@ -1,0 +1,48 @@
+created: 20191007025735261
+modified: 20191007031438855
+tags: AndroidUI
+title: OptionalMenu
+type: text/vnd.tiddlywiki
+
+* how to style this
+
+```xml
+android:orderInCategory
+android:showAsAction="ifRoom"
+```
+
+!! 啟動 Activity 時 : 系統會呼叫 onCreateOptionsMenu()，以在動作列顯示項目。
+```java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.game_menu, menu);
+    return true;
+}
+```
+
+!! 處理點擊事件
+* return value : true -> 以處理  false -> to next
+* 如果您的 Activity 包含片段，系統會先呼叫 Activity 的 onOptionsItemSelected()，再依片段的新增順序呼叫各片段，直到其中之一傳回 true 或所有片段均已呼叫。
+
+```java
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    switch (item.getItemId()) {
+        case R.id.new_game:
+            newGame();
+            return true;
+        case R.id.help:
+            showHelp();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+    }
+}
+```
+
+!! 在執行階段變更選單項目
+* onCreateOptionsMenu() 應該只用來建立初始選單狀態，您不要在 Activity 生命週期間用來進行變更。
+* 呼叫 invalidateOptionsMenu()
+** 以要求系統呼叫 onPrepareOptionsMenu()。

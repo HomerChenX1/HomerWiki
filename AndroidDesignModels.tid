@@ -1,5 +1,5 @@
 created: 20190812042146147
-modified: 20190812074950310
+modified: 20191007023529156
 tags: Java AndroidSystem
 title: AndroidDesignModels
 type: text/vnd.tiddlywiki
@@ -44,3 +44,5 @@ type: text/vnd.tiddlywiki
 * AndroidView
 * AndroidViewModel
 * AndroidController
+
+[img[AndroidDesignGraph.png]]

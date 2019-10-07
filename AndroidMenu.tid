@@ -1,0 +1,16 @@
+created: 20191007020858318
+modified: 20191007041205369
+tags: AndroidUI
+title: AndroidMenu
+type: text/vnd.tiddlywiki
+
+* Spinner
+* OptionalMenu : 在 Action Bar 顯示 Menu
+* ContentMenu : 在 View 顯示 Menu, 長按
+* PopupMenu : 在 View 顯示 Menu, 短按
+* PopupWindow : 可取代 PopupMenu 
+* MenuItem API
+
+!! 參考資料:
+* [[選單|https://developer.android.com/guide/topics/ui/menus?hl=zh-tw]]
+* [[如何使用Menu|https://givemepass.blogspot.com/2011/11/menu.html]]

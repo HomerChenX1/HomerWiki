@@ -1,5 +1,5 @@
 created: 20190614093128076
-modified: 20190808033520865
+modified: 20191007110601248
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerView
 type: text/vnd.tiddlywiki
@@ -24,5 +24,6 @@ type: text/vnd.tiddlywiki
 * [[簡單實現RecyclerView項目拖動效果|https://tpu.thinkpower.com.tw/tpu/articleDetails/795]]
 * [[RecyclerView.Adapter：全能notify解決方案|https://zhuanlan.zhihu.com/p/22170152]]
 * [[清單|https://wcc723.gitbooks.io/google_design_translate/components-lists.html]]
+* [[How to create RecyclerView with multiple view type?|https://stackoverflow.com/questions/26245139/how-to-create-recyclerview-with-multiple-view-type]]
 
 

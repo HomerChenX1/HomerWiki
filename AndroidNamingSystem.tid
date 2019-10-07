@@ -1,10 +1,16 @@
 created: 20190708011731831
-modified: 20190813060657554
+modified: 20191007032145561
 tags: AndroidSystem
 title: AndroidNamingSystem
 type: text/vnd.tiddlywiki
 
 !! 參考資料:
+
+!! Class
+* field/attribute : 
+** `HandlerThread mHandlerThreadIO;`
+* static field/attribute : 
+** `static HandlerThread sHandlerThreadIO;`
 
 !! View
 * `TextView `: tv , `ImageView`: iv
