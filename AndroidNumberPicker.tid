@@ -1,0 +1,24 @@
+created: 20191008043001967
+modified: 20191008054954210
+tags: AndroidUI
+title: AndroidNumberPicker
+type: text/vnd.tiddlywiki
+
+* Text/String Picker
+* [[文字選擇器 - NumberPicker 的應用|https://spicyboyd.blogspot.com/2018/04/app-numberpicker.html]]
+* [[NumberPicker- 數字滾輪介面元件|https://xnfood.com.tw/android-numberpicker/]]
+* [[Android developer|https://developer.android.com/reference/android/widget/NumberPicker]]
+
+```xml
+<style name="NumberPickerText">
+    <item name="android:textSize">22sp</item>
+</style>
+```
+```xml
+<NumberPicker
+    android:id="@+id/np_picker"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:theme="@style/NumberPickerText"
+    android:layout_gravity="center_horizontal"/>
+```

@@ -1,0 +1,12 @@
+created: 20191008055129132
+modified: 20191008060442603
+tags: AndroidUI
+title: ProgressBar
+type: text/vnd.tiddlywiki
+
+* SeekBar
+* RatingBar
+
+!! 參考資料:
+* [[非常普遍的ProgressBar進度條|https://mp.weixin.qq.com/s?__biz=MzI1MTAyNzM5Ng==&mid=2649949648&idx=1&sn=2a38a510bd297c4c005c21bbd8ea7daa&chksm=f1feef7bc689666d3e939b8e4673fc328e5adaea52a6de12be05a4c704b689643ba4503673c6&scene=21#wechat_redirect]]
+* [[自定義ProgressBar打造酷炫進度條|https://mp.weixin.qq.com/s?__biz=MzI1MTAyNzM5Ng==&mid=2649949649&idx=1&sn=f4bf794ce6269dad2f2cb40df33482d8&chksm=f1feef7ac689666c10b326154a5c926a20274b26b3e1db67f88bc7b297428ca0edeb6318aa1b&scene=21#wechat_redirect]]

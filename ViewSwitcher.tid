@@ -1,0 +1,11 @@
+created: 20191008054137508
+modified: 20191008060413988
+tags: AndroidUI
+title: ViewSwitcher
+type: text/vnd.tiddlywiki
+
+* ViewSwitcher代表了視圖切換組件，它本身繼承了FrameLayout，因此可以將多個View層疊在一起，每次只顯示一個組件。當程序控制從一個View切換到另一個View時，ViewSwitcher支持指定動畫效果。
+
+!! 參考資料:
+* [[ViewSwitcher|https://mp.weixin.qq.com/s?__biz=MzI1MTAyNzM5Ng==&mid=2649949718&idx=1&sn=74d3ed5299cfd661c7b4971de9588daf&chksm=f1feecbdc68965ab73299823f9a30f7775c203d29bd512d40bb1ba443a2407daf73102120f29#rd]]
+* [[ImageSwitcher和TextSwitcher|https://mp.weixin.qq.com/s?__biz=MzI1MTAyNzM5Ng==&mid=2649949719&idx=1&sn=bc445ab66cefd42133f1178bfe8b84f9&chksm=f1feecbcc68965aaba6bad677eafd45ba335674e3b2883adc9bfe61501034b7e74a04b938816#rd]]

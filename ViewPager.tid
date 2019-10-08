@@ -1,0 +1,8 @@
+created: 20191008065256140
+modified: 20191008065413828
+tags: AndroidUI
+title: ViewPager
+type: text/vnd.tiddlywiki
+
+* [[ViewPager切換界面|http://wiki.jikexueyuan.com/project/twenty-four-Scriptures/view-pager.html]]
+* [[ViewPager + FragmentStatePagerAdapter實現仿微信Tab|http://wiki.jikexueyuan.com/project/twenty-four-Scriptures/fragment-state-pager-adapter.html]]
