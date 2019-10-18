@@ -1,0 +1,84 @@
+created: 20191015121334876
+modified: 20191018093710697
+tags: AndroidUI
+title: SeekBar
+type: text/vnd.tiddlywiki
+
+* [[Android仿酷狗音樂SeekBar——樣式篇|https://www.jianshu.com/p/7f00c5361094]]
+* [[SeekBar-卷軸拖曳元件的基本用法與如何透過 Shape、layer-list 自訂外觀|https://xnfood.com.tw/android-seekbar/]]
+* [[Android 坑爹大全—— SeekBar|http://light3moon.com/2015/01/26/Android%20%E5%9D%91%E7%88%B9%E5%A4%A7%E5%85%A8%20%E2%80%94%E2%80%94%20SeekBar/]]
+* [[android Seekbar 踩坑|http://jc7003.pixnet.net/blog/post/319020328-android-seekbar-%E8%B8%A9%E5%9D%91]]
+* [[解決SeekBar拖動過程中thumb周圍產生的圓形陰影/白色圓圈|https://blog.csdn.net/wudongjiang333/article/details/78720476]]
+* [[how to fix seekbar-bar-thumb-centering-issues|https://stackoverflow.com/questions/7404100/how-to-fix-seekbar-bar-thumb-centering-issues]]
+
+!!! slide_thumb_pressed.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <size
+        android:width="25dp"
+        android:height="25dp" />
+    <solid android:color="#ffffffff" />
+    <stroke
+        android:width="4dp"
+        android:color="@color/common_google_signin_btn_text_light_disabled" />
+</shape>
+```
+
+```xml
+<SeekBar
+    android:id="@+id/sbSpeechRate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+
+    android:thumb="@drawable/slide_thumb_normal"
+    android:splitTrack="false"
+    android:max="100"
+    android:min="25"
+    android:progress="60"
+    android:maxHeight="50dp"
+    android:minHeight="50dp" />
+```
+
+
+```java
+tvSpeechRate = rootView.findViewById(R.id.tvSpeechRate);
+        sbSpeechRate = rootView.findViewById(R.id.sbSpeechRate);
+        setSbSpeechRate(storeSpeechRate);
+        sbSpeechRate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //拖曳途中觸發事件，回傳參數 progress 告知目前拖曳數值
+                setTvSpeechRate(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                //開始拖曳時觸發事件
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                //停止拖曳時觸發事件
+                UserSettings.getRef().setTtsRate(storeSpeechRate);
+            }
+        });
+
+        return rootView;
+    }
+
+    private void setTvSpeechRate(int progress){
+        // progress : 25 ~ 100
+        float f = progress/100.0f*maxSpeechRate;
+        // Log.d("Debug", "progress: " + progress + " f: " + f );
+        tvSpeechRate.setText(String.valueOf(f));
+        storeSpeechRate = f;
+    }
+
+    private void setSbSpeechRate(float rate){
+        int intRate = (int) (rate/maxSpeechRate * 100);
+        sbSpeechRate.setProgress(intRate);
+    }
+```

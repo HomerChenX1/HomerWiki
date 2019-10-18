@@ -1,5 +1,5 @@
 created: 20190715043202894
-modified: 20190808034503621
+modified: 20191018070322653
 tags: MaterialDesign AndroidUI
 title: AndroidSwitch
 type: text/vnd.tiddlywiki
@@ -10,6 +10,18 @@ type: text/vnd.tiddlywiki
 !! 參考資料 :
 * [[開關按鈕ToggleButton和開關Switch|http://www.runoob.com/w3cnote/android-tutorial-togglebutton-switch.html]]
 * [[開關|https://wcc723.gitbooks.io/google_design_translate/components-switches.html]]
+```xml
+<Switch
+            android:id="@+id/timerOnOffSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.6"
+            android:scaleY="1.6"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="32dp"
+            />
+```
 
 ```xml
 <Switch
