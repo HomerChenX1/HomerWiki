@@ -1,10 +1,11 @@
 created: 20191007040012106
-modified: 20191007071533608
+modified: 20191019123540506
 tags: AndroidUI
 title: PopupMenu
 type: text/vnd.tiddlywiki
 
 * 當使用者選取某項目或輕觸選單區域外時會關閉選單。 您可以使用 PopupMenu.OnDismissListener 來接聽關閉事件。
+*PopupMenuV7
 
 ```java
 public void showPopup(View v) {

@@ -1,5 +1,5 @@
 created: 20190628071552497
-modified: 20191008092025687
+modified: 20191019124023269
 tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
@@ -7,6 +7,7 @@ type: text/vnd.tiddlywiki
 !! 特徵 :
 * `ListView` 本身 scrollable, 不需要 `ScrollView`
 * AndroidChips
+* [[android listview item style?|https://stackoverflow.com/questions/17981507/android-listview-item-style]]
 
 !! 參考資料 :
 * [[ListView 進階用法 BaseAdapter|http://learnexp.tw/%E3%80%90android%E3%80%91listview-%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95-baseadapter/]]
