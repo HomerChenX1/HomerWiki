@@ -1,5 +1,5 @@
 created: 20190614093128076
-modified: 20191008065127750
+modified: 20191021072316219
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerView
 type: text/vnd.tiddlywiki
@@ -26,5 +26,6 @@ type: text/vnd.tiddlywiki
 * [[清單|https://wcc723.gitbooks.io/google_design_translate/components-lists.html]]
 * [[How to create RecyclerView with multiple view type?|https://stackoverflow.com/questions/26245139/how-to-create-recyclerview-with-multiple-view-type]]
 * [[RecyclerView動態添加，刪除及點擊事件|http://wiki.jikexueyuan.com/project/twenty-four-Scriptures/recycler-view-add-remove.html]]
+* [[HOW TO GET A RECYCLERVIEW ITEM AT A GIVEN POSITION IN ANDROID|https://inducesmile.com/android-programming/how-to-get-a-recyclerview-item-at-a-given-position-in-android/]]
 
 

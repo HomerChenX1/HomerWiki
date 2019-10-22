@@ -1,8 +1,27 @@
 created: 20191019124128607
-modified: 20191019125125559
+modified: 20191022081948223
 tags: AndroidUI
 title: AndroidStatusBar
 type: text/vnd.tiddlywiki
 
 * API23, [[狀態欄(Status Bar)文字與圖示轉換成灰色|https://solinariwu.blogspot.com/2017/05/android-status-bar.html?m=1]]
+* [[Android M Light and Dark status bar programmatically - how to make it dark again?|https://stackoverflow.com/questions/37672833/android-m-light-and-dark-status-bar-programmatically-how-to-make-it-dark-again]]
 * [[终于搞懂令人迷惑的 StatusBar 了|https://juejin.im/entry/59c62b8ef265da065476d827]]
+* [[顯示/隱藏狀態欄和導航欄|https://www.jianshu.com/p/1053d22e1fe7]]
+* [[終於搞懂令人迷惑的StatusBar了|https://juejin.im/entry/59c62b8ef265da065476d827]]
+
+```java
+        // getWindow().setStatusBarColor(Color.WHITE);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.main_blue));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this,R.color.main_blue));
+        int flags = getWindow().getDecorView().getSystemUiVisibility();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(flags
+                    |View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            getWindow().getDecorView().setSystemUiVisibility(flags
+                    |View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                    |View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+```
