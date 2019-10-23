@@ -1,0 +1,13 @@
+created: 20191023022904023
+modified: 20191023023452812
+title: NestedScrollView
+type: text/vnd.tiddlywiki
+
+
+!! 參考資料:
+* [[Android中NestedScrollview的使用|http://www.chenglong.ren/2016/11/14/android%E4%B8%ADnestedscrollview%E7%9A%84%E4%BD%BF%E7%94%A8/]]
+* [[Android新特性:NestedScrollView的使用,替代ScrollView|https://blog.csdn.net/wolfking0608/article/details/78758956]]
+* [[Material Design系列教程(5)-NestedScrollView|https://www.jianshu.com/p/f55abc60a879]]
+* [[NestedScrollView与RecyclerView的嵌套使用|https://juejin.im/entry/5ab9e7fc5188255d5f3d4b55]]
+* [[使用NestedScrollView代替ScrollView解決滑動衝突|https://blog.csdn.net/haoyuegongzi/article/details/79353775]]
+* [[NestedScrollView Recyclerview下滑卡頓解決方法|https://codertw.com/android-%E9%96%8B%E7%99%BC/334572/]]

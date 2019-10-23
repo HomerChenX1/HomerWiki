@@ -1,0 +1,7 @@
+created: 20191023021824769
+modified: 20191023021849437
+tags: AndroidUI
+title: ImageView
+type: text/vnd.tiddlywiki
+
+* `android:scaleType="fitXY"`

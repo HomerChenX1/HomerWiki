@@ -1,5 +1,5 @@
 created: 20190628071552497
-modified: 20191019124023269
+modified: 20191023040732910
 tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
@@ -16,6 +16,7 @@ type: text/vnd.tiddlywiki
 * [[ListView優化和列表首尾使用|https://mp.weixin.qq.com/s?__biz=MzI1MTAyNzM5Ng==&mid=2649949446&idx=1&sn=436ada2bc3fbd8e757c961f7b0ca5995&chksm=f1feefadc68966bbd66c786f82ad39709724dec75b3fbfca4d667b8fd5a98d193358e84b1008#rd]]
 * [[可折疊列表ExpandableListView多級選擇|https://mp.weixin.qq.com/s?__biz=MzI1MTAyNzM5Ng==&mid=2649949616&idx=1&sn=d3ce2871b9035bd004f17a37a63dc990&chksm=f1feef1bc689660daecabf7a5ead0e743ea23ea3c2bb808af910ecacb79c774ba460b428c08f#rd]]
 * [[實作 Android ListView|https://julianchu.net/2015/09/26-implement-listview.html]]
+* [[【Android】CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
 
 !!! ''XML code'' :
 ```xml

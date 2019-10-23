@@ -1,5 +1,5 @@
 created: 20190808021914862
-modified: 20190808032457112
+modified: 20191023035406352
 tags: MaterialDesign AndroidUI
 title: ButtonCompat
 type: text/vnd.tiddlywiki
@@ -22,6 +22,7 @@ type: text/vnd.tiddlywiki
 !! 參考資料:
 * [[按鈕|https://wcc723.gitbooks.io/google_design_translate/components-buttons.html]]
 * [[對話框|https://wcc723.gitbooks.io/google_design_translate/components-dialogs.html]]
+* [[Android Material Buttons|https://juejin.im/entry/5ad8883af265da0b79646993]]
 
 ```xml
     <dimen name="md_button_margin_bottom">16dp</dimen>

@@ -1,5 +1,5 @@
 created: 20190731051743601
-modified: 20190823041448408
+modified: 20191023035749011
 tags: MaterialDesign AndroidUI
 title: MaterialDesign
 type: text/vnd.tiddlywiki
@@ -13,8 +13,32 @@ type: text/vnd.tiddlywiki
 ** `android:style/Theme.Material.Light`：亮色樣式
 ** `android:style/Theme.Material.Light.DarkActionBar`：亮色樣式搭配暗色的功能表
 
+|! 舊UI | ! 新UI |
+| ScrollView | NestedScrollView |
+| ActionBar | Toolbar |
+| Toolbar | CollapsingToolbarLayout |
+|  | AppBarLayout |
+| TabLayout | BottomNavigationView |
+| TabLayout | TabLayout |
+| Toast | Snackbar |
+| FrameLayout | CoordinatorLayout |
+|  | DrawerLayout |
+|  | NavigationView |
+|  | FloatingActionButton |
+| EditText | TextInputLayout |
+|  | CardView |
+|  | Shared element?? |
+| ListView | AndroidRecyclerView |
+| Button | ButtonCompat |
+| Button | AppCompatButton |
+| Button | CompoundButtonCompat |
+| RadioButton | AppCompatRadioButton |
+| CheckBox | AppCompatCheckBox |
+| AndroidSwitch | SwitchCompat |
+|  | AndroidChips |
+
+
 !! 參考資料:
-* [[MaterialDesign: Android Buttons|http://nickcode4fun.net/2018/01/12/MaterialDesign-Android-Buttons/]]
 * [[Google Material Design|https://wcc723.gitbooks.io/google_design_translate/animation-authentic-motion.html]]
 * [[A directory of essential design tools and resources|https://design.google/resources/]]
 * [[Material Design - Theme 與 Transition|http://www.codedata.com.tw/mobile/android-tutorial-the-6th-class-material-design-theme-transition/]]

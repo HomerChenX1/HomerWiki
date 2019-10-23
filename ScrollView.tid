@@ -1,0 +1,42 @@
+created: 20191023015131171
+modified: 20191023022735151
+tags: AndroidUI
+title: ScrollView
+type: text/vnd.tiddlywiki
+
+* Scroll view supports vertical scrolling only. For horizontal scrolling, use HorizontalScrollView instead.
+* For vertical scrolling, consider NestedScrollView instead of scroll view which offers greater user interface flexibility and support for the material design scrolling patterns.
+* Never add a RecyclerView or ListView to a scroll view
+* working with ViewGroup, such as LinearLayout, FrameLayout, RelativeLayout and etc.
+** best to working with LinearLayout
+* `android:layout_height=wrap_content` with other ViewGroups except LinearLayout is easy to have issues
+** use LinearLayout as the child ViewGroup
+** or use `android:layout_height=XXXdp`
+** or use 'android:layout_height=fill_windows'
+* `android:scrollbars="none"`
+
+!! 參考資料 :
+* [[ScrollView|https://developer.android.com/reference/android/widget/ScrollView]]
+* [[Android ScrollView (Horizontal, Vertical) with Examples|https://www.tutlane.com/tutorial/android/android-scrollview-horizontal-vertical-with-examples]]
+
+```xml
+
+<ScrollView
+  android:layout_width="150dp"
+  android:layout_height="320dp">
+</ScrollView>
+
+<ScrollView
+  android:layout_width="150dp"
+  android:layout_height="wrap_content"
+  android:fillViewport="true"  // try it
+> </ScrollView>
+
+<ScrollView
+  android:layout_height="wrap_content"
+  android:layout_width="150dp" >
+  <LinearLayout >
+  </LinearLayout >
+</ScrollView>
+
+```
