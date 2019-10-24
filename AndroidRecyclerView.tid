@@ -1,5 +1,5 @@
 created: 20190614093128076
-modified: 20191023040847845
+modified: 20191024045128617
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerView
 type: text/vnd.tiddlywiki
@@ -27,6 +27,7 @@ type: text/vnd.tiddlywiki
 * [[How to create RecyclerView with multiple view type?|https://stackoverflow.com/questions/26245139/how-to-create-recyclerview-with-multiple-view-type]]
 * [[RecyclerView動態添加，刪除及點擊事件|http://wiki.jikexueyuan.com/project/twenty-four-Scriptures/recycler-view-add-remove.html]]
 * [[HOW TO GET A RECYCLERVIEW ITEM AT A GIVEN POSITION IN ANDROID|https://inducesmile.com/android-programming/how-to-get-a-recyclerview-item-at-a-given-position-in-android/]]
-* [[【Android】CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
-
+* [[(Android) CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
+* [[RecyclerView系列之（1）：为RecyclerView添加Header和Footer|https://www.jianshu.com/p/991062d964cf]]
+* [[RecyclerView系列之（2）：為RecyclerView添加分隔線|https://www.jianshu.com/p/4eff036360da]]
 

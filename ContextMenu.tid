@@ -1,11 +1,11 @@
 created: 20191007031531397
-modified: 20191007035815473
+modified: 20191023053243327
 tags: AndroidUI
-title: ContentMenu
+title: ContextMenu
 type: text/vnd.tiddlywiki
 
 * How to style??
-* 通常用於使用者能直接對各項目執行動作的 ListView、GridView、RecyclerView 或其他檢視集合中的項目。
+* 通常用於使用者能直接對各項目執行動作的 ListView、GridView、[[RecyclerView|AndroidRecyclerView]] 或其他檢視集合中的項目。
 * 在浮動內容選單中。當使用者長按 (按住不放) 某個宣告支援內容選單的檢視時，選單會顯示為浮動的選單項目清單 (類似於對話方塊)。 使用者一次可對一個項目執行內容關聯動作。
 ** 單選
 * 在內容關聯動作模式中。此模式是 ~ActionMode 的系統實作，在畫面頂端將會影響將所選項目的動作項目顯示在「內容關聯動作列」。 此模式處於使用中時，使用者能一次對多個項目執行某一動作 (如果您的應用程式允許的話)。
@@ -13,6 +13,8 @@ type: text/vnd.tiddlywiki
 * Suggest : 內容關聯動作模式
 ** 使用者長按檢視。
 ** 使用者選取檢視內的`CheckBox`或類似 UI 元件。
+* [[context menu 浮動功能表|http://oldgrayduck.blogspot.com/2014/06/androidcontext-menu.html]]
+* [[Android 上下文菜單：給ListView註冊ContextMenu後獲取被長按item的position|https://blog.csdn.net/jzhowe/article/details/54565097]]
 
 !! 建立浮動內容選單
 ```java

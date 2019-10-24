@@ -1,9 +1,8 @@
 created: 20190808015231893
-modified: 20190808021633002
+modified: 20191024042159938
 tags: MaterialDesign AndroidUI
 title: CardView
 type: text/vnd.tiddlywiki
-
 
 !! 特徵 :
 * 包含高度可變長度的內容（比如：意見內容）
@@ -30,4 +29,17 @@ type: text/vnd.tiddlywiki
     <dimen name="md_card_padding">8dp</dimen>
     <dimen name="md_card_margin">8dp</dimen>
     <dimen name="md_card_text_space">16dp</dimen>
+```
+
+!!! XML
+```xml
+// layout_marginBottom > app:cardElevation * 1.5
+<androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/card_view_margin_left"
+        android:layout_marginLeft="@dimen/card_view_margin_left"
+        android:layout_marginBottom="@dimen/card_view_margin_top"
+        app:cardCornerRadius="@dimen/card_view_corner_radius"
+        app:cardElevation="@dimen/card_view_elevation" >
 ```

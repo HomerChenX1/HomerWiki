@@ -1,0 +1,14 @@
+created: 20191024051539627
+modified: 20191024053413705
+tags: AndroidUI
+title: CheckedTextView
+type: text/vnd.tiddlywiki
+
+* android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+* android:checkMark="?android:attr/listChoiceIndicatorSingle"
+* android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
+* android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+
+* [[CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
+* [[CheckedTextView Tutorial With Example In Android Studio|https://abhiandroid.com/ui/checkedtextview]]
+* [[Android CheckedTextView Tutorial With Example|https://tutorialwing.com/android-checkedtextview-tutorial-with-example/]]

@@ -1,5 +1,5 @@
 created: 20190708010827328
-modified: 20190814093205805
+modified: 20191024065600808
 tags: Projects [[Servers' setup]]
 title: EasyPick
 type: text/vnd.tiddlywiki
@@ -29,3 +29,26 @@ type: text/vnd.tiddlywiki
 ** onCreate, onCreatView, onActivityCreated <-> onDestroy
 ** onStart <-> onStop
 ** onResume <-> onPause
+
+!!! Divider
+```xml
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@color/gray_background_light"
+    android:layout_marginTop="@dimen/card_view_inner_margin_top" />
+```
+
+!!! ListView
+```xml
+<ListView
+    android:id="@+id/lvTravelMode"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/card_view_inner_margin_top"
+    android:divider="@color/gray_background_light"
+    android:dividerHeight="1dp"
+/>
+```

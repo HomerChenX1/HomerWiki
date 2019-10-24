@@ -1,5 +1,5 @@
 created: 20190830082111994
-modified: 20190901081511537
+modified: 20191023062832291
 tags: Git
 title: GitLocalBranch
 type: text/vnd.tiddlywiki
@@ -17,7 +17,7 @@ type: text/vnd.tiddlywiki
 ** 如果要切換到某個分支，那個分支必要先存在，不然會發生錯誤
 ** 新增同時切換分支 : `git checkout -b branch_name` , 等同  `git checkout -b branch_name origin/master`
 *** `git checkout -b local_branch_name origin/remote_branch_name`
-* 刪除分支 : `git branch -d `
+* 刪除分支 : `git branch -d branch_name`
 * 強制刪除分支 : `git branch -D `
 * 分支改名字 : `git branch -m new_branch_name old_branch_name`
 * 新增遠端分支 : `git push <remote> local_branch_name`

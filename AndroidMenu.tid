@@ -1,14 +1,14 @@
 created: 20191007020858318
-modified: 20191008052203340
+modified: 20191023053302085
 tags: AndroidUI
 title: AndroidMenu
 type: text/vnd.tiddlywiki
 
 * [[Spinner|AndroidSpinner]]
 * OptionalMenu : 在 Action Bar 顯示 Menu
-* ContentMenu : 在 View 顯示 Menu, 長按
-* PopupMenu : 在 View 顯示 Menu, 短按
-* PopupWindow : 可取代 PopupMenu 
+* ContextMenu : 在 View 顯示 Menu, 長按
+* PopupMenuV7 : 在 View 顯示 Menu, 短按
+* PopupWindow : 可取代 PopupMenuV7
 * MenuItem API
 
 !! 參考資料:
