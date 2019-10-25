@@ -1,9 +1,11 @@
 created: 20191025053413117
-modified: 20191025054247224
+modified: 20191025054445324
 tags: Java
-title: JavaException
+title: JavaExceptions
 type: text/vnd.tiddlywiki
 
 * ~RuntimeException and the descend are `unchecked` exception. Other exceptions are `checked`.
 
 [img[exception-hierarchy-in-java.png]]
+
+[img[Exception hierarchy.PNG]]

@@ -1,5 +1,5 @@
 created: 20190610051609949
-modified: 20190930071527485
+modified: 20191025105850243
 tags: AndroidUI
 title: AndroidActivity
 type: text/vnd.tiddlywiki
@@ -56,3 +56,25 @@ public class ActivityBasic extends AppCompatActivity {
 !! 參考資料:
 * [[絕不丟失狀態的Activity 重建機制|https://juejin.im/post/5d03be376fb9a07eca697906]]
 * [[Reload activity in Android|https://stackoverflow.com/questions/3053761/reload-activity-in-android]]
+
+!!! Restart Activity in ~MainActivity
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // UserManager.getRef().dullNull = false;
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            UserManager userManager = UserManager.getRef();
+            if (userManager.getParentAuthObj()==null && userManager.getSchoolAuthObj()==null) {
+                // userManager.dullNull = true;
+                String s = "top MainActivity.onCreate():" + (savedInstanceState==null?"Null":"NotNull" + "  Auths are dual Null");
+                LogMsg.d(s, true, false);
+                // reload the APP
+                Intent starterIntent = getIntent();
+                finish();
+                startActivity(starterIntent);
+            }
+        }
+        setContentView(R.layout.activity_main); 
+    }
+```
