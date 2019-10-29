@@ -1,5 +1,5 @@
 created: 20190708010827328
-modified: 20191024065600808
+modified: 20191029020944843
 tags: Projects [[Servers' setup]]
 title: EasyPick
 type: text/vnd.tiddlywiki
@@ -50,5 +50,19 @@ type: text/vnd.tiddlywiki
     android:layout_marginBottom="@dimen/card_view_inner_margin_top"
     android:divider="@color/gray_background_light"
     android:dividerHeight="1dp"
+    tools:listitem="@layout/location_report_list_item"
+    tools:listheader="@layout/list_view_selection_header"
 />
+```
+
+!!! ~TextView
+```xml
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textSize="@dimen/weather_text_size_L"
+android:textStyle="bold"
+android:autoSizeTextType="uniform"
+android:maxLines="1"
+android:text="" />
 ```
