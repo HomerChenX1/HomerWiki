@@ -1,5 +1,5 @@
 created: 20190808015231893
-modified: 20191024042159938
+modified: 20191030025857984
 tags: MaterialDesign AndroidUI
 title: CardView
 type: text/vnd.tiddlywiki
@@ -18,6 +18,7 @@ type: text/vnd.tiddlywiki
 
 !! 參考資料:
 * [[卡片|https://wcc723.gitbooks.io/google_design_translate/components-cards.html]]
+* [[材質設計系列之CardView，FAB和Snackbar|https://www.jianshu.com/p/ec781c3ccfb8]]
 
 ```xml
     <dimen name="md_card_radius">2dp</dimen>
@@ -37,9 +38,13 @@ type: text/vnd.tiddlywiki
 <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/card_view_margin_left"
-        android:layout_marginLeft="@dimen/card_view_margin_left"
         android:layout_marginBottom="@dimen/card_view_margin_top"
         app:cardCornerRadius="@dimen/card_view_corner_radius"
-        app:cardElevation="@dimen/card_view_elevation" >
+        app:cardElevation="@dimen/card_view_elevation"
+        // app:cardBackgroundColor
+        app：cardUseCompatPadding="true"
+        app：cardPreventCornerOverlap="true" >
+
+// android:clickable="true"
+// android:foreground="?attr/selectableItemBackground"
 ```

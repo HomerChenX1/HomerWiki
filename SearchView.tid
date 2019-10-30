@@ -1,5 +1,5 @@
 created: 20190731031002747
-modified: 20190731034037699
+modified: 20191030024144614
 tags: AndroidUI
 title: SearchView
 type: text/vnd.tiddlywiki
@@ -11,3 +11,6 @@ type: text/vnd.tiddlywiki
 
 !! 參考資料:
 * [[如何使用Toolbar-Search|https://givemepass.blogspot.com/2015/10/toolbar-search.html]]
+* [[SearchView的用法|https://www.itread01.com/content/1543070470.html]]
+* [[MaterialDesign的SearchView全面解鎖|https://www.jianshu.com/p/7c1e78e91506]]
+* [[MaterialDesign學習篇(五)，使用SearchView的正確姿勢|https://www.jianshu.com/p/16f9e995e454]]

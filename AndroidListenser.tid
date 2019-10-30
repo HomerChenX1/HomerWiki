@@ -1,5 +1,5 @@
 created: 20191001073428010
-modified: 20191001075007610
+modified: 20191029102751567
 tags: AndroidUI AndroidSystem
 title: AndroidListenser
 type: text/vnd.tiddlywiki
@@ -16,3 +16,17 @@ type: text/vnd.tiddlywiki
 |! 6 | `View.OnCreateContextMenuListener` | 當一個`ContextMenu`被建立時。 |
 |! 7 | `AdapterView.OnItemClickListener` |  |
 |! 8 |  |  |
+
+①在該組件上觸發屏幕事件: boolean onTouchEvent (MotionEvent event);
+
+②在該組件上按下某個按鈕時: boolean onKeyDown (int keyCode,KeyEvent event);
+
+③鬆開組件上的某個按鈕時: boolean onKeyUp (int keyCode,KeyEvent event);
+
+④長按組件某個按鈕時: boolean onKeyLongPress (int keyCode,KeyEvent event);
+
+⑤鍵盤快捷鍵事件發生: boolean onKeyShortcut (int keyCode,KeyEvent event);
+
+⑥在組件上觸發軌跡球屏事件: boolean onTrackballEvent (MotionEvent event);
+
+*⑦當組件的焦點發生改變,和前面的6個不同,這個方法只能夠在View中重寫哦！protected void onFocusChanged (boolean gainFocus, int direction, Rect previously FocusedRect)
