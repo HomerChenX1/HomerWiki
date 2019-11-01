@@ -1,5 +1,5 @@
 created: 20191024051539627
-modified: 20191024053413705
+modified: 20191030080051608
 tags: AndroidUI
 title: CheckedTextView
 type: text/vnd.tiddlywiki
@@ -12,3 +12,21 @@ type: text/vnd.tiddlywiki
 * [[CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
 * [[CheckedTextView Tutorial With Example In Android Studio|https://abhiandroid.com/ui/checkedtextview]]
 * [[Android CheckedTextView Tutorial With Example|https://tutorialwing.com/android-checkedtextview-tutorial-with-example/]]
+
+```xml
+<CheckedTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/card_view_margin_left"
+        android:paddingEnd="@dimen/card_view_margin_left"
+        android:paddingBottom="@dimen/card_view_inner_margin_top_half"
+        android:paddingTop="@dimen/card_view_inner_margin_top_half"
+        android:minEms="8"
+        android:autoSizeTextType="uniform"
+        android:textSize="@dimen/weather_text_size_S"
+        android:text="IDEEE Kindergarten"
+
+        android:checkMark="?android:attr/listChoiceIndicatorSingle"
+        android:checked="false"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+```

@@ -1,5 +1,5 @@
 created: 20191019124128607
-modified: 20191022081948223
+modified: 20191101025742778
 tags: AndroidUI
 title: AndroidStatusBar
 type: text/vnd.tiddlywiki
@@ -10,6 +10,7 @@ type: text/vnd.tiddlywiki
 * [[顯示/隱藏狀態欄和導航欄|https://www.jianshu.com/p/1053d22e1fe7]]
 * [[終於搞懂令人迷惑的StatusBar了|https://juejin.im/entry/59c62b8ef265da065476d827]]
 
+!!! change background color of the status bar and the navigation bar
 ```java
         // getWindow().setStatusBarColor(Color.WHITE);
         getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.main_blue));
@@ -24,4 +25,19 @@ type: text/vnd.tiddlywiki
                     |View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
                     |View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+```
+
+!!! 隱藏標題 隱藏狀態
+```java
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //設定隱藏標題
+        getSupportActionBar().hide();
+        //設定隱藏狀態
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+}
 ```
