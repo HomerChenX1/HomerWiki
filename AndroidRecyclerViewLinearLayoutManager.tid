@@ -1,5 +1,5 @@
 created: 20190617061855055
-modified: 20190920113252400
+modified: 20191106111505832
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewLinearLayoutManager
 type: text/vnd.tiddlywiki
@@ -11,6 +11,7 @@ type: text/vnd.tiddlywiki
 ** swipe to delete
 ** drag to move
 * if want to use drag, do not used `LongClick`
+* notifyItemXXX 會導致該 item 重跑 `onCreateViewHolder()` -> `onBindViewHolder(ViewHolder holder, final int position)`, 務必小心程式寫法
 
 !! 參考資料 :
 * [[Android RecyclerView Swipe To Delete And Undo|https://www.journaldev.com/23164/android-recyclerview-swipe-to-delete-undo]]

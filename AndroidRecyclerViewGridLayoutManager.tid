@@ -1,5 +1,5 @@
 created: 20190619074540362
-modified: 20190920113048914
+modified: 20191106111522915
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewGridLayoutManager
 type: text/vnd.tiddlywiki
@@ -7,6 +7,7 @@ type: text/vnd.tiddlywiki
 !! 特徵 :
 * item.xml: important for click
 ** `android:background="?android:attr/selectableItemBackground"`
+* notifyItemXXX 會導致該 item 重跑 `onCreateViewHolder()` -> `onBindViewHolder(ViewHolder holder, final int position)`, 務必小心程式寫法
 
 !! 參考資料 :
 * [[使用 RecyclerView|https://julianchu.net/2016/03/13-recyclerview.html]]
