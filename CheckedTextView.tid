@@ -1,5 +1,5 @@
 created: 20191024051539627
-modified: 20191030080051608
+modified: 20191106062106333
 tags: AndroidUI
 title: CheckedTextView
 type: text/vnd.tiddlywiki
@@ -12,6 +12,7 @@ type: text/vnd.tiddlywiki
 * [[CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
 * [[CheckedTextView Tutorial With Example In Android Studio|https://abhiandroid.com/ui/checkedtextview]]
 * [[Android CheckedTextView Tutorial With Example|https://tutorialwing.com/android-checkedtextview-tutorial-with-example/]]
+* [[CheckBox-多選清單元件的基本用法與自訂外觀方式|https://xnfood.com.tw/android-checkbox/]]
 
 ```xml
 <CheckedTextView
@@ -21,12 +22,46 @@ type: text/vnd.tiddlywiki
         android:paddingEnd="@dimen/card_view_margin_left"
         android:paddingBottom="@dimen/card_view_inner_margin_top_half"
         android:paddingTop="@dimen/card_view_inner_margin_top_half"
+        android:gravity="center"
         android:minEms="8"
         android:autoSizeTextType="uniform"
         android:textSize="@dimen/weather_text_size_S"
         android:text="IDEEE Kindergarten"
 
         android:checkMark="?android:attr/listChoiceIndicatorSingle"
+        android:checked="false"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+```
+
+!!! Custom CheckMark
+```xml
+<!--    checked_textview_mark.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_checked="false"
+        android:drawable="@android:drawable/checkbox_off_background" />
+    <item
+        android:state_checked="true"
+        android:drawable="@android:drawable/checkbox_on_background" />
+</selector>
+```
+
+```xml
+<CheckedTextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/card_view_margin_left"
+        android:paddingEnd="@dimen/card_view_margin_left"
+        android:paddingBottom="@dimen/card_view_inner_margin_top_half"
+        android:paddingTop="@dimen/card_view_inner_margin_top_half"
+        android:gravity="center"
+        android:minEms="8"
+        android:autoSizeTextType="uniform"
+        android:textSize="@dimen/weather_text_size_S"
+        android:text="IDEEE Kindergarten"
+        android:checkMark="@drawable/checked_textview_mark"
         android:checked="false"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 ```
