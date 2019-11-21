@@ -1,5 +1,5 @@
 created: 20191029024442911
-modified: 20191108112757652
+modified: 20191112083331159
 tags: AndroidUI
 title: ExpandableListView
 type: text/vnd.tiddlywiki
@@ -9,3 +9,18 @@ type: text/vnd.tiddlywiki
 * [[ExpandableListView的使用|https://www.jianshu.com/p/10360a8a52d4]]
 * [[Android ExpandableListView展開列表控制元件使用例項|https://codertw.com/android-%E9%96%8B%E7%99%BC/354604/]]
 * [[https://bhandaryinandroid.wordpress.com/2015/03/13/adding-the-search-functionality-in-expandable-listview/]]
+
+```xml
+<ExpandableListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/elvStudentsList"
+    android:layout_marginBottom="@dimen/card_view_inner_margin_top_L"
+    android:groupIndicator="@null"
+    tools:listitem="@layout/student_list_group"
+    android:layout_weight="1"
+/>
+```
+
+```java
+```

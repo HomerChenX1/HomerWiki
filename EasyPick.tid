@@ -1,5 +1,5 @@
 created: 20190708010827328
-modified: 20191104025113124
+modified: 20191120105019326
 tags: Projects [[Servers' setup]]
 title: EasyPick
 type: text/vnd.tiddlywiki
@@ -69,4 +69,78 @@ android:textStyle="bold"
 android:autoSizeTextType="uniform"
 android:maxLines="1"
 android:text="" />
+```
+
+!!! Round Button
+```xml
+<Button
+            android:id="@+id/btnNextStep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider1"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            
+            android:background="@drawable/button_background"
+            android:backgroundTint="@color/dark_blue"
+            
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="@string/cancel" />
+```
+
+!!! Switch
+```xml
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/row_height"
+    android:background="@drawable/round_shape_medium_stroke"
+    android:backgroundTint="@color/white"
+    android:layout_marginStart="@dimen/card_view_inner_margin_top_Lp"
+    android:layout_marginEnd="@dimen/card_view_inner_margin_top_Lp"
+    android:layout_marginTop="@dimen/row_margin"
+    android:layout_marginBottom="@dimen/row_margin" >
+
+    <TextView
+        android:id="@+id/tvClassNameName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:paddingStart="@dimen/card_view_margin_left_S"
+        android:maxLines="1"
+        android:textSize="@dimen/weather_text_size_SS"
+        android:text="班級A" />
+
+    <Switch
+        android:id="@+id/swClassEnable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/card_view_margin_left_S"
+        android:layout_marginEnd="@dimen/card_view_margin_left_S"
+        android:paddingTop="@dimen/card_view_inner_margin_top_half"
+        android:paddingBottom="@dimen/card_view_inner_margin_top_half"
+        android:thumb="@drawable/thumb_selector"
+        android:track="@drawable/track_selector" />
+</RelativeLayout>
+```
+
+!!! Edit Text
+```xml
+<EditText
+            android:id="@+id/etSpeakerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            
+            android:background="@drawable/round_shape_large_stroke"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:inputType="text"
+            android:imeOptions="actionDone"
+            />
 ```

@@ -1,0 +1,45 @@
+created: 20191112024218865
+modified: 20191112030239402
+tags: AndroidUI
+title: AndroidSoftInput
+type: text/vnd.tiddlywiki
+
+* [[Android 顯示和隱藏軟鍵盤的方法(手動)|https://codertw.com/android-%E9%96%8B%E7%99%BC/351526/]]
+* [[Android 軟鍵盤事件imeOptions響應|https://blog.csdn.net/liuweiballack/article/details/46708697]]
+
+```xml
+<EditText
+    android:maxLines="1"
+    android:inputType="text"
+    android:imeOptions="actionSend"
+     android:hint="@string/course_search"
+/>
+```
+
+```java
+etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    // Log.d(TAG, "input is: " + etSearch.getText().toString());
+                    // close keyboard
+                    // View view = this.getCurrentFocus();
+                    View view = etSearch;
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                    doSearch(etSearch.getText().toString());
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+```
+
+!!! hide soft input
+```java
+InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+```

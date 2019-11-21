@@ -1,5 +1,5 @@
 created: 20190614093128076
-modified: 20191106111328615
+modified: 20191115045841050
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerView
 type: text/vnd.tiddlywiki
@@ -15,6 +15,7 @@ type: text/vnd.tiddlywiki
 * XML layout : `CoordinatorLayout` is better
 * AndroidChips
 * notifyItemXXX 會導致該 item 重跑 `onCreateViewHolder()` -> `onBindViewHolder(ViewHolder holder, final int position)`, 務必小心程式寫法
+* [[startDrag|https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-6a6f0c422efd]]
 
 !! 參考資料:
 * [[如何使用RecyclerView|http://givemepass.blogspot.com/2015/12/recyclerview.html]]

@@ -1,5 +1,5 @@
 created: 20190628081623988
-modified: 20190828100241047
+modified: 20191114041054004
 tags: MaterialDesign AndroidUI
 title: DialogFragment
 type: text/vnd.tiddlywiki
@@ -136,4 +136,21 @@ public class TravelModeFragment extends DialogFragment {
         }
     }
 }
+```
+
+!!! Resize the Fragment
+```java
+public void onResume() {
+        super.onResume();
+        int height_margin = 100;  // unit is pix
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        // Log.d("DebugDialog", "x:" + point.x + " y:" + point.y);
+        int width = getResources().getDimensionPixelSize(R.dimen.dialog_fix_width_max_extra);
+        // int height = getResources().getDimensionPixelSize(R.dimen.dialog_fix_height_max_4inch);
+        getDialog().getWindow().setLayout(width, point.y-height_margin);
+        // mDialog.getWindow().setLayout((int) (point.x * 0.8), (int) (point.y * 0.8));
+    }
 ```

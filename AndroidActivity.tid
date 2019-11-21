@@ -1,5 +1,5 @@
 created: 20190610051609949
-modified: 20191025105850243
+modified: 20191114090824110
 tags: AndroidUI
 title: AndroidActivity
 type: text/vnd.tiddlywiki
@@ -77,4 +77,17 @@ public class ActivityBasic extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main); 
     }
+```
+
+!!! IllegalStateException
+```java
+
+void testFunction(){
+    try{
+refreshCourseInfo(courseInfoDataList);
+} catch (IllegalStateException e){
+// UI in idle mode, but data is stored, do nothing
+inIllegalStateException = true;
+}
+}
 ```

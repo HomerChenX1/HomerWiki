@@ -1,0 +1,37 @@
+created: 20191112111936371
+modified: 20191114082332000
+tags: AndroidUI
+title: AndroidEditText
+type: text/vnd.tiddlywiki
+
+* Android ~EditText 去除邊框(下劃線) :
+** 將 ~EditText屬性設置修改 `android:background="@null"`
+* hide Cursor
+
+!!! Hide Cursor
+```java
+
+btnSearchCancel.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        // clear all data
+        etSearch.setCursorVisible(false);
+    }
+});
+
+etSearch.setOnTouchListener(new View.OnTouchListener() {
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        boolean result = false;
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (!etSearch.isCursorVisible()) {
+                etSearch.setCursorVisible(true);
+            }
+        }
+//                if(event.getAction() == MotionEvent.ACTION_UP) {
+//                    etSearch.setCursorVisible(true);
+//                }
+        return result;
+    }
+});
+```
