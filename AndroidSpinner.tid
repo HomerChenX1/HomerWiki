@@ -1,9 +1,61 @@
 created: 20191008052210924
-modified: 20191008052319919
+modified: 20191125035334458
 tags: AndroidUI
 title: AndroidSpinner
 type: text/vnd.tiddlywiki
 
-
 !! 參考資料:
 * [[拖放框Spinner就這麼簡單|https://mp.weixin.qq.com/s?__biz=MzI1MTAyNzM5Ng==&mid=2649949614&idx=1&sn=f775f183d3e419d237d719cd468c6e01&chksm=f1feef05c689661383c0b2448869704e2a06709f09c6d0657234f7eb1cec1dc1fd4adf3b42a3#rd]]
+
+!!! App java
+```java
+Spinner spinner = (Spinner) findViewById(R.id.pioedittxt5);
+ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        R.array.travelreasons, R.layout.myspinner);
+adapter.setDropDownViewResource(R.layout.myspinneritem);
+spinner.setAdapter(adapter);
+```
+
+!!! APP XML
+```xml
+<Spinner
+    android:id="@+id/travelModeSpinner"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="16dp"
+    android:layout_gravity="center_vertical|end" >
+    </Spinner>
+```
+
+!!! Spinner style : myspinner.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="8dp"
+    android:gravity="center_vertical|end"
+    android:singleLine="true"
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    android:text="@string/ride_bike">
+</TextView>
+```
+
+!!! Spinner item style : myspinneritem.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="8dp"
+    android:gravity="center_vertical|end"
+    android:singleLine="true"
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    android:text="@string/ride_bike">
+</TextView>
+```

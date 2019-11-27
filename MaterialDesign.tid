@@ -1,5 +1,5 @@
 created: 20190731051743601
-modified: 20191030030419881
+modified: 20191126020524226
 tags: MaterialDesign AndroidUI
 title: MaterialDesign
 type: text/vnd.tiddlywiki
@@ -45,3 +45,4 @@ type: text/vnd.tiddlywiki
 * [[Material Design Patterns 教學|https://blog.30sparks.com/material-design-patterns-tutorial/]]
 * [[MDC : Material Design Components|https://developer.android.com/reference/com/google/android/material/packages]]
 * [[MaterialDesign學習篇(六)，調色板Palette的學習|http://ddrv.cn/a/235007]]
+* [[Android Material Design Button Styles|https://stackoverflow.com/questions/26346727/android-material-design-button-styles]]
