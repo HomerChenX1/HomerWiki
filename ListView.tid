@@ -1,5 +1,5 @@
 created: 20190628071552497
-modified: 20191029021718522
+modified: 20191206073754145
 tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
@@ -8,6 +8,12 @@ type: text/vnd.tiddlywiki
 * `ListView` 本身 scrollable, 不需要 `ScrollView`
 * AndroidChips
 * [[android listview item style?|https://stackoverflow.com/questions/17981507/android-listview-item-style]]
+* Item checked
+** lvTimeList.setItemChecked()
+* Scroll:
+** lvTimeList.post( -> lvTimeList.setSelection();)
+** lvTimeList.setSelection();  the first row is my assigned if possible
+** lvTimeList.smoothScrollToPosition();  the last row is my assigned
 
 !! 參考資料 :
 * [[ListView 進階用法 BaseAdapter|http://learnexp.tw/%E3%80%90android%E3%80%91listview-%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95-baseadapter/]]
@@ -18,6 +24,7 @@ type: text/vnd.tiddlywiki
 * [[實作 Android ListView|https://julianchu.net/2015/09/26-implement-listview.html]]
 * [[【Android】CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
 * [[ListView 增加頁頭、頁尾|https://programnoteforlearning.blogspot.com/2017/05/listview.html]]
+* [[Android ListView padding for content without moving ListView height|https://src-bin.com/en/q/784654]]
 
 !!! ''XML code'' :
 ```xml
@@ -122,4 +129,41 @@ private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItem
 public View getView(int position, View convertView, ViewGroup parent) {
    ((ListView)parent).setItemChecked(position, true);
 }
+```
+
+!!! ''Measure ~ListView height''
+```java
+private void setLvTimeListHeight(){
+        final int fixListItemCnt = 4;
+        if (timeListAdapter == null) {
+            return;
+        }
+
+        int totalHeight = 0;
+
+        int maxCount = timeListAdapter.getCount();
+        if (maxCount == 0) {
+            return;
+        }
+        if (maxCount > fixListItemCnt){
+            maxCount = fixListItemCnt;
+        }
+
+        for (int i = 0; i < maxCount; i++) {
+            View mView = timeListAdapter.getView(i, null, lvTimeList);
+
+            mView.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += mView.getMeasuredHeight();
+        }
+        totalHeight += (lvTimeList.getDividerHeight() * (maxCount - 1));
+
+        ViewGroup.LayoutParams params = lvTimeList.getLayoutParams();
+//            params.height = totalHeight
+//                    + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
+        params.height = totalHeight;
+        lvTimeList.setLayoutParams(params);
+        lvTimeList.requestLayout();
+    }
 ```

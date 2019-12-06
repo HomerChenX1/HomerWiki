@@ -1,0 +1,22 @@
+created: 20191205081251307
+modified: 20191205081627898
+tags: Java
+title: JavaTime
+type: text/vnd.tiddlywiki
+
+* [[Java日期轉換SimpleDateFormat格式大全|https://my.oschina.net/iamhere/blog/638316]]
+* [[How to convert a string Date to long millseconds|https://stackoverflow.com/questions/12473550/how-to-convert-a-string-date-to-long-millseconds]]
+
+```java
+long timestamp = -1;
+SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy MM-dd");
+s = dateFormat.format(TrueTime.now().getTime()) + " " +s;
+
+dateFormat = new SimpleDateFormat("yyyy MM-dd HH:mm");
+try {
+    Date d = dateFormat.parse(s);
+    timestamp = d.getTime();
+} catch (ParseException e) {
+    e.printStackTrace();
+}
+```

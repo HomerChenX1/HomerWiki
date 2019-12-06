@@ -1,14 +1,24 @@
 created: 20191029024442911
-modified: 20191112083331159
+modified: 20191206074805976
 tags: AndroidUI
 title: ExpandableListView
 type: text/vnd.tiddlywiki
 
+!! 特徵 :
+* Scroll:
+** elvStudentsList.post( -> elvStudentsList.setSelectedChild(););
+** elvStudentsList.setSelectedChild(cursorGroupPos,cursorchildPos,true);
+** elvStudentsList.setSelectedGroup(cursorGroupPos,true);
+* Redraw:
+** myAdapter.notifyDataSetInvalidated();
+
+!! 參考資料 :
 * [[ExpandableListView(可折叠列表)的基本使用|https://www.runoob.com/w3cnote/android-tutorial-expandablelistview.html|https://www.runoob.com/w3cnote/android-tutorial-expandablelistview.html]]
 * [[ExpandableListView (展開式選單)|http://jk127780.blogspot.com/2015/01/android-expandablelistview.html]]
 * [[ExpandableListView的使用|https://www.jianshu.com/p/10360a8a52d4]]
 * [[Android ExpandableListView展開列表控制元件使用例項|https://codertw.com/android-%E9%96%8B%E7%99%BC/354604/]]
-* [[https://bhandaryinandroid.wordpress.com/2015/03/13/adding-the-search-functionality-in-expandable-listview/]]
+* [[Adding the search functionality in expandable listview|https://bhandaryinandroid.wordpress.com/2015/03/13/adding-the-search-functionality-in-expandable-listview/]]
+* [[smoothScrollToPosition in ExpandableListView|https://stackoverflow.com/questions/8603946/smoothscrolltoposition-in-expandablelistview]]
 
 ```xml
 <ExpandableListView
@@ -23,4 +33,204 @@ type: text/vnd.tiddlywiki
 ```
 
 ```java
+class StudentsListAdapter extends BaseExpandableListAdapter {
+        private ArrayList<ClassName> gData;
+        private ArrayList<ArrayList<StudentCourse>> iData;
+
+        private class ViewHolderGroup{
+            public TextView tvClassName;
+            public ImageView ivMark;
+        }
+
+        private class ViewHolderItem{
+            public LinearLayout llCourseStatus;
+            public TextView tvStudentName;
+            public Button[] course ;
+            public LinearLayout llCourseEst;
+            public TextView tvStudentName2;
+            public TextView tvEstTime;
+        }
+
+        public StudentsListAdapter(ArrayList<ClassName> gData, ArrayList<ArrayList<StudentCourse>> iData) {
+            this.gData = gData;
+            this.iData = iData;
+        }
+
+        @Override
+        public int getGroupCount() {
+            return gData.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return iData.get(groupPosition).size();
+        }
+
+        @Override
+        public ClassName getGroup(int groupPosition) {
+            return gData.get(groupPosition);
+        }
+
+        @Override
+        public StudentCourse getChild(int groupPosition, int childPosition) {
+            return iData.get(groupPosition).get(childPosition);
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return false;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            ViewHolderGroup groupHolder;
+
+            if(convertView == null){
+                convertView = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.student_list_group, parent, false);
+                groupHolder = new ViewHolderGroup();
+                groupHolder.tvClassName = (TextView) convertView.findViewById(R.id.tvClassName);
+                groupHolder.ivMark = convertView.findViewById(R.id.ivMark);
+                convertView.setTag(groupHolder);
+            }else{
+                groupHolder = (ViewHolderGroup) convertView.getTag();
+            }
+            groupHolder.tvClassName.setText(gData.get(groupPosition).className);
+            groupHolder.ivMark.setImageResource(
+                    isExpanded? R.mipmap.but_shrink_section: R.mipmap.but_expand_section);
+            return convertView;
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            final int itemResId [] = {R.id.course1, R.id.course2, R.id.course3};
+            ViewHolderItem itemHolder;
+            StudentCourse studentCourse = getChild(groupPosition,childPosition);
+
+            if(convertView == null) {
+                // no convertView and itemHolder
+                convertView = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.student_list_item, parent, false);
+                itemHolder = new ViewHolderItem();
+
+                itemHolder.llCourseStatus = convertView.findViewById(R.id.llCourseStatus);
+                itemHolder.tvStudentName = convertView.findViewById(R.id.tvStudentName);
+                itemHolder.course = new Button[itemResId.length];
+                for (int i=0; i<itemResId.length; i++) {
+                    itemHolder.course[i] = convertView.findViewById(itemResId[i]);
+                }
+
+                itemHolder.llCourseEst = convertView.findViewById(R.id.llCourseEst);
+                itemHolder.tvStudentName2 = convertView.findViewById(R.id.tvStudentName2);
+                itemHolder.tvEstTime = convertView.findViewById(R.id.tvEstTime);
+
+                convertView.setTag(itemHolder);
+            } else {
+                itemHolder = (ViewHolderItem) convertView.getTag();
+            }
+
+            if (estTimeStyle) {
+                itemHolder.llCourseStatus.setVisibility(View.INVISIBLE);
+                itemHolder.llCourseEst.setVisibility(View.VISIBLE);
+            } else {
+                itemHolder.llCourseStatus.setVisibility(View.VISIBLE);
+                itemHolder.llCourseEst.setVisibility(View.INVISIBLE);
+            }
+            // set tvStudentName
+            itemHolder.tvStudentName.setText(studentCourse.studentName);
+            itemHolder.tvStudentName2.setText(studentCourse.studentName);
+            // set itemHolder.course
+            // int minCnt = min(itemResId.length, studentCourse.schoolCourseSettingObjSet.size());
+            for (int i=0; i<itemResId.length; i++) {
+                if (i>=studentCourse.schoolCourseSettingObjSet.size()) {
+                    // not such many course
+                    itemHolder.course[i].setVisibility(View.GONE);
+                    continue;
+                }
+                String courseName = studentCourse.schoolCourseSettingObjSet.get(i).msg;
+                itemHolder.course[i].setText(courseName.substring(0,1));
+                itemHolder.course[i].setBackgroundResource(R.mipmap.but_task_unfinished);
+                if (fbSchoolCourseSettingObjSet.get(i).isEnable) {
+                    // enable
+                    itemHolder.course[i].setVisibility(View.VISIBLE);
+                } else {
+                    // disable
+                    itemHolder.course[i].setVisibility(View.GONE);
+                }
+                // check finish
+                boolean courseFinished = studentCourse.schoolCourseSettingObjSet.get(i).isEnable;
+
+                if (courseFinished) {
+                    itemHolder.course[i].setBackgroundResource(R.mipmap.but_task_finished);
+                    itemHolder.course[i].setTextColor(Color.WHITE);
+                } else {
+                    itemHolder.course[i].setBackgroundResource(R.mipmap.but_task_unfinished);
+                    itemHolder.course[i].setTextColor(Color.BLACK);
+                }
+                itemHolder.course[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        StudentCourse studentCourse = getChild(groupPosition,childPosition);
+                        changeFinishedButton(studentCourse, (Button)v);
+                    }
+                });
+            }
+
+            return convertView;
+        }
+
+        public void refresh(ArrayList<ClassName> gData, ArrayList<ArrayList<StudentCourse>> iData) {
+            this.gData = gData;
+            this.iData = iData;
+            notifyDataSetInvalidated();
+        }
+
+        private void changeFinishedButton(StudentCourse studentCourse, Button btn) {
+            int idx = 0;
+            switch(btn.getId()){
+                case R.id.course1:
+                    idx = 0;
+                    break;
+                case R.id.course2:
+                    idx = 1;
+                    break;
+                case R.id.course3:
+                    idx = 2;
+                    break;
+            }
+            String courseName = studentCourse.schoolCourseSettingObjSet.get(idx).msg;
+            String childName = idAndName.schoolObjMap.get(studentCourse.schoolId).classObjMap
+                    .get(studentCourse.classId).childObjMap.get(studentCourse.childId).name;
+
+            // put to holder
+            boolean courseFinished = !studentCourse.schoolCourseSettingObjSet.get(idx).isEnable;
+            studentCourse.schoolCourseSettingObjSet.get(idx).isEnable = courseFinished;
+            notifyDataSetInvalidated();
+            // put to firebase
+            schoolCourse.setChildCourseObjIdx(studentCourse.schoolId, studentCourse.classId, studentCourse.childId,
+                    idx, courseFinished);
+            // send fcm
+            String s = childName + courseName;
+            if (! courseFinished) {
+                s = getString(R.string.cancel) + s;
+            }
+            FcmTopicsManager.getRef().sendMessageToParentsCourse(studentCourse.schoolId, studentCourse.classId,
+                    studentCourse.childId, getString(R.string.course_fcm_title), s);
+        }
+    }
 ```
