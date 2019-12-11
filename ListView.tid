@@ -1,5 +1,5 @@
 created: 20190628071552497
-modified: 20191206073754145
+modified: 20191210081733625
 tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
@@ -9,11 +9,10 @@ type: text/vnd.tiddlywiki
 * AndroidChips
 * [[android listview item style?|https://stackoverflow.com/questions/17981507/android-listview-item-style]]
 * Item checked
-** lvTimeList.setItemChecked()
+** `lvTimeList.setItemChecked()`
 * Scroll:
-** lvTimeList.post( -> lvTimeList.setSelection();)
-** lvTimeList.setSelection();  the first row is my assigned if possible
-** lvTimeList.smoothScrollToPosition();  the last row is my assigned
+** lvTimeList.smoothScrollToPosition(); 
+** lvTimeList.post( ()->smoothScrollToPosition();)
 
 !! 參考資料 :
 * [[ListView 進階用法 BaseAdapter|http://learnexp.tw/%E3%80%90android%E3%80%91listview-%E9%80%B2%E9%9A%8E%E7%94%A8%E6%B3%95-baseadapter/]]
@@ -166,4 +165,19 @@ private void setLvTimeListHeight(){
         lvTimeList.setLayoutParams(params);
         lvTimeList.requestLayout();
     }
+```
+
+!!! ''Offset Scroll''
+```xml
+                    int k = lvTimeList.getFirstVisiblePosition()+0;  // 1
+                    if (j<k) {
+                        // j = j<=0? 0: j-1;  // -1
+                        // Log.d(TAG, "debug");
+                    } else {
+                        j = j+2;  // 1
+                        if (j>= timeListAdapter.getCount()) {
+                            j = timeListAdapter.getCount() -1;
+                        }
+                    }
+                    lvTimeList.smoothScrollToPosition(j);
 ```

@@ -1,0 +1,17 @@
+created: 20191210023726887
+modified: 20191210030150989
+tags: AndroidSystem
+title: AndroidResources
+type: text/vnd.tiddlywiki
+
+
+* [[Change color inside strings.xml|https://stackoverflow.com/questions/19630160/change-color-inside-strings-xml]]
+
+```xml
+<- can not be 14sp -->
+<string name="user_suggest_hint"><font size="14">請輸入您的建議，或遇到的問題</font></string>
+```
+```xml
+<- red color -->
+<string name="hello_worldRed"><![CDATA[<b><font color=#FF0000>Hello world!</font></b>]]></string>
+```

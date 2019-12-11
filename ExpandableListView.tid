@@ -1,16 +1,39 @@
 created: 20191029024442911
-modified: 20191206074805976
+modified: 20191210031440007
 tags: AndroidUI
 title: ExpandableListView
 type: text/vnd.tiddlywiki
 
 !! 特徵 :
-* Scroll:
-** elvStudentsList.post( -> elvStudentsList.setSelectedChild(););
-** elvStudentsList.setSelectedChild(cursorGroupPos,cursorchildPos,true);
-** elvStudentsList.setSelectedGroup(cursorGroupPos,true);
 * Redraw:
-** myAdapter.notifyDataSetInvalidated();
+** `myAdapter.notifyDataSetInvalidated();`
+
+!!! ''Scroll''
+* do not use setSelectedChild. There is mysterious bugs, use smoothScrollToPosition
+** need convert groupPosition, childPosition to flatPosition
+* if necessary, put in `elvStudentsList.post()`
+
+```java
+// direction : 1:for next, -1:for prev, 0:no modify
+        public int getScrollIndex(int groupPosition, int childPosition) {
+            int count = 0;
+
+            childPosition += shiftScroll;
+            elvStudentsList.expandGroup(groupPosition);
+            for (int g = 0; g < groupPosition; g++){
+                if (elvStudentsList.isGroupExpanded(g)) {
+                    count += getChildrenCount(g) + 1;
+                } else {
+                    count += 1;
+                }
+            }
+            count += childPosition +1;
+            Log.d(TAG, "elvStudentsList scroll idx to:" + count);
+            return count;
+        }
+
+elvStudentsList.smoothScrollToPosition(myAdapter.getScrollIndex(cursorGroupPos,cursorchildPos));
+```
 
 !! 參考資料 :
 * [[ExpandableListView(可折叠列表)的基本使用|https://www.runoob.com/w3cnote/android-tutorial-expandablelistview.html|https://www.runoob.com/w3cnote/android-tutorial-expandablelistview.html]]

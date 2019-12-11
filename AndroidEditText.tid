@@ -1,12 +1,12 @@
 created: 20191112111936371
-modified: 20191114082332000
+modified: 20191210032339849
 tags: AndroidUI
 title: AndroidEditText
 type: text/vnd.tiddlywiki
 
 * Android ~EditText 去除邊框(下劃線) :
 ** 將 ~EditText屬性設置修改 `android:background="@null"`
-* hide Cursor
+* hide Cursor : `setCursorVisible(false)`
 
 !!! Hide Cursor
 ```java
