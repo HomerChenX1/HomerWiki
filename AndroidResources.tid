@@ -1,17 +1,95 @@
 created: 20191210023726887
-modified: 20191210030150989
+modified: 20191213030520785
 tags: AndroidSystem
 title: AndroidResources
 type: text/vnd.tiddlywiki
 
-
 * [[Change color inside strings.xml|https://stackoverflow.com/questions/19630160/change-color-inside-strings-xml]]
 
+!! Color
+```java
+.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+.setTextColor(context.getResources().getColor(R.color.white));
+.setColor(context.getResources().getColor(R.color.main_blue));
+.color(getResources().getColor(R.color.main_blue))
+ContextCompat.getColor(view.getContext(), R.color.white);
+tint = ColorStateList.valueOf(getResources().getColor(R.color.transparent ));
+view.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.main_blue)));
+.setBackgroundColor(res.getColor(R.color.white));
+```
+
+!! Drawable
+```java
+getResources().getDrawable() // deprecated API 22
+ContextCompat.getDrawable(getActivity(), R.drawable.name);
+ResourcesCompat.getDrawable(getResources(), R.drawable.name, null);
+
+context.getDrawable(R.drawable.ico_home_for_slide_view)
+.setImageDrawable(getResources().getDrawable(R.mipmap.checkbox_selected));
+.setImageDrawable(drawableSrc);
+.getDrawable(R.styleable.TabbarBottomTab_src);
+.setBackgroundResource(R.drawable.checkbox_selected_ripple);
+.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+.setBackground(context.getDrawable(R.drawable.round_shape_medium));
+```
+
+!! Menu
+
+!! Mipmap
+```java
+.icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_ico_school))
+.setImageDrawable(getResources().getDrawable(R.mipmap.checkbox_selected));
+.setImageResource(R.mipmap.but_stop_record);
+.setBackgroundResource(R.mipmap.but_task_unfinished);
+```
+
+!! Dimens
+```java
+getResources().getDimensionPixelSize(R.dimen.dialog_fix_width_max_extra);
+```
+
+!! String
+```java
+getString(R.string.mandatory_upgrade_title)
+```
 ```xml
 <- can not be 14sp -->
 <string name="user_suggest_hint"><font size="14">請輸入您的建議，或遇到的問題</font></string>
-```
-```xml
 <- red color -->
 <string name="hello_worldRed"><![CDATA[<b><font color=#FF0000>Hello world!</font></b>]]></string>
 ```
+
+!! Styles
+```xml
+<!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/main_blue</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/main_blue</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
+        <item name="android:navigationBarColor">@color/white</item>
+    </style>
+
+    <style name="MenuTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="android:homeAsUpIndicator">@mipmap/navi_but_back</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+```
+
+
+
+
+

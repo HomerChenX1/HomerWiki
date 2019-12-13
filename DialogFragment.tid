@@ -1,5 +1,5 @@
 created: 20190628081623988
-modified: 20191114041054004
+modified: 20191213020658554
 tags: MaterialDesign AndroidUI
 title: DialogFragment
 type: text/vnd.tiddlywiki
@@ -16,7 +16,8 @@ type: text/vnd.tiddlywiki
 * 窗口顯示的主頁背景色為透明
 **`getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));`
 * 不可取消
-** `getDialog().setCancelable(false);`
+** `getDialog().setCancelable(false);`   notice: outside the ~DialogFragment code
+** `setCancelable(false);`   notice: inside the ~DialogFragment code
 * 點擊外部不消失
 ** `getDialog().setCanceledOnTouchOutside(false);`
 * 全屏對話框中，確認及取消動作在畫面的頂部。
@@ -32,13 +33,22 @@ type: text/vnd.tiddlywiki
 
 !!!'' in `MainActivity` Java Code''
 ```java
-if (mDialogFragment == null) {
-	mDialogFragment = SampleDialogFragment.newInstance();
-}
-Dialog mDialog = mDialogFragment .getDialog();
-if (mDialog==null || !mDialog.isShowing()) {
-	mDialogFragment.show(getSupportFragmentManager(), FRAGMENT_TAG_SAMPLE);
-}
+    private void showClassStudentListDiag() {
+        String tag = "ClassStudentListFragment";
+        if (getActivity().getSupportFragmentManager().findFragmentByTag(tag) == null ) {
+            ClassStudentListFragment classStudentListFragment = ClassStudentListFragment.newInstance(workingSchoolId);
+            Dialog mDialog = classStudentListFragment.getDialog();
+            if (mDialog==null || !mDialog.isShowing()) {
+                classStudentListFragment.show(getActivity().getSupportFragmentManager(), tag);
+            }
+        } else {
+            Log.d("showClassStudentListDia", tag + " is exist");
+            Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag(tag);
+            // ((ClassStudentListFragment)frag).show(getActivity().getSupportFragmentManager(), tag);
+            Dialog mDialog = ((ClassStudentListFragment)frag).getDialog();
+            mDialog.show();
+        }
+    }
 ```
 
 !!! in `DialogFragment`
@@ -76,6 +86,7 @@ public class TravelModeFragment extends DialogFragment {
                              Bundle savedInstanceState) {
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setCancelable(false);  // important, not getDialog.setCancelable(false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         View view = inflater.inflate(R.layout.dialog_travel_mode, container);
