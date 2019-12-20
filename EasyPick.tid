@@ -1,5 +1,5 @@
 created: 20190708010827328
-modified: 20191120105019326
+modified: 20191220080837984
 tags: Projects [[Servers' setup]]
 title: EasyPick
 type: text/vnd.tiddlywiki
@@ -143,4 +143,35 @@ android:text="" />
             android:inputType="text"
             android:imeOptions="actionDone"
             />
+```
+
+!!! `EasyPickFragment` 漢堡選單
+```java
+public class PersonnelRollFragment extends EasyPickFragment {
+    @Override
+    protected int getToolbarTitle() {
+        return R.string.personel_title;
+    }
+
+    @Override
+    protected int getHomeMipmapId() {
+        // return -1
+        return R.mipmap.but_menu;
+    }
+
+    @Override
+    protected int getToolbarMenu() {
+        return R.menu.menu_personel_roll;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuRoll:  // unique id in all menus
+                Log.d(TAG, "clicked!");
+                return true;
+        }
+        return false;
+    }
+}
 ```

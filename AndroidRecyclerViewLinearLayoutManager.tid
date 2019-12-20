@@ -1,5 +1,5 @@
 created: 20190617061855055
-modified: 20191106111505832
+modified: 20191220102242427
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewLinearLayoutManager
 type: text/vnd.tiddlywiki
@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 myDataset.remove(position);
                 myAdapter.notifyItemRemoved(position);
-                // Swipe from left to right
+                // Swipe from right to left 
                 if (direction == ItemTouchHelper.LEFT)
                     textView.setText("Swipe LEFT: item " + position);
-                // Swipe from right to left
+                // Swipe from left to right
                 if (direction == ItemTouchHelper.RIGHT)
                     textView.setText("Swipe RIGHT: item " + position);
             }
