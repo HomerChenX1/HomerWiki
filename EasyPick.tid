@@ -1,5 +1,5 @@
 created: 20190708010827328
-modified: 20191220080837984
+modified: 20200102032603417
 tags: Projects [[Servers' setup]]
 title: EasyPick
 type: text/vnd.tiddlywiki
@@ -19,6 +19,7 @@ type: text/vnd.tiddlywiki
 ** Checked: EOFException
 ** Unchecked:  ~IllegalArgumentException
 * `parentLocationObj.arrivalInfo.willArriveTimeStamp == -1  parent cancelled`
+* [[Programming|Programming]]
 
 !! modify Auth
 * delete auth schools/parents

@@ -1,5 +1,5 @@
 created: 20190808052007864
-modified: 20190927104616284
+modified: 20200102032332190
 tags: NotComplete Java DesignPattern AndroidSystem
 title: Programming
 type: text/vnd.tiddlywiki
@@ -24,6 +24,7 @@ type: text/vnd.tiddlywiki
 # JavaDoc
 # 完成後將 interface 改為 class ( UML class diagram)
 # Java 中 ~CompletableFuture 可完成 Async and Chaining 
+# all input need to check dummy or incorrect input data first
 
 !! 參考資料:
 * [[Composite 模式 : 樹狀結構的設計模式|http://puremonkey2010.blogspot.com/2011/09/oo-composite.html]]

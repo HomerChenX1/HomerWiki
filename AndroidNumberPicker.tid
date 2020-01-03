@@ -1,5 +1,5 @@
 created: 20191008043001967
-modified: 20191008054954210
+modified: 20191225033311094
 tags: AndroidUI
 title: AndroidNumberPicker
 type: text/vnd.tiddlywiki
@@ -21,4 +21,23 @@ type: text/vnd.tiddlywiki
     android:layout_height="wrap_content"
     android:theme="@style/NumberPickerText"
     android:layout_gravity="center_horizontal"/>
+```
+
+```java
+    private void setupPicker(){
+        String [] dataSetArray = new String[npClassPickerDataSet.size()];
+        classSelectIdx = 0;
+        npClassPicker.setMinValue(0);
+        npClassPicker.setMaxValue(npClassPickerDataSet.size() - 1);
+        npClassPicker.setDisplayedValues(npClassPickerDataSet.toArray(dataSetArray));
+        npClassPicker.setValue(classSelectIdx); // 設定預設位置
+        npClassPicker.setWrapSelectorWheel(false); // 是否循環顯示
+        npClassPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS); // 不可編輯
+        npClassPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                classSelectIdx = newVal;
+            }
+        });
+    }
 ```
