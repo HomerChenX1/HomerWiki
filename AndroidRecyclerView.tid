@@ -1,5 +1,5 @@
 created: 20190614093128076
-modified: 20191206073650434
+modified: 20200103024600185
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerView
 type: text/vnd.tiddlywiki
@@ -39,6 +39,7 @@ type: text/vnd.tiddlywiki
 * [[(Android) CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
 * [[RecyclerView系列之（1）：为RecyclerView添加Header和Footer|https://www.jianshu.com/p/991062d964cf]]
 * [[RecyclerView系列之（2）：為RecyclerView添加分隔線|https://www.jianshu.com/p/4eff036360da]]
+* [[work as iphone: Android swipe menu with RecyclerView|https://codeburst.io/android-swipe-menu-with-recyclerview-8f28a235ff28]]
 
 !!! Delete item
 ```java

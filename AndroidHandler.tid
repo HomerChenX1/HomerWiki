@@ -1,5 +1,5 @@
 created: 20190529021418463
-modified: 20190530045534738
+modified: 20200109080510205
 tags: AndroidSystem
 title: AndroidHandler
 type: text/vnd.tiddlywiki
@@ -99,4 +99,11 @@ public final boolean postDelayed(Runnable r, long delayMillis);
 public boolean sendMessageAtTime(Message msg, long uptimeMillis);
 public final boolean postAtTime(Runnable r, long uptimeMillis);
 public final boolean postAtTime(Runnable r, Object token, long uptimeMillis);
+```
+
+!!! remove messages in mHandler
+```java
+for (EnumSequence e: EnumSequence.values()) {
+    mHandler.removeMessages(e.ordinal());
+}
 ```
