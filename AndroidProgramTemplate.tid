@@ -1,0 +1,154 @@
+created: 20200113044413110
+modified: 20200113055948408
+tags: Projects AndroidSystem
+title: AndroidProgramTemplate
+type: text/vnd.tiddlywiki
+
+```java
+/**
+ *   UI will use AppCompatActivity and Fragment
+ *   JetPack use data-binding v2
+ *               use LiveModel
+ *   UI ->  CtrlMain(mSequence) -> daoMain
+ *   Dao -> CtrlMain(mSequence)  -> handler -> callBackToUi -> UI
+ *
+ *   After finish, run
+ *   Code -> Arrangement
+ *   Analyze -> infer nullity
+ *   Analyze -> inspect code
+ *   Analyze -> code cleanup
+ *   write JavaDoc
+ */
+public class MainActivity extends AppCompatActivity {
+    @Nullable
+    private HandlerThread ioHandlerThread;
+    @Nullable
+    private CtrlMain mSequence;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        startIoHandlerThread();
+        mSequence = new CtrlMain(this, ioHandlerThread);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mSequence!=null){
+            mSequence.onDestroy();  // needed to stop all handlers' message and callBacks
+        }
+        stopIoHandlerThread();
+        super.onDestroy();
+    }
+
+    public void callBackDo(){ }
+
+    private void startIoHandlerThread(){
+        if (ioHandlerThread==null){
+            ioHandlerThread = new HandlerThread("IO");  // for global io background thread
+            ioHandlerThread.start();
+        }
+    }
+
+    private void stopIoHandlerThread(){
+        // needed to stop all handlers' message and callBacks
+        if (ioHandlerThread!=null) {
+            ioHandlerThread.quit();
+            ioHandlerThread.interrupt();
+            ioHandlerThread = null;
+        }
+    }
+}
+
+/**
+ *  Controller : major use android Handler
+ *    outter class or protected static class in MainActivity
+ *  use Handler to convert Dao threads to UI threads to prevent Dao racing issues
+ *  use daoMain to call DAO functions
+ *  use handleMessage to call Activity public/protected methods
+ */
+class CtrlMain extends Handler {
+    private final WeakReference<Activity> mActivity;
+    private final DaoMain daoMain = new DaoMain(this);  // to access Dao
+    @Nullable
+    private Handler daoHandler = null;
+    CtrlMain(@NonNull Activity activity, @Nullable HandlerThread ioHandlerThread) {
+        mActivity = new WeakReference<>(activity);
+        if (!(ioHandlerThread==null)) {
+            daoHandler = new Handler(ioHandlerThread.getLooper());
+        }
+    }
+
+    void onDestroy(){
+        if (daoHandler!=null) { daoHandler.removeCallbacksAndMessages(null); }
+        daoMain.onDestroy();
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+
+        MainActivity uiActivity = getActivity();
+        if (uiActivity != null) {
+            uiActivity.callBackDo();
+        }
+    }
+
+    private MainActivity getActivity(){
+        return (MainActivity) mActivity.get();
+    }
+
+    /**
+     *   switch Thread to ioHandlerThread then call daoMain functions
+     */
+    void callToDao(){
+        if (daoHandler!=null) {
+            daoHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    daoMain.calledFromCtrl("10");
+                }
+            });
+        }
+    }
+
+    static class MsgObjCombined {
+        // for DaoMain used
+    }
+
+}
+
+/**
+ *  DAO major use Async operations
+ *      major working in other threads if need long time
+ *  Dao will send message to CtrlMain(mSequence) to convert thread to MainThread, it is necessary
+ *  Data use Map, operated by key
+ */
+class DaoMain {
+    private final CtrlMain mSequence;
+    private final Map<String, Integer> daoDataMap = new HashMap<>();
+
+    DaoMain(CtrlMain mSequence) {
+        this.mSequence = mSequence;
+    }
+
+    void onDestroy() {}
+
+    protected void sendToController(int what){
+        mSequence.sendEmptyMessage(what);
+    }
+
+    protected void sendToController(int what, CtrlMain.MsgObjCombined obj){
+        Message msg = Message.obtain();
+        msg.what = what;
+        msg.obj = obj;
+        mSequence.sendMessage(msg);
+    }
+
+    void calledFromCtrl(String key){
+        int dataInt = daoDataMap.get(key);
+    }
+}
+```

@@ -1,5 +1,5 @@
 created: 20190529021418463
-modified: 20200109080510205
+modified: 20200113032719542
 tags: AndroidSystem
 title: AndroidHandler
 type: text/vnd.tiddlywiki
@@ -20,11 +20,13 @@ type: text/vnd.tiddlywiki
 ** `Looper.myLooper().quitSafely();`
 * 如果是把handler相關的內容宣告成activity的內部類別，那一定要宣告成static inner class, prevent memory leak
 * 在Android源碼中Handler一般是定義成protect
+* Handler must be destroy, and remove all pending message before destroy.
 
 !! 參考資料 :
 * [[http://hsingjungchen.blogspot.com/2017/07/androidhandlerthreadui.html]]
 * [[https://juejin.im/post/5910533dac502e006cfe01cd]]
 * [[http://givemepass-blog.logdown.com/posts/296606-how-to-use-a-handler]]
+* [[糾正編碼錯誤篇（2）Handler的警告您解決了嗎？|https://juejin.im/post/5ad5662b5188253edd4d8e66]]
 
 !!! ''在子線程創建Handler:''
 
@@ -105,5 +107,53 @@ public final boolean postAtTime(Runnable r, Object token, long uptimeMillis);
 ```java
 for (EnumSequence e: EnumSequence.values()) {
     mHandler.removeMessages(e.ordinal());
+}
+```
+
+!! Handler的警告您解決了嗎
+
+```java
+public class MainActivity extends AppCompatActivity {
+    private CtrlMain mSequence;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // define callBackForCtrl
+        mSequence = new CtrlMain(this);
+    }
+
+    public void callBackDo(){ }
+
+    /**
+     *   Controller : major use android Handler
+     *     outter class or protected static class in MainActivity
+     *   use Handler to convert Dao threads to UI threads to prevent Dao racing issues
+     *   use daoMain to call DAO functions
+     *   use handleMessage to call Activity public/protected methods
+     */
+    protected static class CtrlMain extends Handler {
+        public static class MsgObjCombined {
+            // for DaoMain used
+        }
+        private WeakReference<Activity> mActivity;
+        private final DaoMain daoMain = new DaoMain(this);  // to access Dao
+
+        public CtrlMain(Activity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            MainActivity activity = (MainActivity) mActivity.get();
+            if (activity != null) {
+                activity.callBackDo();
+            }
+        }
+    }
 }
 ```
