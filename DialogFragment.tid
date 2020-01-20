@@ -1,5 +1,5 @@
 created: 20190628081623988
-modified: 20191213020658554
+modified: 20200113071823699
 tags: MaterialDesign AndroidUI
 title: DialogFragment
 type: text/vnd.tiddlywiki
@@ -163,5 +163,30 @@ public void onResume() {
         // int height = getResources().getDimensionPixelSize(R.dimen.dialog_fix_height_max_4inch);
         getDialog().getWindow().setLayout(width, point.y-height_margin);
         // mDialog.getWindow().setLayout((int) (point.x * 0.8), (int) (point.y * 0.8));
+    }
+```
+
+```java
+    public void issueDialogFragment(DialogFragment newFrag, String tag){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Fragment frag = fm.findFragmentByTag(tag);
+
+        if (frag == null ) {
+            // new one
+            Dialog mDialog = newFrag.getDialog();
+            if (mDialog==null || !mDialog.isShowing()) {
+                newFrag.show(fm, tag);
+            }
+        } else {
+            // old one
+            if (frag instanceof DialogFragment) {
+                DialogFragment oldFrag = (DialogFragment)frag;
+                Dialog mDialog = ((ClassStudentListFragment)frag).getDialog();
+                mDialog.show();
+            } else {
+                String s = tag + ":" + "Something wrong, it must be DialogFragment!";
+                throw new NullPointerException(s);
+            }
+        }
     }
 ```

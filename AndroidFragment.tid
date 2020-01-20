@@ -1,5 +1,5 @@
 created: 20190605015946869
-modified: 20190927053313493
+modified: 20200113071949361
 tags: AndroidUI
 title: AndroidFragment
 type: text/vnd.tiddlywiki
@@ -119,6 +119,17 @@ public class TestFragmentActivity extends AppCompatActivity {
   
 }
 
+```
+
+```java
+    public void issueFragment(Fragment newFrag, String tag){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Fragment frag = fm.findFragmentByTag(tag);
+        if (frag == null) {
+            frag = newFrag;
+        }
+        fm.beginTransaction().replace(R.id.mainContainer, frag, tag).addToBackStack(null).commit();
+    }
 ```
 
 !!! ''FragmentBasic.java''

@@ -1,8 +1,92 @@
 created: 20200113044413110
-modified: 20200113055948408
+modified: 20200115045042979
 tags: Projects AndroidSystem
 title: AndroidProgramTemplate
 type: text/vnd.tiddlywiki
+
+!! Simple style
+```java
+public class MonthlyReportFragment extends EasyPickFragment {
+    private MonthlyReportCtrl mSequence;
+
+    public MonthlyReportFragment() {
+        // Required empty public constructor
+    }
+
+   
+    public static MonthlyReportFragment newInstance() {
+        MonthlyReportFragment fragment = new MonthlyReportFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (mSequence==null) {
+            mSequence = new MonthlyReportCtrl(getActivity(), this);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mSequence!=null){
+            mSequence.onDestroy();  // needed to stop all handlers' message and callBacks
+            mSequence = null;
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_monthly_report, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    //////////////////////////////////////////////////
+
+    static class MonthlyReportCtrl extends Handler {
+        private String TAG = getClass().getSimpleName();
+        private final WeakReference<FragmentActivity> mActivity;
+        private final WeakReference<MonthlyReportFragment> mFragment;
+        Fragment workingFragment;
+
+        public MonthlyReportCtrl(@NonNull FragmentActivity activity, Fragment fragment) {
+            mActivity = new WeakReference<>(activity);
+            mFragment = new WeakReference<>(fragment);
+            workingFragment = fragment;
+        }
+
+        public void onDestroy(){
+            removeCallbacksAndMessages(null);
+        }
+
+        private FragmentActivity getActivity(){
+            return mActivity.get();
+        }
+
+        private MonthlyReportFragment getFragment() { return mFragment.get(); }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (getActivity()!=null && getFragment()!=null) {
+                Log.d(TAG, "do UI actions!");
+            } else {
+                Log.d(TAG, "Activity is not exist!");
+            }
+        }
+    }
+}
+
+```
+
+!!! MVC style with 2 threads
 
 ```java
 /**

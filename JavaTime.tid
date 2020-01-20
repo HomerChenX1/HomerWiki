@@ -1,11 +1,12 @@
 created: 20191205081251307
-modified: 20191205081627898
+modified: 20200115061924869
 tags: Java
 title: JavaTime
 type: text/vnd.tiddlywiki
 
 * [[Java日期轉換SimpleDateFormat格式大全|https://my.oschina.net/iamhere/blog/638316]]
 * [[How to convert a string Date to long millseconds|https://stackoverflow.com/questions/12473550/how-to-convert-a-string-date-to-long-millseconds]]
+* [[Number of days in particular month of particular year?|https://stackoverflow.com/questions/8940438/number-of-days-in-particular-month-of-particular-year]]
 
 ```java
 long timestamp = -1;
