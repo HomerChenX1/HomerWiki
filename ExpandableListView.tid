@@ -1,5 +1,5 @@
 created: 20191029024442911
-modified: 20191210031440007
+modified: 20200122052217663
 tags: AndroidUI
 title: ExpandableListView
 type: text/vnd.tiddlywiki
@@ -42,6 +42,7 @@ elvStudentsList.smoothScrollToPosition(myAdapter.getScrollIndex(cursorGroupPos,c
 * [[Android ExpandableListView展開列表控制元件使用例項|https://codertw.com/android-%E9%96%8B%E7%99%BC/354604/]]
 * [[Adding the search functionality in expandable listview|https://bhandaryinandroid.wordpress.com/2015/03/13/adding-the-search-functionality-in-expandable-listview/]]
 * [[smoothScrollToPosition in ExpandableListView|https://stackoverflow.com/questions/8603946/smoothscrolltoposition-in-expandablelistview]]
+* [[Expandable Listview inside scrollview|https://thedeveloperworldisyours.com/android/expandable-listview-inside-scrollview/]]
 
 ```xml
 <ExpandableListView
@@ -255,5 +256,52 @@ class StudentsListAdapter extends BaseExpandableListAdapter {
             FcmTopicsManager.getRef().sendMessageToParentsCourse(studentCourse.schoolId, studentCourse.classId,
                     studentCourse.childId, getString(R.string.course_fcm_title), s);
         }
+    }
+```
+
+!! setListViewHeight
+
+```java
+
+        elvStudentsList.post(new Runnable() {
+            @Override
+            public void run() {
+                setListViewHeight(elvStudentsList, 0);
+            }
+        });
+
+private void setListViewHeight(ExpandableListView listView, int group) {
+        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += groupItem.getMeasuredHeight();
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    View listItem = listAdapter.getChildView(i, j, false, null,
+                            listView);
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+                    totalHeight += listItem.getMeasuredHeight();
+
+                }
+            }
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10)
+            height = 200;
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
     }
 ```
