@@ -1,5 +1,5 @@
 created: 20191009102010990
-modified: 20191009103754144
+modified: 20200206040722898
 tags: AndroidSystem
 title: AndroidAnnotations
 type: text/vnd.tiddlywiki
@@ -7,6 +7,7 @@ type: text/vnd.tiddlywiki
 * [[深入淺出Android Support Annotations|https://asce1885.gitbooks.io/android-rd-senior-advanced/content/shen_ru_qian_chu_android_support_annotations.html]]
 * [[Android註解使用之使用Support Annotations註解優化代碼|https://kknews.cc/zh-tw/code/qj8n5o.html]]
 * [[善用 Annotation 降低犯錯率|https://medium.com/@louis383/%E5%96%84%E7%94%A8-annotation-%E9%99%8D%E4%BD%8E%E7%8A%AF%E9%8C%AF%E7%8E%87-1a05d2ad9b8e]]
+* [[Android - Suppresswarnings用法|https://www.jianshu.com/p/d60d6027ef0b]]
 
 ```java
 @Nullable

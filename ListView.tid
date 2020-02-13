@@ -1,5 +1,5 @@
 created: 20190628071552497
-modified: 20191210081733625
+modified: 20200206040553695
 tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
@@ -24,6 +24,7 @@ type: text/vnd.tiddlywiki
 * [[【Android】CheckedTextView - 用於 ListView 的 CheckBox|http://oldgrayduck.blogspot.com/2012/10/androidcheckedtextview-listview-checkbox.html]]
 * [[ListView 增加頁頭、頁尾|https://programnoteforlearning.blogspot.com/2017/05/listview.html]]
 * [[Android ListView padding for content without moving ListView height|https://src-bin.com/en/q/784654]]
+* [[ListView中含有Button時setOnclickListener應寫在Adapter的什麼地方|https://blog.csdn.net/yangzl2008/article/details/7863938]]
 
 !!! ''XML code'' :
 ```xml
