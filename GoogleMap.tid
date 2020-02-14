@@ -1,0 +1,42 @@
+created: 20200214110759360
+modified: 20200214111301850
+tags: AndroidSystem
+title: GoogleMap
+type: text/vnd.tiddlywiki
+
+
+```java
+    private Polyline uiPolyline;
+    final private int navigationPathWidthInDp = 8;
+
+    void setGMapPolyline(final List<LatLng> polyline){
+        if (polyline != null) {
+
+            if (uiPolyline != null) {
+                uiPolyline.remove();
+            }
+
+            uiPolyline = mMap.addPolyline(new PolylineOptions()
+                    .clickable(false)
+                    .color(getResources().getColor(R.color.main_blue))
+                    .width(GeneralFunctions.getPixelFromDp(navigationPathWidthInDp))
+                    .addAll(polyline));
+        }
+
+    }
+
+    Map<LatLng, Marker> gMarkerMap = new HashMap<>();
+    void setGMapMarker(LatLng location){
+        Marker aMarker = mMap.addMarker(new MarkerOptions()
+                .position(location)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ico_parents_blue)));
+        gMarkerMap.put(location, aMarker);
+    }
+    void clearGMapMarker(){
+        for (Marker aMarker: gMarkerMap.values()){
+            aMarker.remove();
+        }
+        gMarkerMap.clear();
+    }
+
+```
