@@ -1,5 +1,5 @@
 created: 20190708010827328
-modified: 20200120061415160
+modified: 20200306091224631
 tags: Projects [[Servers' setup]]
 title: EasyPick
 type: text/vnd.tiddlywiki
@@ -175,5 +175,166 @@ public class PersonnelRollFragment extends EasyPickFragment {
         }
         return false;
     }
+}
+```
+
+!!! ~MyAlertDialog : need to changed to abstract
+
+```java
+public class MyAlertDialog {
+    protected Context context;
+    protected boolean needResize = false;
+    protected final View rootView;
+    private AlertDialog alertDialog;
+
+    public AlertDialog getAlertDialog() { return alertDialog; }
+
+    public MyAlertDialog(@NonNull Context context, @LayoutRes int layoutId, boolean needResize) {
+        this.context = context;
+        this.needResize = needResize;
+        this.rootView = LayoutInflater.from(context).inflate(layoutId, null);
+    }
+
+    protected void findViews() { }
+
+    protected void bindViews() { }
+
+    public void showDialog(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+        dialogBuilder.setView(rootView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        // alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+    }
+
+    public void dismissDialog(){
+        if (alertDialog != null){
+            alertDialog.dismiss();
+            alertDialog = null;
+        }
+    }
+
+    protected void resizeDialog() {
+        Window window = getAlertDialog().getWindow();
+        View decorView = window.getDecorView();
+        int paddingTop = decorView.getPaddingTop();
+        int paddingBottom = decorView.getPaddingBottom();
+        int paddingLeft = decorView.getPaddingLeft();
+        int paddingRight = decorView.getPaddingRight();
+
+        decorView.measure(
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        int height = decorView.getMeasuredHeight() + paddingTop + paddingBottom;
+        int width = decorView.getMeasuredWidth() + paddingLeft + paddingRight;
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point); // x is width, y is height
+        // use height directly
+        int adjustWidth = (int) (point.x * 0.9);
+        width = adjustWidth>width?adjustWidth:width;
+        window.setLayout(width, height);
+    }
+
+    public void doDialog(){
+        findViews();
+        bindViews();
+        showDialog();
+        if (needResize) { resizeDialog(); }
+    }
+}
+
+```
+
+!!! ~MyBaseAdapter : need to add supporting UI class
+
+```java
+public abstract class HandlerController2<T extends Fragment, UI, D, IOK> extends Handler {
+    protected String TAG = getClass().getSimpleName();
+    private WeakReference<FragmentActivity> mActivity;
+    private WeakReference<T> mFragment;
+    private WeakReference<UI> uiClass;
+    private int mType = 0;
+    private Map<IOK, Handler> ioHanderMap;
+    private D dao;
+
+    public HandlerController2(@NonNull FragmentActivity activity){
+        this(activity, null, null);
+    }
+
+    public HandlerController2(@NonNull FragmentActivity activity, T fragment){
+        this(activity, fragment, null);
+    }
+
+    public HandlerController2(@NonNull FragmentActivity activity, T fragment, UI aClass) {
+        ioHanderMap = new HashMap<>();
+        mActivity = new WeakReference<>(activity);
+        if (fragment!=null) {
+            mFragment = new WeakReference<>(fragment);
+            mType = 1;
+        }
+        if (aClass!=null) {
+            uiClass= new WeakReference<>(aClass);
+            mType = 2;
+        }
+    }
+
+    public void onDestroy(){
+        if (ioHanderMap !=null) {
+            if (ioHanderMap.size()!=0) {
+                ioHanderDestroy();
+            }
+            ioHanderMap = null;
+        }
+        
+        if (dao!=null){
+            daoDestroy();
+            dao = null;
+        }
+        removeCallbacksAndMessages(null);
+    }
+    
+    public FragmentActivity getActivity(){ return mActivity.get(); }
+
+    public T getFragment() { return mFragment==null? null: mFragment.get(); }
+
+    public UI getUiClass() { return uiClass==null? null: uiClass.get(); }
+
+    public Context getContext() { return getActivity(); }
+
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        switch(mType){
+            case 0:
+                if (getActivity()==null) { return; }
+                break;
+            case 1:
+                if (getActivity()==null || getFragment()==null) { return; }
+                break;
+            case 2:
+                if (getActivity()==null || getFragment()==null || getUiClass()==null) { return; }
+                break;
+            default:
+                return;
+        }
+        handleMsgInternal(msg);
+    }
+
+    // used for override
+    protected abstract void handleMsgInternal(@NonNull Message msg);
+    
+    @Nullable Handler getIoHanderMap(@NonNull IOK key){ return ioHanderMap.get(key); }
+    void putIoHanderMap(@NonNull IOK key, @NonNull Handler handler){ ioHanderMap.put(key, handler); }
+    protected abstract void ioHanderDestroy();
+
+    @Nullable D getDao() { return dao; }
+    void setDao(@NonNull D dao) {  this.dao = dao; }
+    protected abstract void daoDestroy();
+    
 }
 ```

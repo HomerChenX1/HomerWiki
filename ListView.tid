@@ -1,5 +1,5 @@
 created: 20190628071552497
-modified: 20200206040553695
+modified: 20200306095810321
 tags: MaterialDesign AndroidUI
 title: ListView
 type: text/vnd.tiddlywiki
@@ -43,29 +43,33 @@ type: text/vnd.tiddlywiki
 
 !!! ''Adapter Java Code''
 ```java
-class TravelModeAdapter extends BaseAdapter {
-    private ArrayList<TravelModeItem> itemArray = null;
+public abstract class MyBaseAdapter2<K, VH extends MyBaseAdapter.MyViewHolder> extends BaseAdapter {
+    protected K[] mData;
     private LayoutInflater inflater;
+    private Context context;
+    private int itemResId;
 
-    static class ViewHolder{
-        // TODO need modify
-        TextView mode;
-        ImageView img;
+    public MyBaseAdapter2(@NonNull Context context, @NonNull List<K> mData, @LayoutRes int itemResId) {
+        this(context, (mData.size()>0? (K[]) mData.toArray(): null), itemResId);
     }
 
-    public TravelModeAdapter(ArrayList<TravelModeItem> itemArray, Context context) {
-        this.itemArray = itemArray;
+    public MyBaseAdapter2(@NonNull Context context, @Nullable K[] mData, @LayoutRes int itemResId) {
+        this.mData = mData;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context = context;
+        this.itemResId = itemResId;
     }
+
+    public @NonNull Context getContext() { return context; }
 
     @Override
     public int getCount() {
-        return itemArray.size();
+        return mData.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return itemArray.get(position);
+        return mData[position];
     }
 
     @Override
@@ -74,30 +78,77 @@ class TravelModeAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(int position, @Nullable View convertView, @Nullable ViewGroup parent) {
+        VH holder;
 
         if (convertView == null) {
             // add a new view
-            holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.travel_mode_item, null);
-            holder.mode = convertView.findViewById(R.id.tvTravelModeMethod);
-            holder.img = convertView.findViewById(R.id.ivTravelModeIcon);
+            holder = newViewHolder();
+            convertView = inflater.inflate(itemResId, null);
+            findViews(holder, convertView);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (VH) convertView.getTag();
         }
-
-        holder.mode.setText(itemArray.get(position).mode);
-        holder.img.setImageResource(itemArray.get(position).resid);
+        bindViews(holder, position);
         return convertView;
     }
 
-    public void refresh(ArrayList<TravelModeItem> itemArray) {
-		this.itemArray= itemArray;
-		notifyDataSetChanged();
-	}
+    // holder.mode = convertView.findViewById(R.id.tvTravelModeMethod);
+    protected abstract void findViews(@NonNull VH holder, @NonNull View convertView);
 
+    // holder.img.setImageResource(mData.get(position).resid);
+    protected abstract void bindViews(@NonNull VH holder, int position);
+
+    // return new VH(convertView);
+    @NonNull
+    protected abstract VH newViewHolder();
+
+    public void refresh(@NonNull List<K> mData) {
+        this.mData = mData.size()>0? (K[]) mData.toArray(): null;
+        notifyDataSetChanged();
+    }
+
+    public static void setListViewHeight(ListView listView, Integer minHeight, Integer maxHeigh){
+        int totalHeight = 0;
+
+        ListAdapter mAdapter = listView.getAdapter();
+        if (mAdapter == null) { return; }
+        int maxCount = mAdapter.getCount();
+        if (maxCount == 0) { return; }
+
+        for (int i = 0; i < maxCount; i++) {
+            View mView = mAdapter.getView(i, null, listView);
+
+            mView.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            totalHeight += mView.getMeasuredHeight();
+        }
+
+        totalHeight += (listView.getDividerHeight() * (mAdapter.getCount() - 1));
+        if (minHeight!=null && totalHeight < minHeight){ totalHeight = minHeight; }
+        if (maxHeigh!=null && totalHeight > maxHeigh) { totalHeight = maxHeigh; }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    public class MyViewHolder {
+        private View itemView;
+
+        public MyViewHolder() { }
+
+        public @Nullable View getItemView() {
+            return itemView;
+        }
+
+        public void setItemView(@NonNull View itemView) {
+            this.itemView = itemView;
+        }
+    }
 }
 
 ```
@@ -129,43 +180,6 @@ private AdapterView.OnItemClickListener onClickListView = new AdapterView.OnItem
 public View getView(int position, View convertView, ViewGroup parent) {
    ((ListView)parent).setItemChecked(position, true);
 }
-```
-
-!!! ''Measure ~ListView height''
-```java
-private void setLvTimeListHeight(){
-        final int fixListItemCnt = 4;
-        if (timeListAdapter == null) {
-            return;
-        }
-
-        int totalHeight = 0;
-
-        int maxCount = timeListAdapter.getCount();
-        if (maxCount == 0) {
-            return;
-        }
-        if (maxCount > fixListItemCnt){
-            maxCount = fixListItemCnt;
-        }
-
-        for (int i = 0; i < maxCount; i++) {
-            View mView = timeListAdapter.getView(i, null, lvTimeList);
-
-            mView.measure(
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            totalHeight += mView.getMeasuredHeight();
-        }
-        totalHeight += (lvTimeList.getDividerHeight() * (maxCount - 1));
-
-        ViewGroup.LayoutParams params = lvTimeList.getLayoutParams();
-//            params.height = totalHeight
-//                    + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
-        params.height = totalHeight;
-        lvTimeList.setLayoutParams(params);
-        lvTimeList.requestLayout();
-    }
 ```
 
 !!! ''Offset Scroll''

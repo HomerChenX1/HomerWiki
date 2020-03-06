@@ -1,39 +1,15 @@
 created: 20191029024442911
-modified: 20200122052217663
+modified: 20200306104238229
 tags: AndroidUI
 title: ExpandableListView
 type: text/vnd.tiddlywiki
 
 !! 特徵 :
-* Redraw:
-** `myAdapter.notifyDataSetInvalidated();`
 
 !!! ''Scroll''
 * do not use setSelectedChild. There is mysterious bugs, use smoothScrollToPosition
 ** need convert groupPosition, childPosition to flatPosition
 * if necessary, put in `elvStudentsList.post()`
-
-```java
-// direction : 1:for next, -1:for prev, 0:no modify
-        public int getScrollIndex(int groupPosition, int childPosition) {
-            int count = 0;
-
-            childPosition += shiftScroll;
-            elvStudentsList.expandGroup(groupPosition);
-            for (int g = 0; g < groupPosition; g++){
-                if (elvStudentsList.isGroupExpanded(g)) {
-                    count += getChildrenCount(g) + 1;
-                } else {
-                    count += 1;
-                }
-            }
-            count += childPosition +1;
-            Log.d(TAG, "elvStudentsList scroll idx to:" + count);
-            return count;
-        }
-
-elvStudentsList.smoothScrollToPosition(myAdapter.getScrollIndex(cursorGroupPos,cursorchildPos));
-```
 
 !! 參考資料 :
 * [[ExpandableListView(可折叠列表)的基本使用|https://www.runoob.com/w3cnote/android-tutorial-expandablelistview.html|https://www.runoob.com/w3cnote/android-tutorial-expandablelistview.html]]
@@ -57,220 +33,121 @@ elvStudentsList.smoothScrollToPosition(myAdapter.getScrollIndex(cursorGroupPos,c
 ```
 
 ```java
-class StudentsListAdapter extends BaseExpandableListAdapter {
-        private ArrayList<ClassName> gData;
-        private ArrayList<ArrayList<StudentCourse>> iData;
+public abstract class MyExpandableListView<GROUP, ITEM, GVH, IVH, EK> extends BaseExpandableListAdapter {
+    private GROUP[] gData; // for effective Java, should be changed to Array, but blocking in new issue
+    private ITEM[][] iData; // for effective Java, should be changed to Array, but blocking in new issue
+    private @LayoutRes final int groupLayoutId;
+    private @LayoutRes final int itemLayoutId;
+    private final Map<EK, Boolean> expandedObj = new HashMap<>();
 
-        private class ViewHolderGroup{
-            public TextView tvClassName;
-            public ImageView ivMark;
-        }
-
-        private class ViewHolderItem{
-            public LinearLayout llCourseStatus;
-            public TextView tvStudentName;
-            public Button[] course ;
-            public LinearLayout llCourseEst;
-            public TextView tvStudentName2;
-            public TextView tvEstTime;
-        }
-
-        public StudentsListAdapter(ArrayList<ClassName> gData, ArrayList<ArrayList<StudentCourse>> iData) {
-            this.gData = gData;
-            this.iData = iData;
-        }
-
-        @Override
-        public int getGroupCount() {
-            return gData.size();
-        }
-
-        @Override
-        public int getChildrenCount(int groupPosition) {
-            return iData.get(groupPosition).size();
-        }
-
-        @Override
-        public ClassName getGroup(int groupPosition) {
-            return gData.get(groupPosition);
-        }
-
-        @Override
-        public StudentCourse getChild(int groupPosition, int childPosition) {
-            return iData.get(groupPosition).get(childPosition);
-        }
-
-        @Override
-        public long getGroupId(int groupPosition) {
-            return groupPosition;
-        }
-
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            ViewHolderGroup groupHolder;
-
-            if(convertView == null){
-                convertView = LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.student_list_group, parent, false);
-                groupHolder = new ViewHolderGroup();
-                groupHolder.tvClassName = (TextView) convertView.findViewById(R.id.tvClassName);
-                groupHolder.ivMark = convertView.findViewById(R.id.ivMark);
-                convertView.setTag(groupHolder);
-            }else{
-                groupHolder = (ViewHolderGroup) convertView.getTag();
-            }
-            groupHolder.tvClassName.setText(gData.get(groupPosition).className);
-            groupHolder.ivMark.setImageResource(
-                    isExpanded? R.mipmap.but_shrink_section: R.mipmap.but_expand_section);
-            return convertView;
-        }
-
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            final int itemResId [] = {R.id.course1, R.id.course2, R.id.course3};
-            ViewHolderItem itemHolder;
-            StudentCourse studentCourse = getChild(groupPosition,childPosition);
-
-            if(convertView == null) {
-                // no convertView and itemHolder
-                convertView = LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.student_list_item, parent, false);
-                itemHolder = new ViewHolderItem();
-
-                itemHolder.llCourseStatus = convertView.findViewById(R.id.llCourseStatus);
-                itemHolder.tvStudentName = convertView.findViewById(R.id.tvStudentName);
-                itemHolder.course = new Button[itemResId.length];
-                for (int i=0; i<itemResId.length; i++) {
-                    itemHolder.course[i] = convertView.findViewById(itemResId[i]);
-                }
-
-                itemHolder.llCourseEst = convertView.findViewById(R.id.llCourseEst);
-                itemHolder.tvStudentName2 = convertView.findViewById(R.id.tvStudentName2);
-                itemHolder.tvEstTime = convertView.findViewById(R.id.tvEstTime);
-
-                convertView.setTag(itemHolder);
-            } else {
-                itemHolder = (ViewHolderItem) convertView.getTag();
-            }
-
-            if (estTimeStyle) {
-                itemHolder.llCourseStatus.setVisibility(View.INVISIBLE);
-                itemHolder.llCourseEst.setVisibility(View.VISIBLE);
-            } else {
-                itemHolder.llCourseStatus.setVisibility(View.VISIBLE);
-                itemHolder.llCourseEst.setVisibility(View.INVISIBLE);
-            }
-            // set tvStudentName
-            itemHolder.tvStudentName.setText(studentCourse.studentName);
-            itemHolder.tvStudentName2.setText(studentCourse.studentName);
-            // set itemHolder.course
-            // int minCnt = min(itemResId.length, studentCourse.schoolCourseSettingObjSet.size());
-            for (int i=0; i<itemResId.length; i++) {
-                if (i>=studentCourse.schoolCourseSettingObjSet.size()) {
-                    // not such many course
-                    itemHolder.course[i].setVisibility(View.GONE);
-                    continue;
-                }
-                String courseName = studentCourse.schoolCourseSettingObjSet.get(i).msg;
-                itemHolder.course[i].setText(courseName.substring(0,1));
-                itemHolder.course[i].setBackgroundResource(R.mipmap.but_task_unfinished);
-                if (fbSchoolCourseSettingObjSet.get(i).isEnable) {
-                    // enable
-                    itemHolder.course[i].setVisibility(View.VISIBLE);
-                } else {
-                    // disable
-                    itemHolder.course[i].setVisibility(View.GONE);
-                }
-                // check finish
-                boolean courseFinished = studentCourse.schoolCourseSettingObjSet.get(i).isEnable;
-
-                if (courseFinished) {
-                    itemHolder.course[i].setBackgroundResource(R.mipmap.but_task_finished);
-                    itemHolder.course[i].setTextColor(Color.WHITE);
-                } else {
-                    itemHolder.course[i].setBackgroundResource(R.mipmap.but_task_unfinished);
-                    itemHolder.course[i].setTextColor(Color.BLACK);
-                }
-                itemHolder.course[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        StudentCourse studentCourse = getChild(groupPosition,childPosition);
-                        changeFinishedButton(studentCourse, (Button)v);
-                    }
-                });
-            }
-
-            return convertView;
-        }
-
-        public void refresh(ArrayList<ClassName> gData, ArrayList<ArrayList<StudentCourse>> iData) {
-            this.gData = gData;
-            this.iData = iData;
-            notifyDataSetInvalidated();
-        }
-
-        private void changeFinishedButton(StudentCourse studentCourse, Button btn) {
-            int idx = 0;
-            switch(btn.getId()){
-                case R.id.course1:
-                    idx = 0;
-                    break;
-                case R.id.course2:
-                    idx = 1;
-                    break;
-                case R.id.course3:
-                    idx = 2;
-                    break;
-            }
-            String courseName = studentCourse.schoolCourseSettingObjSet.get(idx).msg;
-            String childName = idAndName.schoolObjMap.get(studentCourse.schoolId).classObjMap
-                    .get(studentCourse.classId).childObjMap.get(studentCourse.childId).name;
-
-            // put to holder
-            boolean courseFinished = !studentCourse.schoolCourseSettingObjSet.get(idx).isEnable;
-            studentCourse.schoolCourseSettingObjSet.get(idx).isEnable = courseFinished;
-            notifyDataSetInvalidated();
-            // put to firebase
-            schoolCourse.setChildCourseObjIdx(studentCourse.schoolId, studentCourse.classId, studentCourse.childId,
-                    idx, courseFinished);
-            // send fcm
-            String s = childName + courseName;
-            if (! courseFinished) {
-                s = getString(R.string.cancel) + s;
-            }
-            FcmTopicsManager.getRef().sendMessageToParentsCourse(studentCourse.schoolId, studentCourse.classId,
-                    studentCourse.childId, getString(R.string.course_fcm_title), s);
-        }
+    public MyExpandableListView(@NonNull List<GROUP> gData, @NonNull List<List<ITEM>> iData,
+                                @LayoutRes int groupLayoutId, @LayoutRes int itemLayoutId) {
+        this.gData = gData.size()>0? (GROUP[]) gData.toArray(): null;
+        cvtIData(iData);
+        this.groupLayoutId = groupLayoutId;
+        this.itemLayoutId = itemLayoutId;
+        setupExpandedObj(this.gData, expandedObj);
     }
-```
 
-!! setListViewHeight
+    private void cvtIData(@NonNull List<List<ITEM>> iData){
+        // need check again
+        int len = iData.size();
+        Object[] result = new Object[len];
+        for (int i=0; i<len; i++){
+            result[i] = iData.get(i).toArray();
+        }
+        this.iData = (ITEM[][])result;
+    }
 
-```java
+    boolean hasExpanded(@NonNull EK key){ return expandedObj.get(key); }
+    void putExapnded(@NonNull EK key, boolean val) { expandedObj.put(key, val); }
 
-        elvStudentsList.post(new Runnable() {
-            @Override
-            public void run() {
-                setListViewHeight(elvStudentsList, 0);
-            }
-        });
+    @Override
+    public int getGroupCount() {
+        return gData.length;
+    }
 
-private void setListViewHeight(ExpandableListView listView, int group) {
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return iData[groupPosition].length;
+    }
+
+    @Override
+    public GROUP getGroup(int groupPosition) {
+        return gData[groupPosition];
+    }
+
+    @Override
+    public ITEM getChild(int groupPosition, int childPosition) {
+        return iData[groupPosition][childPosition];
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, @Nullable View convertView, @NonNull ViewGroup parent) {
+        GVH groupViewHolder;
+        GROUP groupData = getGroup(groupPosition);
+
+        if(convertView == null){
+            convertView = LayoutInflater.from(parent.getContext()).inflate(
+                    groupLayoutId, parent, false);
+            groupViewHolder = newGroupViewHolder();
+            findViewsGroup(groupViewHolder, convertView);
+            convertView.setTag(groupViewHolder);
+        }else{
+            groupViewHolder = (GVH) convertView.getTag();
+        }
+        bindViewGroup(groupViewHolder, groupPosition, isExpanded);
+        return convertView;
+    }
+
+    @Override
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, @Nullable View convertView, @NonNull ViewGroup parent) {
+        IVH itemViewHolder;
+        ITEM itemData = getChild(groupPosition, childPosition);
+        GROUP groupData = getGroup(groupPosition);
+
+        if(convertView == null) {
+            // no convertView and itemHolder
+            convertView = LayoutInflater.from(parent.getContext()).inflate(
+                    itemLayoutId, parent, false);
+            itemViewHolder = newItemViewHolder();
+            findViewsItem(itemViewHolder, convertView);
+            convertView.setTag(itemViewHolder);
+        } else {
+            itemViewHolder = (IVH) convertView.getTag();
+        }
+        bindViewItem(itemViewHolder, childPosition, isLastChild);
+        return convertView;
+    }
+
+//    @Override
+//    public boolean isChildSelectable(int groupPosition, int childPosition) {
+//        // need to modify to your necessary
+//        return true;
+//    }
+
+    public void refresh(@NonNull List<GROUP> gData, @NonNull List<List<ITEM>> iData) {
+        this.gData = gData.size()>0? (GROUP[]) gData.toArray(): null;
+        cvtIData(iData);
+        notifyDataSetInvalidated();
+    }
+
+    public static void setListViewHeight(ExpandableListView listView, int group, Integer minHeight, Integer maxHeigh) {
         ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
@@ -297,11 +174,43 @@ private void setListViewHeight(ExpandableListView listView, int group) {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         int height = totalHeight
                 + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
-        if (height < 10)
-            height = 200;
+        if (minHeight!=null && height < minHeight){ height = minHeight; }
+        if (maxHeigh!=null && height > maxHeigh) { height = maxHeigh; }
         params.height = height;
         listView.setLayoutParams(params);
         listView.requestLayout();
-
     }
+
+    // listView.smoothScrollToPosition(listView, getScrollIndex(cursorGroupPos,cursorchildPos));
+    public static int getScrollIndex(ExpandableListView listView, int groupPosition, int childPosition) {
+        int count = 0;
+        ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
+
+        for (int g = 0; g < groupPosition; g++){
+            if (listView.isGroupExpanded(g)) {
+                count += listAdapter.getChildrenCount(g) + 1;
+            } else {
+                count += 1;
+            }
+        }
+        count += childPosition +1;
+        return count;
+    }
+
+    protected abstract void setupExpandedObj(GROUP[] gData, Map<EK, Boolean> expandedObj);
+
+    protected abstract GVH newGroupViewHolder();
+
+    protected abstract void findViewsGroup(@NonNull GVH holder, @NonNull View convertView);
+
+    // holder.img.setImageResource(mData.get(position).resid);
+    protected abstract void bindViewGroup(@NonNull GVH holder, int groupPosition, boolean isExpanded);
+
+    protected abstract IVH newItemViewHolder();
+
+    protected abstract void findViewsItem(@NonNull IVH holder, @NonNull View convertView);
+
+    // holder.img.setImageResource(mData.get(position).resid);
+    protected abstract void bindViewItem(@NonNull IVH holder, int childPosition, boolean isLastChild);
+}
 ```
