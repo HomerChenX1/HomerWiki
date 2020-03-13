@@ -1,5 +1,5 @@
 created: 20190617061855055
-modified: 20200130015558671
+modified: 20200313015043039
 tags: MaterialDesign AndroidUI
 title: AndroidRecyclerViewLinearLayoutManager
 type: text/vnd.tiddlywiki
@@ -245,4 +245,148 @@ public class MainActivity extends AppCompatActivity {
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
+```
+
+model
+```java
+public class MyRvLinear<K, VH extends MyRvLinear.ViewHolder> extends RecyclerView.Adapter<VH>{
+    private List<K> mData;
+    private @LayoutRes int itemLayout;
+
+    public abstract class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View v) {
+            super(v);
+            findViews();
+        }
+
+        protected abstract void findViews();
+        protected void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+        protected void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
+    }
+
+    public MyRvLinear(List<K> data, @LayoutRes int itemLayout) {
+        mData = data;
+        this.itemLayout = itemLayout;
+    }
+
+    // 現有的 ViewHolder 不夠用，要求 Adapter 產生一個新的ViewHolder
+    @Override
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(itemLayout, parent, false);
+        VH vh = newViewHolder(v);
+        return vh;
+    }
+
+    protected VH newViewHolder(View v){ return null;}
+
+    // 重用之前產生的 ViewHolder，把特定位置的資料連結上去準備顯示
+    // holder.itemView.setOnClickListener, holder.itemView.setOnLongClickListener
+    @Override
+    public void onBindViewHolder(VH holder, final int position) {
+    }
+
+    //  Adapter 自己才知道如何儲存資料，所以它自己也才知道該怎麼數有多少資料
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    public void refresh(List<K> data){
+        mData = data;
+        notifyDataSetChanged();
+    }
+
+    public void refreshItem(int position){
+        notifyItemChanged(position);
+    }
+
+    void swiped(int position){
+        mData.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    void moved(int fromPosition, int toPosition){
+        Collections.swap(mData,fromPosition,toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public RecyclerView setupRecyclerView(View rootView, List<K> myDataset, int rvId, int itemLayout){
+        RecyclerView myRecyclerView = rootView.findViewById(rvId);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        myRecyclerView.setLayoutManager(layoutManager);
+        // setup adaptor
+        myRecyclerView.setAdapter(new MyRvLinear<K, VH>(myDataset, itemLayout));
+        // setup swipr
+        setItemTouchHelperCallback(myRecyclerView);
+        return myRecyclerView;
+    }
+
+    private void setItemTouchHelperCallback(RecyclerView myRecyclerView) {
+        ItemTouchHelper.Callback myCallback;
+
+        myCallback = new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP|ItemTouchHelper.DOWN,
+                ItemTouchHelper.RIGHT|ItemTouchHelper.LEFT) {
+
+            // For drag function
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
+                moved(fromPosition, toPosition);
+                return true;
+            }
+
+            @Override
+            public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
+                return 0.7f;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                swiped(position);
+                // Swipe from right to left
+//                if (direction == ItemTouchHelper.LEFT)
+//                    textView.setText("Swipe LEFT: item " + position);
+//                // Swipe from left to right
+//                if (direction == ItemTouchHelper.RIGHT)
+//                    textView.setText("Swipe RIGHT: item " + position);
+            }
+
+            // old method, new methos is onChildDraw(), 每次View Holder的狀態變成拖拽( ACTION_STATE_DRAG )
+            // 或者滑動( ACTION_STATE_SWIPE )的時候被調用
+            @Override
+            public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+                // We only want the active item
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    VH itemViewHolder = (VH) viewHolder;
+                    itemViewHolder.onItemSelected();
+                }
+                super.onSelectedChanged(viewHolder, actionState);
+            }
+
+            // old method, new methos is onChildDraw(), 在一個view被拖拽然後被放開的時候被調用，
+            // 同時也會在滑動被取消或者完成ACTION_STATE_IDLE )的時候被調用
+            @Override
+            public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                super.clearView(recyclerView, viewHolder);
+                VH itemViewHolder = (VH) viewHolder;
+                itemViewHolder.onItemClear();
+            }
+        };
+        //
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(myCallback);
+        mItemTouchHelper.attachToRecyclerView(myRecyclerView);
+    }
+
+}
+
 ```
