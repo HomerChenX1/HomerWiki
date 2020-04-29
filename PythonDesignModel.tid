@@ -1,5 +1,5 @@
 created: 20190901123504983
-modified: 20190902053451904
+modified: 20200429152803067
 tags: NotComplete Python Invest
 title: PythonDesignModel
 type: text/vnd.tiddlywiki
@@ -33,7 +33,6 @@ type: text/vnd.tiddlywiki
 * [[Python data type/structure]]
 * [[Python efficiency and coding style]]
 * PythonToUML
-* [[PythonInvest]]
 
 
 ```plain
