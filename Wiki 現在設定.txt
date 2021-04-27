@@ -25,6 +25,8 @@ Version Upgrading: [[https://tiddlywiki.com/static/Upgrading.html]]
 
 need to import apachehaus.ico first {{apachehaus.ico}}
 
+[img[vscpanel.png]]
+
 import mathjax failure.
 
 !! 參考資料 :

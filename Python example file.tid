@@ -1,14 +1,21 @@
 created: 20190901123711649
-modified: 20190902052157216
+modified: 20200507151201060
 tags: NotComplete Python
 title: Python example file
 type: text/vnd.tiddlywiki
 
 * need to addtype hint, type annotation
+* 套件名和模組名 module_name 會用小寫英文單字
 
 ```python
+#!/usr/bin/env python3   <- if use Linux
+# -*- coding: cp1252 -*-    <- normally ignore this line if utf8 used
+
 """ module's document string
-Module's alias=conf for #import used
+每一個檔案都應包含固定的 license 範本。選擇一個適合專案的範本 (例如：
+Apache 2.0, BSD, LGPL, GPL)
+Auther
+Version
 """
 
 #import python libraries
@@ -22,20 +29,31 @@ CONSTANT_NAME
 
 global_variable
 
-#functions
+
+# functions  將最高層的function以兩個空白行分隔
 def func_name(param_name=default):
-    """ function's document string  
-         purpose definition
-         input definition
+    """ function's document string : Summary
+
+         purpose definition: 對象目的的簡要概述
+
+         Args:
+
+         Returns:
+
+         Yields:
+
          output/side_effect definition
-         return definition
+
+         Raises:
+
+        Examples:
     """
     local_variable
     pass
     return None 
 
 
-def func_name(vars):
+def func_name(vars):  # 將最高層的function以兩個空白行分隔
     pass
 
 
@@ -51,44 +69,56 @@ def func_name( vars,*var_tuple, **var_dict):
     pass
 
 
-#class definition
+#class definition  將最高層的class定義以兩個空白行分隔
 class ClassName(BaseName0,BaseName1):
-    """ class's document string  """
+    """ Summary of class here.
+
+    Longer class information....
+    Longer class information....
+
+    Attributes:
+        likes_spam: A boolean indicating if we like SPAM or not.
+        eggs: An integer count of the eggs we have laid.
+    """
+
     # buildin internal variable : __dict__, __class__, __methods__
     #class property/attributes
     class_attribute_name=0
 
-    def __init__(self):
+    def __init__(self):  # class中的function用一個空白行分隔
         #instance attribute
         self.attribute_name=1 #public
         self._attribute_name=1 # protected
         self.__attribute_name=1 # private
         super()  #  super means use virtual common base class
         pass
+
+    def __repr__(self):   # for print()
+        return str(self.attribute_name)
        
-    #static method
+    #static method  class中的function用一個空白行分隔, normally use classmethod
     @staticmethod
     def func_name(param_name):
         """ function's document string  """
          pass
 
-    #instance method
+    #instance method  class中的function用一個空白行分隔
     def func_name(self,param_name):
         """ function's document string  """
          pass
          
-    #class method
+    #class method  class中的function用一個空白行分隔
     @classmethod
     def func_name(cls,param_name):
         """ function's document string  """
          pass
          
-    def classtest(cls): 
+    def classtest(cls):   # class中的function用一個空白行分隔
         pass
      classtest = classmethod(classtest) 
 
 
-#main function
+#main function  將最高層的function以兩個空白行分隔
 if __name__ == '__main__':
     # for Windows system
     pass

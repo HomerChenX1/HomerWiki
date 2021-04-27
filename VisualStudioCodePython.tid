@@ -1,0 +1,111 @@
+created: 20200523094143591
+modified: 20200609182432639
+tags: VSCode Python
+title: VisualStudioCodePython
+type: text/vnd.tiddlywiki
+
+!!''特徵'':
+* 設定區的"使用者"這部分是VS code的全域設定
+* 設定區的"工作區"這部分的, 改目前的資料夾的個人化設定
+** .vscode目錄會多了json檔或是json檔被修改
+*如何變更 Visual Studio Code UI 介面語系:
+*# `Ctrl Shift P`
+*# configure display language
+*# Locale -> zh_TW
+*# 改完記得按下Ctrl + s存檔, 然後重新啟動VSCode就可以了
+** `"locale":"en-US"`
+* built-in theme
+*# `Ctrl Shift P`
+*# theme -> select you like
+
+!! ''Extensions''
+!!! ''Guides'' : use build-in
+!!! python docstring generator :  ''autoDocstring''
+* use sphinx style
+!!! ''Auto Close Tag'' :自動關閉標籤
+!!! ''Gitlens'' :直接查看光標指定位置的代碼在git流中的修改時間、作者信息等信息
+!!! ''TODO tree''
+!!! ''code runner''
+!!! ''theme''
+* ''material icon theme''
+* ''One Dark pro''
+!!! ''Font''
+* [[FiraCode|https://github.com/tonsky/FiraCode/wiki/VS-Code-Instructions]]
+
+!! ''lint:''
+* pyLint
+* flask8
+
+
+!! ''formatting:''
+* autopep8
+* yapf :
+** 演算法取走程式碼並重新排版，以符合樣式指南的最佳格式，即便原始程式碼沒有違反樣式指南。這個想法也是類似於Go程式語言的gofmt工具
+** 最終目標是讓YAPE所產生的程式碼可以與程式設計師所寫的程式碼一樣好
+** disable formating in python code `BAZ = {[1, 2, 3, 4],[5, 6, 7, 8],[9, 10, 11, 12]} # yapf: disable`
+
+
+!! ''testing:''
+
+!! ''參考資料:''
+* [[Visual Studio Code 極速上手指南|http://blog.tonycube.com/2018/11/visual-studio-code.html?m=1]]
+* [[如何變更 Visual Studio Code UI 介面語系|https://dotblogs.com.tw/onecentlin/2016/04/15/vscode-change-ui-locale]]
+* [[使用VS code建置環境並執行python程式|https://ithelp.ithome.com.tw/articles/10212365]]
+* [[初心者筆記1|https://dotblogs.com.tw/kevinya/2018/06/20/093800]]
+* [[Visual Studio Code 必備的 8 個擴充和小常識|https://www.maxlist.xyz/2019/07/13/vscode-tip/]]
+* [[小克的 Visual Studio Code 必裝擴充套件（Extensions）私藏推薦|https://blog.goodjack.tw/2018/03/visual-studio-code-extensions.html?m=1#python-%E5%B0%88%E5%8D%80]]
+* [[Google開源的Python格式化工具YAPF的安裝和使用教程|https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/368864/]]
+
+!! `new6/.vscode/setting.json`
+```json
+
+{
+    "python.pythonPath": "C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+	// 儲存的時候，會幫你自動過濾多餘的空格
+	"files.trimTrailingWhitespace": true,
+	// 是否自動儲存檔案
+	"files.autoSave": "afterDelay",
+	"editor.fontSize": 16,
+	// editor.formatOnPaste: true,
+
+	"python.linting.enabled": true,
+	"python.linting.pylintEnabled": true,
+	"python.linting.pylintUseMinimalCheckers": true,
+	"python.linting.lintOnSave": true,
+
+	"python.formatting.provider": "yapf",
+	// 存檔時, formating
+	"editor.formatOnSave": true,
+	// 打完python的一行程式碼按Enter, formating
+	"editor.formatOnType": true,
+	// insertSpace設置個為False可以使用Tab代替空格
+	"editor.insertSpaces": true,
+	"editor.tabSize": 4,
+
+	// "python.testing.promptToConfigure": false,  // 只有寫完程式後才設為 false
+	"python.testing.autoTestDiscoverOnSaveEnabled": true,
+	"python.testing.unittestEnabled": false, // 只有寫完程式後才設為 true
+	"python.testing.unittestArgs": [
+		"-v",
+		"-s",
+		".",
+		"-p",
+		"*test*.py"
+	],
+	"python.testing.pytestEnabled": false,
+	"python.testing.nosetestsEnabled": false,
+
+
+	"autoDocstring.docstringFormat": "sphinx",
+
+	// "guides.active.color.dark": "rgba(120, 120, 120, 0.75)",
+	// "guides.normal.style": "none",
+	// "guides.stack.enabled": false,
+
+	// "workbench.colorTheme": "One Dark Pro",
+	"workbench.colorTheme": "Solarized Dark", // "One Dark Pro", "Monokai", "Solarized Dark"
+	"workbench.iconTheme": "material-icon-theme"
+}
+```
+
+[img[vscpanel.png]]

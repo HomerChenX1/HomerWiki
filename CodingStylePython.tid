@@ -1,5 +1,5 @@
 created: 20190902045714601
-modified: 20190902051211944
+modified: 20200505171814800
 tags: Python
 title: CodingStylePython
 type: text/vnd.tiddlywiki
@@ -18,9 +18,10 @@ type: text/vnd.tiddlywiki
 ** `income = (gross_wages` <br />`          + taxable_interest`
 * 每行 import 只導入一個模組, 同一模組中的內容可以在同一行導入
 * import 分組及導入順序，每個分組之間用一行空行分隔
-# 標準庫 
-# 相關第三方庫 
-# 本地應用/庫的特殊導入
+** 標準庫 
+** 相關第三方庫 
+** 本地應用/庫的特殊導入
+
 * 推薦使用絕對導入，如：<br />`import mypkg.sibling` <br />`from mypkg import sibling` <br />`from mypkg.sibling import example` <br />
 * 應該避免使用 `from <module> import *`
 * 套件名和模組名 `module_name` 會用小寫英文單字

@@ -1,13 +1,14 @@
 created: 20190906011658323
-modified: 20200110063849206
+modified: 20210320180217356
 tags: Windows
 title: WinUtility
 type: text/vnd.tiddlywiki
 
 |! Unix | ! Windows | ! Parameters | |
 | grep | findstr | | |
-| grep | xcopy | `/D /K /E /Y /I /C /H` | 備份 |
-| grep | shutdown | `-s -f -t 300 -c "power off"` | 備份 |
+| | xcopy | `/D /K /E /Y /I /C /H` | 備份 |
+| | shutdown | `-s -f -t 300 -c "power off"` | power off |
+| | shutdown | `-a` | abort power off |
 
 !! 參考資料:
 * [[findstr - Windows 上的 grep (快速搜尋文件)|https://blog.yowko.com/findstr-grep-on-windows/]]

@@ -1,0 +1,335 @@
+created: 20200601130424903
+modified: 20200611131038940
+tags: SQLite
+title: SQLAlchemy
+type: text/vnd.tiddlywiki
+
+!! ''參考資料:''
+* [[Python SQLAlchemy ORM - 1|https://myapollo.com.tw/zh-tw/python-sqlalchemy-orm-1/]]
+* [[Python中操作SQLAlchemy|https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/845/]]
+* [[SQLAlchemy 1.3 Documentation|https://docs.sqlalchemy.org/en/13/orm/extensions/indexable.html]]
+* [[SQLAlchemy 教學版|https://www.itread01.com/content/1545645799.html]]
+* [[Python3+SQLAlchemy+Sqlite3實現ORM教程|https://www.cnblogs.com/lsdb/p/9835894.html]]
+* [[sqlacodegen: Automatic model code generator for SQLAlchemy|http://fygul.blogspot.com/2018/01/sqlacodegen.html]]
+* [[sqlacodegen使用方法|https://blog.csdn.net/chenmozhe22/article/details/89405407]]
+* [[flask sqlalchemy default server_default|https://zhuanlan.zhihu.com/p/37892676]]
+* [[物件與關聯教學:join|https://sites.google.com/site/sqlalchemynote/home/wu-jian--guan-lian-jiao-xue]]
+* [[how to serializer list object in sqlalchemy?|https://stackoverflow.com/questions/35715490/how-to-serializer-list-object-in-sqlalchemy]]
+
+!! ''特徵''
+* 依照架構將文件說明分為
+** SQLAlchemy Core
+*** 只是基本的資料庫的表格建立、查詢、更新、刪除等，比較不需要使用表格間的關聯
+** SQLAlchemy ORM
+*** 想追求優雅的解決方案，同時又需要兼顧多表格之間的關聯的話，建議使用 SQLAlchemy ORM
+# SQLite創建數據庫連接
+# 定義映射
+# 建立資料表/ Table / Mapped class
+#* Table metadata like `name = Column(String(20 ))`
+#* `name = Column(String(20 ))` : full table description
+#* `name = Column(String)` :  minimal table descriptiopn, 在 SQLite, ~PostgreSQL 中是合法的
+#* 沒有覆寫) `__init()__` 的話，SQLAlchemy 自行預設的 `__init()__`  就會把所有欄位列為 `__init()__` 的參數
+# 創建數據表
+# 建立會話/ Session
+#* 那甚麼時候這些資料才會被新增到資料庫內呢？只有進行 QUERY, COMMIT, FLUSH 時才會被寫入資料庫內。
+#** `session.rollback()`
+#** `session.commit()`
+# CUD
+#* `session.add(user_1)`
+#* `affected_rows = session.query(User).filter_by(id=1).delete()`
+#* `affected_rows = session.query(User).filter_by(id=1).update({'id':3, 'username': 'sqlalchemy'})`
+#* need `session.commit()`
+# Query
+#* 使用 query() 方法時，若有查詢到結果會回傳 Query Object，若無則是回傳 None 。
+#* 查詢的基本使用法為 `session.query(Mapped Class)`，其後可加 `.group_by()`, `.order_by()`, `.delete` 等方法。
+#* 查詢成功就會回傳 Query Object，若無則會回傳 None
+#* 首先，query() 可以使用 `.from_statement()` 方法，直接以完整的 SQL 指令進行查詢，更可以搭配 `.params()` 將變數代入 SQL 指令中。
+#* `session.query(User)`
+#* `session.query(User.username)`
+#* Where 子句
+#** `.filter_by(id=1)`
+#** `.filter(User.id == 1)`
+#*** 多個查詢條件可以用附加 `.filter(…)` 的形式達成
+#* `session.query(User.id).order_by(User.id.desc())`
+#* `session.query(User.id).order_by(User.id.asc())`
+#* LIMIT 子句
+#** `session.query(User)[500:520]`
+#* GROUP BY 子句
+#** `session.query(User).group_by(User.name)`
+#** GROUP BY 常一起使用的通常會有 `HAVING` , `COUNT()` , `SUM()` , `MAX()` … 等語法。
+#** `session.query(User).group_by(User.name).having(func.count(User.id) > 2):`
+#* `.first()`, `.scalar()`, `.one()`, `.all()`
+#** `.first()` 只回傳第一筆結果，即使有多筆結果也只會回傳第一筆
+#** `.scalar()` 只回傳第一筆結果，查無結果則回傳 None ，若有查詢有多筆結果則會產生例外錯誤
+#*** `session.query(User).scalar()`
+#*** `except sqlalchemy.orm.exc.MultipleResultsFound :`
+#** `.one()` 回傳一筆結果，如有多筆或查無結果的情況則會產生例外錯誤
+#*** `session.query(User).one()`
+#*** `except sqlalchemy.orm.exc.NoResultFound:`
+#*** `except sqlalchemy.orm.exc.MultipleResultsFound:`
+#** `.all()` 將所有結果匯出成一個 list 回傳
+#*** `session.query(User).all()`
+
+# Alias
+#* 表格名稱別名 : `user_alias = aliased(User, name='user_alias')`
+#* 欄位名稱別名 : `session.query(User.name.label('n')`, `print(row.n)`
+
+# [[表格關聯(Relationship)|https://myapollo.com.tw/zh-tw/python-sqlalchemy-orm-3/]]
+#* 預設的關聯就是一對多，因此我們可以看到前述的範例是以 list 的進行新增
+
+
+!!! ''SQLite創建數據庫連接''
+```python
+from sqlalchemy import create_engine
+
+# sqlite://<nohostname>/<path> 
+# where <path> is relative: 
+engine = create_engine( ' sqlite:///foo.db ' )
+engine = create_engine( ' sqlite:///C:\\path\ \to\\foo.db ' )
+engine = create_engine( ' sqlite:///:memory: ' , echo=True)
+
+# echo=Ture----echo默認為False，表示不打印執行的SQL語句等較詳細的執行信息，改為Ture表示讓其打印。
+# sqlalchemy是多線程的所以我們需要指定check_same_thread=False來讓建立的對象任意線程都可使用
+engine = create_engine( 'sqlite:///foo.db?check_same_thread=False' , echo=True)
+```
+
+!!! ''定義映射''
+```python
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()  # 使用 MetaClass 建立 Base class
+```
+
+!!! ''建立資料表''
+```python
+from sqlalchemy import Column, Integer, String
+
+# 定義映射類User，其繼承上一步創建的Base 
+class User(Base):
+     # 指定本類映射到users表
+    __tablename__ = ' users ' 
+    # 如果有多個類指向同一張表，那麼在後邊的類需要把extend_existing設為True，表示在已有列基礎上進行擴展
+    # 或者換句話說，sqlalchemy允許類是表的字集
+    # __table_args__ = {'extend_existing': True} 
+    # 如果表在同一個數據庫服務（datebase）的不同數據庫中（schema），可使用schema參數進一步指定數據庫
+    # __table_args__ = {'schema': 'test_database'}
+    
+    # 各變量名一定要與表的各字段名一樣，因為相同的名字是他們之間的唯一關聯關係
+    # 從語法上說，各變量類型和表的類型可以不完全一致，如表字段是String( 64)，但我就定義成String(32) 
+    # 但為了避免造成不必要的錯誤，變量的類型和其對應的表的字段的類型還是要相一致
+    # sqlalchemy強制要求必須要有主鍵字段不然會報錯，如果要映射一張已存在且沒有主鍵的表，那麼可行的做法是將所有字段都設為primary_key=True 
+    # 不要看隨便將一個非主鍵字段設為primary_key，然後似乎就沒報錯就能使用了，sqlalchemy在接收到查詢結果後還會自己根據主鍵進行一次去重
+    # 指定id映射到id字段; id字段為整型，為主鍵，自動增長（其實整型主鍵默認就自動增長） 
+    id = Column( Integer, primary_key=True, autoincrement= True)
+     # 指定name映射到name字段; name字段為字符串類形， 
+    name = Column(String(20 ))
+    fullname = Column(String(32 ))
+    password = Column(String(32 ))
+
+    # __repr__方法用於輸出該類的對像被print()時輸出的字符串，如果不想寫可以不寫
+    def  __repr__ (self):
+         return  " <User(name='%s', fullname='%s ', password='%s')> " % (
+                   self.name, self.fullname, self.password)
+```
+
+!!! ''最常用的SQLAlchemy列類型''
+|! 類型名	|! Python類型	|! 說 明 |
+| Integer | int | 普通整數,一般是 32 位 |
+| ~SmallInteger	| int | 取值範圍小的整數,一般是 16 位|
+| ~BigInteger | int 或 long | 不限制精度的整數 |
+| Float | float | 浮點數 |
+| Numeric | decimal.Decimal | 定點數 |
+| String | str | 變長字符串 |
+| Text | str |變長字符串,對較長或不限長度的字符串做了優化 |
+| Unicode | unicode | 變長 Unicode 字符串 |
+| ~UnicodeText | unicode | 變長 Unicode 字符串,對較長或不限長度的字符串做了優化 |
+| Boolean | bool | 布爾值 |
+| Date | datetime.date | 日期 |
+| Time | datetime.time | 時間 |
+| ~DateTime | datetime.datetime | 日期和時間 |
+| Interval | datetime.timedelta | 時間間隔 |
+| Enum | str | 一組字符串 |
+| ~PickleType | 任何 Python 對象 | 自動使用 Pickle 序列化 |
+| ~LargeBinary | str | 二進制文件 |
+
+!!! 最常使用的SQLAlchemy 列選項
+|! 選項名 |! 說明 |
+| primary_key | 如果設為 True ,這列就是表的主鍵 |
+| unique | 如果設為 True ,這列不允許出現重復的值 |
+| index | 如果設為 True ,為這列創建索引,提升查詢效率 |
+| nullable | 如果設為 True ,這列允許使用空值;如果設為 False ,這列不允許使用空值 |
+| default | 為這列定義默認值, SQLAcadmy/Python 設定 |
+| server_default |  SQL statment 加入 DEFAULT= <br> server_default=text("0") <br> server_default='abc' <br> server_default=text ('False') |
+| onupdate | 當更新一條資料時設定 |
+| autoincrement | 設定為整型自動增長 |
+| quote | 如果列明是關鍵字，則強制轉義，預設False |
+
+
+!!! ''創建數據表''
+```python
+# 查看映射對應的表 
+# User. __table__
+
+# 創建數據表。一方面通過engine來連接數據庫，另一方面根據哪些類繼承了Base來決定創建哪些表
+# checkfirst=True，表示創建表前先檢查該表是否存在，如同名表已存在則不再創建。其實默認就是True 
+Base.metadata.create_all(engine, checkfirst= True)
+
+# 上邊的寫法會在engine對應的數據庫中創建所有繼承Base的類對應的表，但很多時候很多只是用來則試的或是其他庫的
+# 此時可以通過tables參數指定方式，指示僅創建哪些表
+# Base.metadata.create_all(engine,tables=[Base.metadata.tables['users']],checkfirst=True) 
+# 在項目中由於model經常在別的文件定義，沒主動加載時上邊的寫法可能寫導致報錯，可使用下邊這種更明確的寫法
+# User.__table__.create(engine, checkfirst=True)
+
+# 另外我們說這一步的作用是創建表，當我們已經確定表已經在數據庫中存在時，我完可以跳過這一步
+# 針對已存放有關鍵數據的表，或大家共用的表，直接不寫這創建代碼更讓人心裡踏實
+```
+
+!!! ''建立會話''
+```python
+from sqlalchemy.orm import sessionmaker
+
+# engine是2.2中創建的連接 
+Session = sessionmaker(bind= engine)
+
+# 創建Session類實例 
+session = Session()
+```
+
+!!! ''插入記錄''
+```python
+# 創建User類實例  
+ed_user = User(name= ' ed ' , fullname= ' Ed Jones ' , password= ' edspassword ' )
+
+# 將該實例插入到users表
+session.add(ed_user)
+
+# 一次插入多條記錄形式
+session.add_all(
+    [User(name = ' wendy ' , fullname= ' Wendy Williams ' , password= ' foob​​​​ar ' ),
+    User(name = ' mary ' , fullname= ' Mary Contrary ' , password= ' xxg527 ' ),
+    User(name = ' fred ' , fullname= ' Fred Flinstone ' , password= ' blah ' )]
+)
+
+# 當前更改只是在session中，需要使用commit確認更改才會寫入數據庫  
+session.commit()
+
+session.close()
+```
+
+!!! ''查詢記錄''
+* where : filter()/filter_by()
+** filter_by參數寫法類似sql形式，filter參數為python形式。
+* limit : limit()
+* order by : order_by()
+* group by : group_by()
+
+```python
+our_user = session.query(User).filter_by(name= ' ed ' ).first()
+
+our_user
+
+# 比較ed_user與查詢到的our_user是否為同一條記錄 
+ed_user is our_user
+
+# 只獲取指定字段
+# 但要注意如果只獲取部分字段，那麼返回的就是元組而不是對象了
+session.query(User.name).filter_by(name='ed').all() 
+# like查詢
+session.query(User).filter(User.name.like("ed%")).all() 
+# 正則查詢
+session.query(User).filter(User.name.op("regexp")( "^ed")).all() 
+# IN:
+query(Student).filter(Student.name.in_(['feng', 'xiao', 'qing']))
+# not in
+query(Student).filter(~Student.name.in_(['feng', 'xiao', 'qing']))
+# AND:
+from sqlalchemy import and_
+query(Student).filter(and_(Student.name == 'fengxiaoqing', Student.id ==10001))
+# 或者
+query(Student).filter(Student.name == 'fengxiaoqing').filter(Student.address == 'chengde')
+
+# OR:
+from sqlalchemy import or_
+query.filter(or_(Student.name == 'fengxiaoqing', Student.age ==18))
+
+# 統計數量
+session.query(User).filter(User.name.like("ed%")).count() 
+# 調用數據庫內置函數
+# 以count()為例，都是直接func.func_name()這種格式，func_name與數據庫內的寫法保持一致
+from sqlalchemy import func 
+session.query(func.count(User3.name)).one() 
+# 字段名為字符串形式
+column_name = "name" 
+session.query(User).filter(User3.__table__.columns[column_name].like("ed%")).all() 
+# 獲取執行的sql語句
+# 獲取記錄數的方法有all ()/one()/first()等幾個方法，如果沒加這些方法，得到的只是一個將要執行的sql對象，並沒真正提交執行
+from sqlalchemy.dialects import mysql 
+sql_obj = session.query( User).filter_by(name='ed') 
+sql_command = sql_obj.statement.compile(dialect=mysql.dialect(), compile_kwargs={"literal_binds": True}) 
+sql_result = sql_obj.all()
+
+r6 = session.query(Users).filter(text("id<:value and name=:name")).params(value=224, name='fred').order_by(Users.id).all()
+r7 = session.query(Users).from_statement(text("SELECT * FROM users where name=:name")).params(name='ed').all()
+
+table_and_column_name = User
+filter = (User.name== ' ed ' )
+our_user = session.query(table_and_column_name).filter(filter).first()
+
+rows = session.query(User).from_statement('SELECT * FROM user WHERE name=:name').params(name='user1')
+for r in rows:
+    print(r.id)
+```
+
+!!! ''修改記錄''
+```python
+# 要修改需要先將記錄查出來 
+mod_user = session.query(User).filter_by(name= ' ed ' ).first()
+# 將ed用戶的密碼修改為modify_paswd 
+mod_user.password = ' modify_passwd '
+# 確認修改
+session.commit()
+
+# 但是上邊的操作，先查詢再修改相當於執行了兩條語句，和我們印像中的update不一致
+# 可直接使用下邊的寫法，傳給服務端的就是update語句
+session.query(User).filter_by( name='ed').update({User.password: 'modify_passwd'}) 
+session.commit() 
+
+# 以同schema的一張表更新另一張表的寫法
+# 在跨表的update/delete等函數中synchronize_session=False一定要有不然報錯
+session.query(User).filter_by(User.name=User1.name).update({User.password: User2.password}, synchronize_session=False) 
+
+# 以一schema的表更新另一schema的表的寫法
+# 寫法與同一schema的一樣，只是定義model時需要使用__table_args__ = {'schema': 'test_database'}等形式指定表對應的schema
+```
+
+!!! ''刪除記錄''
+```python
+# 要刪除需要先將記錄查出來 
+del_user = session.query(User).filter_by(name= ' ed ' ).first()
+
+# 打印一下，確認未刪除前記錄存在
+del_user
+
+# 將ed用戶記錄刪除
+session.delete(del_user)
+
+# 確認刪除
+session.commit()
+
+# 遍歷查看，已無ed用戶記錄
+for user in session.query(User):
+     print (user)
+
+# 但上邊的寫法，先查詢再刪除，相當於給mysql服務端發了兩條語句，和我們印像中的delete語句不一致
+# 可直接使用下邊的寫法，傳給服務端的就是delete語句
+session.query (User).filter_by(name='ed').first().delete()
+```
+
+!!! ''直接執行SQL語句''
+```python
+# 正常的SQL語句
+sql = " select  *  from users"
+
+# sqlalchemy使用execute方法直接執行SQL
+records = session. execute (sql)
+```

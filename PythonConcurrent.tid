@@ -1,0 +1,131 @@
+created: 20200610123619708
+modified: 20200617085126588
+tags: Python
+title: PythonConcurrent
+type: text/vnd.tiddlywiki
+
+!! ''參考資料'':
+* [[ThreadPoolExecutor執行緒池和ProcessPoolExecutor程序池|https://www.itread01.com/content/1545218668.html]]
+* [[concurrent.futures|https://docs.python.org/3/library/concurrent.futures.html]]
+* [[concurrent.futures — 創立非同步任務|https://blog.louie.lu/2017/08/01/%E4%BD%A0%E6%89%80%E4%B8%8D%E7%9F%A5%E9%81%93%E7%9A%84-python-%E6%A8%99%E6%BA%96%E5%87%BD%E5%BC%8F%E5%BA%AB%E7%94%A8%E6%B3%95-06-concurrent-futures/]]
+* [[ProcessPoolExecutor and Lock in Python|https://stackoverflow.com/questions/35394373/processpoolexecutor-and-lock-in-python]]
+* [[python3 非同步處理：thread, process 與concurrent.futures的兩三事|https://medium.com/@felixie/python3-%E9%9D%9E%E5%90%8C%E6%AD%A5%E8%99%95%E7%90%86-thread-process-%E8%88%87concurrent-futures%E5%85%A9%E4%B8%89%E4%BA%8B-f9d61fc7ccbf]]
+* [[網路爬蟲必備知識之concurrent.futures庫 python究竟要不要使用多執行緒|https://www.itread01.com/content/1543885816.html]]
+* [[使用Python的concurrent.futures模塊|https://python-parallel-programmning-cookbook.readthedocs.io/zh_CN/latest/chapter4/02_Using_the_concurrent.futures_Python_modules.html]]
+* [[concurrent.futures — Manage Pools of Concurrent Tasks|https://pymotw.com/3/concurrent.futures/]]
+* [[使用concurrent.futures的一些經驗|https://www.dongwm.com/post/use-concurrent-futures/]]
+
+!! ''特徵'':
+* CPU-bound program use `ProcessPoolExecutor`
+** IPC use `multiprocessing.Manager().Lock() `
+* IO-bound program
+** Block mode use `ThreadPoolExecutor`
+*** IPC use `multiprocessing.Manager().Lock() `
+** non-Block mode or Async use `async/await`
+* `pool.submit(get,url).add_done_callback(parse)`
+* 建立程序池必須在 `if __name__ == '__main__':` 中，否則會報錯
+* `pool.shutdown(wait=True)`
+* it is better to use `with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:`
+
+!!! ''~ProcessPoolExecutor examples''
+```python
+def mpWorker(argv:tuple):
+    obj_etf: EtfCalc = argv[0]
+    cf: Cf = argv[1]
+    # print(obj_etf.symbol, " cf:", cf.MAX_PRICE_RATIO)
+    return obj_etf
+
+if __name__ == '__main__':
+    mp.freeze_support()  # need in windows in some python version
+    # ProcessPoolExecutor must in __main__
+    with ProcessPoolExecutor(max_workers=os.cpu_count()*2) as executor:
+        # use map()
+        params = [(all_etfs[sym], cf) for sym in etf_symbol_list]
+        for ret_etf in executor.map(mpWorker, params):
+            msg_log.append("complete:" + ret_etf.symbol)
+            # print("complete")
+    print_msg()
+
+    with ProcessPoolExecutor(max_workers=os.cpu_count()*2) as executor:
+        params = [(all_etfs[sym], cf) for sym in etf_symbol_list]
+        # use submit()
+        all_futures = [executor.submit(mpWorker, param) for param in params]
+        for ret_future in as_completed(all_futures):
+            # execute when child-process is complete
+            ret_etf = ret_future.result()
+            msg_log.append("complete:" + ret_etf.symbol)
+    print_msg()
+
+# use wait() to wait all children complete
+wait(all_task, return_when=ALL_COMPLETED) 
+print("main")
+
+# add call back
+for i in range(13):
+    future=pool.submit(task,i)
+    future.add_done_callback(handle) #這裡用到了回撥函式
+pool.shutdown(wait=True) #關門等待所有程序完成
+print('main')
+```
+
+!!! ''IPC examples''
+```python
+def mpWorker(argv:tuple):
+    obj_etf: EtfCalc = argv[0]
+    cf: Cf = argv[1]
+    lock = argv[2]
+    # print(obj_etf.symbol, " cf:", cf.MAX_PRICE_RATIO)
+    return obj_etf
+
+if __name__ == '__main__':
+    mp.freeze_support()  # need in windows in some python version
+    lock = mp.Manager().Lock() 
+    # ProcessPoolExecutor must in __main__
+    with ProcessPoolExecutor(max_workers=os.cpu_count()*2) as executor:
+        # use map()
+        params = [(all_etfs[sym], cf, lock) for sym in etf_symbol_list]
+        for ret_etf in executor.map(mpWorker, params):
+            msg_log.append("complete:" + ret_etf.symbol)
+            # print("complete")
+    print_msg()
+
+def init(lock):
+    global g_lock
+    g_lock = lock
+
+def mpWorker(argv:tuple):
+    obj_etf: EtfCalc = argv[0]
+    cf: Cf = argv[1]
+    # print(obj_etf.symbol, " cf:", cf.MAX_PRICE_RATIO)
+    return obj_etf
+
+if __name__ == '__main__':
+    mp.freeze_support()  # need in windows in some python version
+    # ProcessPoolExecutor must in __main__
+    g_lock = mp.Lock()
+    with ProcessPoolExecutor(max_workers=os.cpu_count()*2, initializer=init, initargs=(g_lock,)) as executor:
+        # use map()
+        params = [(all_etfs[sym], cf) for sym in etf_symbol_list]
+        for ret_etf in executor.map(mpWorker, params):
+            msg_log.append("complete:" + ret_etf.symbol)
+            # print("complete")
+    print_msg()
+
+```
+
+!!! ''~ThreadPoolExecutor examples''
+```python
+from concurrent.futures import ThreadPoolExecutor 
+import time 
+# 引數times用來模擬網路請求的時間 
+def get_html(times):
+	time.sleep(times) 
+	print("get page {}s finished".format(times)) 
+	return times 
+
+executor = ThreadPoolExecutor(max_workers=2) 
+urls = [3, 2, 4] # 並不是真的url 
+# map() will wait all children complete
+for data in executor.map(get_html, urls): 
+    print("in main: get page {}s success".format(data))
+```
